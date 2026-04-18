@@ -5,14 +5,14 @@
 }
 
 :root {
-    --primary: #e63946;
-    --primary-dark: #c1121f;
-    --secondary: #457b9d;
-    --accent: #1d3557;
+    --primary: #D4AF37;
+    --primary-dark: #996515;
+    --secondary: #003366;
+    --accent: #001f3f;
     --dark: #1a1a1a;
-    --light: #f1f5f9;
+    --light: #f8f9fa;
     --white: #ffffff;
-    --gray: #64748b;
+    --gray: #6c757d;
     --shadow: 0 4px 20px rgba(0,0,0,0.1);
     --transition: all 0.3s ease;
 }
