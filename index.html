@@ -3,138 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vision De Melbee Care Foundation</title>
+    <title>Vision De Melbee Care Foundation | Restoring Dignity. Empowering Generations.</title>
+    <meta name="description" content="VDCMF is a non-profit humanitarian organization in Ghana dedicated to restoring dignity and transforming lives through education, health, and community development.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <img src="logo.jpeg" alt="VDCMF Logo">
-                <span>VDCMF</span>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="language-switcher">
+                <button class="lang-btn active">EN</button>
+                <button class="lang-btn">FR</button>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#activities">Activities</a></li>
-                <li><a href="#support">Support</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="top-links">
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#support" class="give-btn">Give</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#home" class="logo">
+                    <img src="logo.jpeg" alt="VDCMF Logo">
+                    <span class="logo-text">VDCMF</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item dropdown">
+                        <a href="#about" class="nav-link">What We Do</a>
+                        <div class="dropdown-content">
+                            <a href="#programs">Our Programs</a>
+                            <a href="#activities">Activities</a>
+                            <a href="#vision">Vision & Mission</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#impact" class="nav-link">Our Impact</a>
+                        <div class="dropdown-content">
+                            <a href="#stories">Stories</a>
+                            <a href="#stats">Impact Reports</a>
+                            <a href="#news">News</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#get-involved" class="nav-link">Get Involved</a></li>
+                    <li class="nav-item"><a href="#support" class="nav-link">Donate</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="#support" class="btn-donate">Donate</a>
+                    <button class="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Vision De Melbee Care Foundation</h1>
-            <p class="tagline">Restoring Dignity. Empowering Generations</p>
+            <p class="hero-tag">Humanitarian Organization</p>
+            <h1>Restoring Dignity.<br>Empowering Generations.</h1>
+            <p class="hero-description">For over 10 years, VDCMF has been sharing compassion and hope with vulnerable communities across Ghana. Join us. Make an impact locally.</p>
             <div class="hero-buttons">
-                <a href="#support" class="btn btn-primary">Donate Now</a>
-                <a href="#about" class="btn btn-secondary">Learn More</a>
+                <a href="#about" class="btn btn-primary">About VDCMF</a>
+                <a href="#support" class="btn btn-secondary">Give a Gift</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80" alt="Community together">
+        </div>
+    </section>
+
+    <!-- Feature Alert -->
+    <section class="feature-alert">
+        <div class="container">
+            <div class="alert-card">
+                <div class="alert-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="alert-content">
+                    <h3>Emergency Response Initiative</h3>
+                    <p>We're launching a new program to support families affected by the current economic crisis in Ghana. Your donation can provide food, medicine, and educational supplies to those in need.</p>
+                </div>
+                <a href="#support" class="btn btn-warning">Give Now</a>
             </div>
         </div>
     </section>
 
-    <section id="about" class="about">
+    <!-- Impact Stats -->
+    <section id="stats" class="impact-stats">
         <div class="container">
-            <h2>About Us</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <p>Vision de Melbee Care Foundation is a non-profit humanitarian organization based in Ghana, dedicated to restoring dignity and transforming lives in vulnerable and underserved communities.</p>
-                    <p>The Foundation was established to provide structured and sustainable solutions to the challenges faced by children, youth, men, women, widows, and low-income families.</p>
-                    <p>Through a holistic and impact-driven approach, the Foundation focuses on education, vocational empowerment, health outreach, advocacy, and community development. Our aim is not only to provide support but to create lasting change by equipping individuals with the skills, knowledge, and opportunities needed to become self-reliant.</p>
-                    <p>We are committed to integrity, compassion, accountability, and excellence in all our operations, ensuring that every initiative contributes meaningfully to the growth and well-being of the communities we serve.</p>
+            <div class="stats-content">
+                <h2>Our Impact</h2>
+                <p class="stats-intro">VDCMF follows a philosophy of love and compassion by responding to basic human needs and working toward sustainable development.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">5,800+</span>
+                    <span class="stat-label">Lives Impacted</span>
                 </div>
-                <div class="about-stats">
-                    <div class="stat-box">
-                        <h3>5000+</h3>
-                        <p>Lives Impacted</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>50+</h3>
-                        <p>Community Programs</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>100+</h3>
-                        <p>Volunteers</p>
-                    </div>
-                    <div class="stat-box">
-                        <h3>10+</h3>
-                        <p>Years of Service</p>
-                    </div>
+                <div class="stat-item">
+                    <span class="stat-number">45+</span>
+                    <span class="stat-label">Community Programs</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">127</span>
+                    <span class="stat-label">Volunteers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Years of Service</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="programs" class="programs">
+    <!-- Featured Stories -->
+    <section id="stories" class="featured-stories">
         <div class="container">
-            <h2>Our Programs</h2>
+            <div class="section-header">
+                <h2>Featured Stories</h2>
+                <p>Hear firsthand from the people impacted by VDCMF projects. Learn how they're transforming their communities.</p>
+                <a href="#stories" class="view-all">View All Stories <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="stories-grid">
+                <article class="story-card featured">
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d3?w=600&q=80" alt="Education">
+                        <span class="story-tag">Education</span>
+                    </div>
+                    <div class="story-content">
+                        <h3>Scholarship Program Transforms Lives</h3>
+                        <p>Through our scholarship program, over 500 students from low-income families have received quality education.</p>
+                        <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                
+                <article class="story-card">
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&q=80" alt="Health">
+                        <span class="story-tag">Health</span>
+                    </div>
+                    <div class="story-content">
+                        <h3>Mobile Health Clinics Reach Rural Areas</h3>
+                        <p>Our mobile health clinics have provided medical care to over 2,000 people in remote villages.</p>
+                        <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                
+                <article class="story-card">
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1552664730-40993c6c1228?w=400&q=80" alt="Vocational">
+                        <span class="story-tag">Vocational</span>
+                    </div>
+                    <div class="story-content">
+                        <h3>Youth Empowerment Through Skills Training</h3>
+                        <p>Young people gain practical skills for economic independence through our vocational programs.</p>
+                        <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs -->
+    <section id="programs" class="programs-section">
+        <div class="container">
+            <div class="section-header centered">
+                <h2>What We Do</h2>
+                <p>We work with partners across Ghana to respond to needs, adapt to challenges, and create lasting change.</p>
+            </div>
+            
             <div class="programs-grid">
                 <div class="program-card">
-                    <i class="fas fa-graduation-cap"></i>
+                    <div class="program-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
                     <h3>Education</h3>
-                    <p>Providing access to quality education for underprivileged children and youth through scholarships and learning resources.</p>
+                    <p>Providing access to quality education for underprivileged children through scholarships, learning resources, and school support programs.</p>
+                    <a href="#programs" class="program-link">Learn more</a>
                 </div>
+                
                 <div class="program-card">
-                    <i class="fas fa-tools"></i>
-                    <h3>Vocational Empowerment</h3>
-                    <p>Equipping individuals with practical skills and trade training for economic independence and self-reliance.</p>
+                    <div class="program-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Vocational Training</h3>
+                    <p>Equipping youth and adults with practical skills in trades like tailoring, carpentry, and IT for economic independence.</p>
+                    <a href="#programs" class="program-link">Learn more</a>
                 </div>
+                
                 <div class="program-card">
-                    <i class="fas fa-heartbeat"></i>
+                    <div class="program-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
                     <h3>Health Outreach</h3>
-                    <p>Promoting health and wellness through medical assistance, health screenings, and wellness programs.</p>
+                    <p>Promoting health and wellness through medical assistance, health screenings, and wellness education programs.</p>
+                    <a href="#programs" class="program-link">Learn more</a>
                 </div>
+                
                 <div class="program-card">
-                    <i class="fas fa-bullhorn"></i>
+                    <div class="program-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Community Development</h3>
+                    <p>Building stronger communities through advocacy, food security initiatives, and women empowerment programs.</p>
+                    <a href="#programs" class="program-link">Learn more</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Involved -->
+    <section id="get-involved" class="get-involved">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get Involved</h2>
+                <p>There are many ways you can support VDCMF's work, right in your community or remotely.</p>
+            </div>
+            
+            <div class="involved-grid">
+                <div class="involved-card">
+                    <div class="involved-image">
+                        <i class="fas fa-hands-heart"></i>
+                    </div>
+                    <h3>Volunteer</h3>
+                    <p>Share your time and skills to make a difference in your community.</p>
+                    <a href="#contact" class="btn btn-outline">Volunteer</a>
+                </div>
+                
+                <div class="involved-card">
+                    <div class="involved-image">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
                     <h3>Advocacy</h3>
-                    <p>Championing the rights of vulnerable populations and raising awareness on critical social issues.</p>
+                    <p>Help raise awareness about issues affecting vulnerable populations.</p>
+                    <a href="#contact" class="btn btn-outline">Advocate</a>
+                </div>
+                
+                <div class="involved-card">
+                    <div class="involved-image">
+                        <i class="fas fa-box-heart"></i>
+                    </div>
+                    <h3>Make Kits</h3>
+                    <p>Assemble school supply kits or hygiene kits for distribution.</p>
+                    <a href="#contact" class="btn btn-outline">Learn How</a>
+                </div>
+                
+                <div class="involved-card">
+                    <div class="involved-image">
+                        <i class="fas fa-fundraise"></i>
+                    </div>
+                    <h3>Fundraise</h3>
+                    <p>Organize your own fundraiser to support VDCMF programs.</p>
+                    <a href="#contact" class="btn btn-outline">Start Fundraising</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="activities" class="activities">
+    <!-- Vision & Mission -->
+    <section id="vision" class="vision-mission">
         <div class="container">
-            <h2>Upcoming Activities</h2>
-            <div class="activities-grid">
-                <div class="activity-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>Breaking the Silence: Men's Mental Health Awareness</h3>
-                    <p>Raising awareness about mental health challenges faced by men, encouraging open conversations, and providing resources for mental well-being support.</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-baby"></i>
-                    </div>
-                    <h3>Teenage Pregnancy Prevention in Rural Communities</h3>
-                    <p>Educational outreach programs for students in rural communities, focusing on reproductive health, life skills, and creating pathways for a brighter future.</p>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-pills"></i>
-                    </div>
-                    <h3>Substance Abuse Awareness and Prevention Among Youth</h3>
-                    <p>Community workshops and campaigns to educate youth about the dangers of substance abuse and empower them to make healthy choices.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="donate" class="donate">
-        <div class="container">
-            <h2>Our Vision & Mission</h2>
-            <div class="vision-mission">
+            <div class="vm-content">
                 <div class="vm-box">
                     <h3>Our Vision</h3>
                     <p>To build empowered, educated, and socially inclusive communities where every individual can live with dignity and purpose.</p>
@@ -147,179 +291,229 @@
         </div>
     </section>
 
-    <section id="support" class="support">
+    <!-- Donate Section -->
+    <section id="support" class="donate-section">
         <div class="container">
-            <div class="support-header">
-                <h2>Support Our Cause</h2>
-                <p>Your generosity makes a real difference. Choose how you'd like to give.</p>
-            </div>
-
-            <div class="giving-options">
-                <div class="option-card featured">
-                    <div class="featured-badge">Most Popular</div>
-                    <div class="option-icon">
-                        <i class="fas fa-building-columns"></i>
+            <div class="donate-content">
+                <h2>Give a Gift Where Needed Most</h2>
+                <p>Every donation makes a difference in the lives of those we serve.</p>
+                
+                <div class="donation-form">
+                    <div class="donation-type">
+                        <button class="type-btn active" data-type="one-time">One-time</button>
+                        <button class="type-btn" data-type="monthly">Monthly</button>
                     </div>
-                    <h3>Bank Transfer</h3>
-                    <p class="option-desc">Direct bank to bank transfer</p>
-                    <div class="account-info">
-                        <div class="info-group">
-                            <label>Bank Name</label>
-                            <div class="info-value">
-                                <span class="bank-name">Enter Bank Name</span>
-                            </div>
-                        </div>
-                        <div class="info-group">
-                            <label>Account Number</label>
-                            <div class="info-value copy-field">
-                                <span class="account-number">0000000000</span>
-                                <button class="copy-btn" data-target="account-number">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="info-group">
-                            <label>Account Name</label>
-                            <div class="info-value">
-                                <span>Vision De Melbee Care Foundation</span>
-                            </div>
-                        </div>
+                    
+                    <div class="amount-buttons">
+                        <button class="amount-btn" data-amount="50">$50</button>
+                        <button class="amount-btn" data-amount="100">$100</button>
+                        <button class="amount-btn" data-amount="250">$250</button>
+                        <button class="amount-btn custom" data-amount="custom">Custom</button>
                     </div>
+                    
+                    <a href="#support" class="btn btn-primary large">Give Today</a>
                 </div>
-
-                <div class="option-card">
-                    <div class="option-icon mobile">
-                        <i class="fas fa-mobile-screen-button"></i>
+                
+                <div class="trust-badges">
+                    <div class="badge">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure Giving</span>
                     </div>
-                    <h3>Mobile Money</h3>
-                    <p class="option-desc">Instant transfer via MTN MoMo</p>
-                    <div class="account-info">
-                        <div class="info-group">
-                            <label>Network</label>
-                            <div class="info-value">
-                                <span class="network-tag">MTN</span>
-                            </div>
-                        </div>
-                        <div class="info-group">
-                            <label>Phone Number</label>
-                            <div class="info-value copy-field">
-                                <span class="momo-number">+233 00 000 0000</span>
-                                <button class="copy-btn" data-target="momo-number">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="info-group">
-                            <label>Recipient Name</label>
-                            <div class="info-value">
-                                <span class="momo-name">Enter Name</span>
-                            </div>
-                        </div>
+                    <div class="badge">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Tax Deductible</span>
                     </div>
-                </div>
-
-                <div class="option-card paypal">
-                    <div class="option-icon">
-                        <i class="fab fa-paypal"></i>
+                    <div class="badge">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <span>100% to Programs</span>
                     </div>
-                    <h3>PayPal</h3>
-                    <p class="option-desc">For international donors</p>
-                    <div class="account-info">
-                        <div class="info-group">
-                            <label>Donate Securely</label>
-                            <div class="info-value">
-                                <p class="secure-text">Safe, secure payments through PayPal</p>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#" class="donate-btn">
-                        <i class="fab fa-paypal"></i>
-                        <span>Donate via PayPal</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="impact-message">
-                <i class="fas fa-heart"></i>
-                <div class="impact-text">
-                    <h4>Every Giver Makes Impact</h4>
-                    <p>Your donation directly supports education, healthcare, and empowerment programs for communities in need.</p>
-                </div>
-            </div>
-
-            <div class="trust-indicators">
-                <div class="indicator">
-                    <i class="fas fa-lock"></i>
-                    <span>Secure & Private</span>
-                </div>
-                <div class="indicator">
-                    <i class="fas fa-circle-check"></i>
-                    <span>Tax Deductible</span>
-                </div>
-                <div class="indicator">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <span>100% to Programs</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="contact">
+    <!-- Banking Details -->
+    <section class="banking-section">
         <div class="container">
-            <h2>Contact Us</h2>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>[Your Address], Ghana</p>
+            <h2>Ways to Give</h2>
+            <div class="banking-grid">
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="fas fa-university"></i>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <p>[Your Phone Number]</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <p>info@vdcmf.org</p>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-whatsapp"></i>
-                        <p>[Your WhatsApp Number]</p>
-                    </div>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <h3>Bank Transfer</h3>
+                    <p>Direct bank to bank transfer</p>
+                    <div class="bank-details">
+                        <div class="detail-row">
+                            <span>Bank Name:</span>
+                            <span>[Bank Name]</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Account Number:</span>
+                            <span class="copyable">0000000000</span>
+                            <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <div class="detail-row">
+                            <span>Account Name:</span>
+                            <span>Vision De Melbee Care Foundation</span>
+                        </div>
                     </div>
                 </div>
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea placeholder="Your Message" rows="5" required></textarea>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Money</h3>
+                    <p>Instant transfer via MTN MoMo</p>
+                    <div class="bank-details">
+                        <div class="detail-row">
+                            <span>Network:</span>
+                            <span>MTN</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Number:</span>
+                            <span class="copyable">+233 XX XXX XXXX</span>
+                            <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <h3>PayPal</h3>
+                    <p>For international donors</p>
+                    <a href="#" class="btn btn-outline">Donate via PayPal</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <i class="fas fa-envelope-open-text"></i>
+                <h3>Stay Connected</h3>
+                <p>Subscribe to our newsletter for updates on our programs, events, and impact stories.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <footer>
+    <!-- Contact -->
+    <section id="contact" class="contact-section">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="logo.jpeg" alt="VDCMF Logo">
-                    <p>Vision De Melbee Care Foundation</p>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Contact Us</h2>
+                    <p>We'd love to hear from you. Get in touch with any questions or to learn more about our work.</p>
+                    
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Address</strong>
+                                <span>[Your Address], Ghana</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Phone</strong>
+                                <span>[Your Phone Number]</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email</strong>
+                                <span>info@vdcmf.org</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <div>
+                                <strong>WhatsApp</strong>
+                                <span>[Your WhatsApp]</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
-                <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#programs">Programs</a>
-                    <a href="#activities">Activities</a>
-                    <a href="#support">Support</a>
-                    <a href="#contact">Contact</a>
+                
+                <div class="contact-form-wrapper">
+                    <form class="contact-form">
+                        <h3>Send Us a Message</h3>
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#home" class="footer-logo">
+                        <img src="logo.jpeg" alt="VDCMF Logo">
+                    </a>
+                    <p>Vision De Melbee Care Foundation is a non-profit humanitarian organization dedicated to restoring dignity and transforming lives in Ghana.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>About</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#programs">Programs</a>
+                    <a href="#stories">Stories</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Get Involved</h4>
+                    <a href="#support">Donate</a>
+                    <a href="#get-involved">Volunteer</a>
+                    <a href="#get-involved">Fundraise</a>
+                    <a href="#get-involved">Advocacy</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="#">Annual Reports</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Careers</a>
+                </div>
+            </div>
+            
             <div class="footer-bottom">
                 <p>&copy; 2026 Vision De Melbee Care Foundation. All rights reserved.</p>
+                <div class="footer-badges">
+                    <span>Registered Non-Profit Organization</span>
+                </div>
             </div>
         </div>
     </footer>

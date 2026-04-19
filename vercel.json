@@ -1,0 +1,5 @@
+{
+    "name": "vdcmf",
+    "buildCommand": "echo 'No build needed'",
+    "outputDirectory": "."
+}
