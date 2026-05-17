@@ -399,6 +399,27 @@ a {
     font-weight: 500;
 }
 
+.hero-brand {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(0.85rem, 1.8vw, 1.15rem);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 500;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold), var(--gold-light), var(--gold-dark));
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: brandShimmer 4s ease-in-out infinite;
+}
+
+@keyframes brandShimmer {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+}
+
 .hero h1,
 .hero-title {
     font-size: clamp(2.5rem, 6vw, 4.5rem);
