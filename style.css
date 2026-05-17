@@ -1,5 +1,5 @@
 /* ============================================
-   VDCMF Website Styles - MCC Inspired Design
+   VDMCF Website Styles - MCC Inspired Design
    ============================================ */
 
 * {
@@ -467,6 +467,56 @@ a {
 .alert-content p {
     color: var(--gray);
     line-height: 1.6;
+}
+
+/* ============================================
+   About Section
+   ============================================ */
+
+.about-section {
+    padding: 100px 0;
+    background: var(--cream);
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    color: var(--charcoal);
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.about-intro {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    line-height: 1.4;
+    margin-bottom: 24px;
+    border-left: 4px solid var(--gold);
+    padding-left: 24px;
+}
+
+.about-text p {
+    color: var(--gray);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.about-text .about-cta {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-top: 32px;
+    padding: 24px;
+    background: var(--cream-dark);
+    border-radius: var(--radius);
+    text-align: center;
+    border: 1px solid var(--gold-light);
 }
 
 /* ============================================

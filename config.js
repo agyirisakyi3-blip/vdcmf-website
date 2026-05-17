@@ -1,10 +1,10 @@
-// VDCMF Website Configuration
+// VDMCF Website Configuration
 // Edit this file to make updates to the website
 
 const websiteConfig = {
     organization: {
         name: "Vision De Melbee Care Foundation",
-        shortName: "VDCMF",
+        shortName: "VDMCF",
         tagline: "Restoring Dignity. Empowering Generations",
         email: "info@vdcmf.org",
         website: "www.vdcmf.org"
