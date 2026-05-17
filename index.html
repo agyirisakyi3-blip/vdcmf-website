@@ -70,24 +70,56 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <p class="hero-tag">Humanitarian Organization</p>
-            <h1>Restoring Dignity.<br>Empowering Generations.</h1>
-            <p class="hero-description">For over 10 years, VDMCF has been sharing compassion and hope with vulnerable communities across Ghana. Join us. Make an impact locally.</p>
-            <div class="hero-buttons">
-                <a href="#about" class="btn btn-primary">About VDMCF</a>
-                <a href="#support" class="btn btn-secondary">Give a Gift</a>
+        <div class="hero-slider">
+            <div class="hero-slide active" data-index="0">
+                <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&q=80')"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <p class="hero-tag">Humanitarian Organization</p>
+                    <h1>Restoring Dignity.<br>Empowering Generations.</h1>
+                    <p class="hero-description">For over 10 years, VDMCF has been sharing compassion and hope with vulnerable communities across Ghana.</p>
+                    <div class="hero-buttons">
+                        <a href="#about" class="btn btn-primary">About VDMCF</a>
+                        <a href="#support" class="btn btn-secondary">Give a Gift</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide" data-index="1">
+                <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1920&q=80')"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <p class="hero-tag">Our Belief</p>
+                    <h1>Dignity Is Not a Privilege.<br>It Is a Right.</h1>
+                    <p class="hero-description">Every child deserves education, every woman deserves opportunity, every community deserves hope. Together we can make it happen.</p>
+                    <div class="hero-buttons">
+                        <a href="#about" class="btn btn-primary">Learn More</a>
+                        <a href="#get-involved" class="btn btn-secondary">Get Involved</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide" data-index="2">
+                <div class="hero-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1920&q=80')"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <p class="hero-tag">Join the Movement</p>
+                    <h1>Be the Change.<br>Transform a Life.</h1>
+                    <p class="hero-description">Your support can provide education, healthcare, and hope to vulnerable communities across Ghana. Every gift makes an impact.</p>
+                    <div class="hero-buttons">
+                        <a href="#support" class="btn btn-primary">Donate Now</a>
+                        <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80" alt="Community together">
+        <div class="hero-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
         </div>
     </section>
 
     <!-- Feature Alert -->
-    <section class="feature-alert">
+    <section class="feature-alert" data-reveal="fade-up">
         <div class="container">
             <div class="alert-card">
                 <div class="alert-icon">
@@ -103,7 +135,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about-section">
+    <section id="about" class="about-section" data-reveal="fade-up">
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
@@ -120,7 +152,7 @@
     </section>
 
     <!-- Impact Stats -->
-    <section id="stats" class="impact-stats">
+    <section id="stats" class="impact-stats" data-reveal="fade-up">
         <div class="container">
             <div class="stats-content">
                 <h2>Our Impact</h2>
@@ -148,56 +180,75 @@
     </section>
 
     <!-- Featured Stories -->
-    <section id="stories" class="featured-stories">
+    <section id="stories" class="featured-stories" data-reveal="fade-up">
         <div class="container">
             <div class="section-header">
                 <h2>Featured Stories</h2>
                 <p>Hear firsthand from the people impacted by VDMCF projects. Learn how they're transforming their communities.</p>
-                <a href="#stories" class="view-all">View All Stories <i class="fas fa-arrow-right"></i></a>
+                <div class="carousel-controls">
+                    <button class="carousel-arrow prev" aria-label="Previous story"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-arrow next" aria-label="Next story"><i class="fas fa-chevron-right"></i></button>
+                </div>
             </div>
             
-            <div class="stories-grid">
-                <article class="story-card featured">
-                    <div class="story-image">
-                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d3?w=600&q=80" alt="Education">
-                        <span class="story-tag">Education</span>
-                    </div>
-                    <div class="story-content">
-                        <h3>Scholarship Program Transforms Lives</h3>
-                        <p>Through our scholarship program, over 500 students from low-income families have received quality education.</p>
-                        <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-                
-                <article class="story-card">
-                    <div class="story-image">
-                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&q=80" alt="Health">
-                        <span class="story-tag">Health</span>
-                    </div>
-                    <div class="story-content">
-                        <h3>Mobile Health Clinics Reach Rural Areas</h3>
-                        <p>Our mobile health clinics have provided medical care to over 2,000 people in remote villages.</p>
-                        <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-                
-                <article class="story-card">
-                    <div class="story-image">
-                        <img src="https://images.unsplash.com/photo-1552664730-40993c6c1228?w=400&q=80" alt="Vocational">
-                        <span class="story-tag">Vocational</span>
-                    </div>
-                    <div class="story-content">
-                        <h3>Youth Empowerment Through Skills Training</h3>
-                        <p>Young people gain practical skills for economic independence through our vocational programs.</p>
-                        <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
+            <div class="stories-carousel">
+                <div class="stories-track">
+                    <article class="story-card">
+                        <div class="story-image">
+                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d3?w=600&q=80" alt="Education">
+                            <span class="story-tag">Education</span>
+                        </div>
+                        <div class="story-content">
+                            <h3>Scholarship Program Transforms Lives</h3>
+                            <p>Through our scholarship program, over 500 students from low-income families have received quality education and a path to a brighter future.</p>
+                            <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <article class="story-card">
+                        <div class="story-image">
+                            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80" alt="Health">
+                            <span class="story-tag">Health</span>
+                        </div>
+                        <div class="story-content">
+                            <h3>Mobile Health Clinics Reach Rural Areas</h3>
+                            <p>Our mobile health clinics have provided medical care to over 2,000 people in remote villages who otherwise would have no access to healthcare.</p>
+                            <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <article class="story-card">
+                        <div class="story-image">
+                            <img src="https://images.unsplash.com/photo-1552664730-40993c6c1228?w=600&q=80" alt="Vocational">
+                            <span class="story-tag">Vocational</span>
+                        </div>
+                        <div class="story-content">
+                            <h3>Youth Empowerment Through Skills Training</h3>
+                            <p>Young people gain practical skills for economic independence through our vocational programs in tailoring, carpentry, and IT.</p>
+                            <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <article class="story-card">
+                        <div class="story-image">
+                            <img src="https://images.unsplash.com/photo-1593113630400-ea4288922497?w=600&q=80" alt="Community">
+                            <span class="story-tag">Community</span>
+                        </div>
+                        <div class="story-content">
+                            <h3>Women Empowerment Initiative Grows</h3>
+                            <p>Our women's empowerment program has helped over 200 women start small businesses, achieve financial independence, and support their families.</p>
+                            <a href="#about" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                </div>
             </div>
+            
+            <div class="carousel-dots"></div>
         </div>
     </section>
 
     <!-- Programs -->
-    <section id="programs" class="programs-section">
+    <section id="programs" class="programs-section" data-reveal="fade-up">
         <div class="container">
             <div class="section-header centered">
                 <h2>What We Do</h2>
@@ -245,7 +296,7 @@
     </section>
 
     <!-- Get Involved -->
-    <section id="get-involved" class="get-involved">
+    <section id="get-involved" class="get-involved" data-reveal="fade-up">
         <div class="container">
             <div class="section-header">
                 <h2>Get Involved</h2>
@@ -293,7 +344,7 @@
     </section>
 
     <!-- Vision & Mission -->
-    <section id="vision" class="vision-mission">
+    <section id="vision" class="vision-mission" data-reveal="fade-up">
         <div class="container">
             <div class="vm-content">
                 <div class="vm-box">
@@ -309,7 +360,7 @@
     </section>
 
     <!-- Donate Section -->
-    <section id="support" class="donate-section">
+    <section id="support" class="donate-section" data-reveal="fade-up">
         <div class="container">
             <div class="donate-content">
                 <h2>Give a Gift Where Needed Most</h2>
@@ -424,7 +475,7 @@
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="contact-section">
+    <section id="contact" class="contact-section" data-reveal="fade-up">
         <div class="container">
             <div class="contact-grid">
                 <div class="contact-info">
