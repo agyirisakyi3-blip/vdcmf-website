@@ -26,6 +26,19 @@
     --gray-100: #F3F4F6;
     --error: #DC2626;
     --success: #16A34A;
+
+    /* Ghanaian Flag Colors */
+    --gh-red: #CE1126;
+    --gh-gold: #FCD116;
+    --gh-green: #006B3F;
+    --gh-black: #000000;
+
+    /* Kente Accents */
+    --kente-gold: #D4AF37;
+    --kente-blue: #1B3A6B;
+    --kente-green: #2D6A4F;
+    --kente-red: #9B1B30;
+    --kente-yellow: #F4D35E;
     
     /* Semantic Colors */
     --primary: var(--gold);
@@ -469,6 +482,137 @@ a {
 .btn-large {
     padding: 18px 48px;
     font-size: 1.125rem;
+}
+
+/* ============================================
+   Ghanaian Cultural Elements
+   ============================================ */
+
+/* Kente-Inspired Divider */
+.kente-divider {
+    height: 10px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--gh-red) 0px, var(--gh-red) 5px,
+        var(--gh-gold) 5px, var(--gh-gold) 10px,
+        var(--gh-green) 10px, var(--gh-green) 15px,
+        var(--charcoal) 15px, var(--charcoal) 20px,
+        var(--gh-gold) 20px, var(--gh-gold) 25px,
+        var(--gh-red) 25px, var(--gh-red) 30px,
+        var(--kente-gold) 30px, var(--kente-gold) 35px,
+        var(--charcoal) 35px, var(--charcoal) 40px
+    );
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 48px;
+    border-radius: 2px;
+}
+
+/* Adinkra-Inspired Border Accent */
+.adinkra-border {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.adinkra-border::before,
+.adinkra-border::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.adinkra-border i {
+    font-size: 1.5rem;
+    color: var(--gold);
+    opacity: 0.6;
+}
+
+/* Ghanaian Proverb Block */
+.proverb-block {
+    background: var(--charcoal);
+    color: var(--cream);
+    padding: 60px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.proverb-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 20px,
+        rgba(212, 175, 55, 0.03) 20px,
+        rgba(212, 175, 55, 0.03) 40px
+    );
+}
+
+.proverb-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.proverb-content .proverb {
+    font-size: 1.5rem;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.proverb-content .proverb-source {
+    font-size: 0.95rem;
+    color: var(--cream);
+    opacity: 0.6;
+}
+
+.proverb-content .proverb-source::before {
+    content: '\2014 ';
+}
+
+/* Sankofa Symbol */
+.sankofa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.sankofa i {
+    font-size: 1.25rem;
+}
+
+/* Ghana Map Accent */
+.ghana-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, var(--gh-red), var(--gh-gold), var(--gh-green));
+    background-size: 200% 200%;
+    animation: ghana-flag-wave 4s ease infinite;
+    color: var(--charcoal);
+    padding: 4px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes ghana-flag-wave {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 /* ============================================
@@ -948,6 +1092,24 @@ a {
 .programs-section {
     padding: 100px 0;
     background: var(--cream-dark);
+    position: relative;
+}
+
+.programs-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--gh-red) 0px, var(--gh-red) 8px,
+        var(--gh-gold) 8px, var(--gh-gold) 16px,
+        var(--gh-green) 16px, var(--gh-green) 24px,
+        var(--charcoal) 24px, var(--charcoal) 32px
+    );
+    opacity: 0.7;
 }
 
 .programs-grid {
@@ -962,6 +1124,23 @@ a {
     padding: 32px 24px;
     text-align: center;
     transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.program-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    background: linear-gradient(90deg, var(--gh-red), var(--gh-gold), var(--gh-green), var(--kente-blue));
+    transition: height 0.3s ease;
+}
+
+.program-card:hover::after {
+    height: 4px;
 }
 
 .program-card:hover {
@@ -978,11 +1157,22 @@ a {
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.program-card:hover .program-icon {
+    transform: scale(1.1) rotate(-5deg);
+    background: var(--gold);
 }
 
 .program-icon i {
     font-size: 1.75rem;
     color: var(--gold);
+    transition: color 0.3s ease;
+}
+
+.program-card:hover .program-icon i {
+    color: var(--white);
 }
 
 .program-card h3 {
