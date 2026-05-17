@@ -199,6 +199,24 @@ a {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--charcoal);
+    background: linear-gradient(
+        90deg,
+        var(--charcoal) 0%,
+        var(--charcoal) 30%,
+        var(--gold) 50%,
+        var(--charcoal) 70%,
+        var(--charcoal) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: vdmcf-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes vdmcf-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 .nav-menu {
