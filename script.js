@@ -273,6 +273,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
+    // === TEAM CARD IMAGE FIX: ensure gradient overlay works ===
+    document.querySelectorAll('.team-card-image').forEach(img => {
+        img.addEventListener('mouseenter', function() {
+            this.querySelector('img').style.transform = 'scale(1.08)';
+        });
+        img.addEventListener('mouseleave', function() {
+            this.querySelector('img').style.transform = 'scale(1)';
+        });
+    });
+
     // === PARALLAX VISION ===
     const visionSection = document.querySelector('.vision-mission');
     if (visionSection) {
