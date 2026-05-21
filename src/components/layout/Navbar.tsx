@@ -28,7 +28,7 @@ export default function Navbar() {
         <nav className={styles.navbar}>
           <div className={styles.navContainer}>
             <Link href="/" className={styles.logo}>
-              <img src="/logo.jpeg" alt="VDMCF logo" width={48} height={48} />
+              <img src="/logo.svg" alt="VDMCF logo" width={48} height={48} />
               <span className={styles.logoText}>VDMCF</span>
             </Link>
 

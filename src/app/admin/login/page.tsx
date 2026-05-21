@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="logo-section">
-          <img src="/logo.jpeg" alt="VDCMF" className="logo" />
+          <img src="/logo.svg" alt="VDCMF" className="logo" />
           <h1>Admin Login</h1>
           <p>Vision De Melbee Care Foundation</p>
         </div>

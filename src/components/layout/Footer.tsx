@@ -8,7 +8,7 @@ export default function Footer() {
         <div className={styles.grid}>
           <div className={styles.about}>
             <Link href="/" className={styles.footerLogo}>
-              <img src="/logo.jpeg" alt="VDMCF logo" width={64} height={64} />
+              <img src="/logo.svg" alt="VDMCF logo" width={64} height={64} />
             </Link>
             <p>
               Vision De Melbee Care Foundation is a non-profit humanitarian organization

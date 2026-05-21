@@ -64,7 +64,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
       <aside className="admin-sidebar">
         <div className="sidebar-brand">
           <div className="brand-logo-wrap">
-            <img src="/logo.jpeg" alt="VDCMF" className="brand-logo" />
+            <img src="/logo.svg" alt="VDCMF" className="brand-logo" />
           </div>
           <span className="brand-text">VDCMF</span>
         </div>

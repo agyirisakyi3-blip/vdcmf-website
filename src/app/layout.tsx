@@ -59,8 +59,8 @@ export default function RootLayout({
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
-        <link rel="icon" href="/logo.jpeg" type="image/jpeg" />
-        <link rel="apple-touch-icon" href="/logo.jpeg" />
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/logo.svg" />
       </head>
       <body>{children}</body>
     </html>
