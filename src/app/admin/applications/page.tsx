@@ -1,19 +1,7 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
-
-const navLinks = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
-  { href: "/admin/blog", label: "Blog", icon: "fa-newspaper" },
-  { href: "/admin/applications", label: "Applications", icon: "fa-file-alt" },
-  { href: "/admin/programs", label: "Programs", icon: "fa-hand-holding-heart" },
-  { href: "/admin/messages", label: "Messages", icon: "fa-envelope" },
-  { href: "/admin/subscribers", label: "Subscribers", icon: "fa-users" },
-  { href: "/admin/settings", label: "Settings", icon: "fa-cog" },
-];
+import AdminLayout from "@/components/admin/AdminLayout";
 
 interface ApiApp {
   id: string;
@@ -29,33 +17,26 @@ interface ApiApp {
   createdAt: string;
 }
 
-type ApplicationType = "All" | "Volunteer" | "Program" | "Partnership";
-type ApplicationStatus = "All" | "Pending" | "Reviewed" | "Accepted" | "Rejected";
+type FilterType = "All" | "Volunteer" | "Program" | "Partnership";
+type FilterStatus = "All" | "Pending" | "Reviewed" | "Accepted" | "Rejected";
 
-const typeTabs: ApplicationType[] = ["All", "Volunteer", "Program", "Partnership"];
-const statusTabs: ApplicationStatus[] = ["All", "Pending", "Reviewed", "Accepted", "Rejected"];
+const typeTabs: FilterType[] = ["All", "Volunteer", "Program", "Partnership"];
+const statusTabs: FilterStatus[] = ["All", "Pending", "Reviewed", "Accepted", "Rejected"];
 
-const statusColors: Record<string, string> = {
-  Pending: "#fef3c7",
-  Reviewed: "#eff6ff",
-  Accepted: "#ecfdf5",
-  Rejected: "#fef2f2",
-};
-
-const statusTextColors: Record<string, string> = {
-  Pending: "#b45309",
-  Reviewed: "#1d4ed8",
-  Accepted: "#16a34a",
-  Rejected: "#dc2626",
+const statusStyle: Record<string, { bg: string; color: string }> = {
+  Pending: { bg: "rgba(180,83,9,0.12)", color: "#b45309" },
+  Reviewed: { bg: "rgba(29,78,216,0.1)", color: "#1d4ed8" },
+  Accepted: { bg: "rgba(22,163,74,0.12)", color: "#16a34a" },
+  Rejected: { bg: "rgba(220,38,38,0.1)", color: "#dc2626" },
 };
 
 const nextStatus: Record<string, string> = { Pending: "Reviewed", Reviewed: "Accepted", Accepted: "Rejected", Rejected: "Pending" };
 
-function capitalize(str: string): string {
+function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function mapApiApp(app: ApiApp) {
+function mapApp(app: ApiApp) {
   return {
     id: app.id,
     type: capitalize(app.type),
@@ -72,14 +53,10 @@ function mapApiApp(app: ApiApp) {
 }
 
 export default function AdminApplicationsPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const [typeFilter, setTypeFilter] = useState<ApplicationType>("All");
-  const [statusFilter, setStatusFilter] = useState<ApplicationStatus>("All");
+  const [typeFilter, setTypeFilter] = useState<FilterType>("All");
+  const [statusFilter, setStatusFilter] = useState<FilterStatus>("All");
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [applications, setApplications] = useState<ReturnType<typeof mapApiApp>[]>([]);
+  const [applications, setApplications] = useState<ReturnType<typeof mapApp>[]>([]);
   const [loadingApps, setLoadingApps] = useState(true);
 
   useEffect(() => {
@@ -88,7 +65,7 @@ export default function AdminApplicationsPage() {
         const res = await fetch("/api/applications");
         if (res.ok) {
           const data = await res.json();
-          setApplications((data.applications || []).map(mapApiApp));
+          setApplications((data.applications || []).map(mapApp));
         }
       } catch {
         // ignore
@@ -117,7 +94,7 @@ export default function AdminApplicationsPage() {
       });
       if (res.ok) {
         setApplications((prev) =>
-          prev.map((a) => (a.id === id ? { ...a, status: newStatus as "Pending" | "Reviewed" | "Accepted" | "Rejected" } : a))
+          prev.map((a) => (a.id === id ? { ...a, status: newStatus as typeof a.status } : a))
         );
       } else {
         alert("Failed to update status.");
@@ -127,399 +104,274 @@ export default function AdminApplicationsPage() {
     }
   };
 
-  if (status === "loading") {
-    return (
-      <div className="loading-page">
-        <div className="spinner" />
-        <style jsx>{`
-          .loading-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--cream); }
-          .spinner { width: 40px; height: 40px; border: 4px solid var(--gray-100); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
-          @keyframes spin { to { transform: rotate(360deg); } }
-        `}</style>
-      </div>
-    );
-  }
-
-  if (status === "unauthenticated") {
-    router.push("/admin/login");
-    return null;
-  }
-
   return (
-    <div className="admin-layout">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <img src="/logo.jpeg" alt="VDCMF" className="sidebar-logo" />
-          <span className="sidebar-title">VDCMF Admin</span>
-        </div>
-        <nav className="sidebar-nav">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className={`nav-link ${pathname === link.href ? "active" : ""}`}>
-              <i className={`fas ${link.icon}`} />
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="sidebar-footer">
-          <div className="admin-info">
-            <i className="fas fa-user-circle" />
-            <span>{session?.user?.name || session?.user?.email}</span>
-          </div>
-          <Link href="/" className="back-link">
-            <i className="fas fa-arrow-left" /> View Site
-          </Link>
-        </div>
-      </aside>
-
-      <main className="main-content">
-        <header className="content-header">
-          <h2>Applications</h2>
-          <p>Manage volunteer, program, and partnership applications</p>
-        </header>
-
-        <div className="filters">
-          <div className="filter-group">
-            <span className="filter-label">Type:</span>
-            <div className="filter-tabs">
-              {typeTabs.map((tab) => (
-                <button key={tab} className={`filter-tab ${typeFilter === tab ? "active" : ""}`} onClick={() => setTypeFilter(tab)}>
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="filter-group">
-            <span className="filter-label">Status:</span>
-            <div className="filter-tabs">
-              {statusTabs.map((tab) => (
-                <button key={tab} className={`filter-tab ${statusFilter === tab ? "active" : ""}`} onClick={() => setStatusFilter(tab)}>
-                  {tab}
-                </button>
-              ))}
-            </div>
+    <AdminLayout title="Applications" subtitle="Manage volunteer, program, and partnership applications">
+      <div className="filters">
+        <div className="filter-group">
+          <span className="filter-label">Type:</span>
+          <div className="filter-tabs">
+            {typeTabs.map((tab) => (
+              <button
+                key={tab}
+                className={`filter-tab ${typeFilter === tab ? "active" : ""}`}
+                onClick={() => setTypeFilter(tab)}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
         </div>
+        <div className="filter-group">
+          <span className="filter-label">Status:</span>
+          <div className="filter-tabs">
+            {statusTabs.map((tab) => (
+              <button
+                key={tab}
+                className={`filter-tab ${statusFilter === tab ? "active" : ""}`}
+                onClick={() => setStatusFilter(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-        <div className="table-card">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Program</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th className="actions-col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loadingApps ? (
-                <tr><td colSpan={7} className="empty-cell">Loading applications...</td></tr>
-              ) : filtered.length === 0 ? (
-                <tr><td colSpan={7} className="empty-cell">No applications found.</td></tr>
-              ) : (
-                filtered.map((app) => (
-                  <React.Fragment key={app.id}>
-                    <tr className={expandedId === app.id ? "expanded-row" : ""}>
-                      <td>
-                        <span className="type-badge">{app.type}</span>
-                      </td>
-                      <td className="name-cell">{app.firstName} {app.lastName}</td>
-                      <td>{app.email}</td>
-                      <td className="program-cell">{app.program || app.organization || "-"}</td>
-                      <td>
-                        <button
-                          className="status-btn"
-                          style={{
-                            background: statusColors[app.status],
-                            color: statusTextColors[app.status],
-                          }}
-                          onClick={() => handleStatusChange(app.id)}
-                          title={`Click to change to ${nextStatus[app.status]}`}
-                        >
-                          {app.status} <i className="fas fa-chevron-down" style={{ fontSize: "0.65rem", marginLeft: 4 }} />
-                        </button>
-                      </td>
-                      <td className="date-cell">{app.date}</td>
-                      <td>
-                        <button className="action-btn view-btn" onClick={() => setExpandedId(expandedId === app.id ? null : app.id)}>
-                          <i className={`fas fa-${expandedId === app.id ? "chevron-up" : "eye"}`} />
-                          {expandedId === app.id ? "Close" : "View"}
-                        </button>
+      <div className="glass-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Program</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th style={{ width: 80 }}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loadingApps ? (
+              <tr><td colSpan={7} className="glass-empty">Loading applications...</td></tr>
+            ) : filtered.length === 0 ? (
+              <tr><td colSpan={7} className="glass-empty">No applications found.</td></tr>
+            ) : (
+              filtered.map((app) => (
+                <React.Fragment key={app.id}>
+                  <tr>
+                    <td>
+                      <span className="type-badge">{app.type}</span>
+                    </td>
+                    <td style={{ fontWeight: 600 }}>{app.firstName} {app.lastName}</td>
+                    <td>{app.email}</td>
+                    <td style={{ color: "#6b7280" }}>{app.program || app.organization || "-"}</td>
+                    <td>
+                      <button
+                        className="status-btn"
+                        style={{
+                          background: statusStyle[app.status].bg,
+                          color: statusStyle[app.status].color,
+                        }}
+                        onClick={() => handleStatusChange(app.id)}
+                        title={`Change to ${nextStatus[app.status]}`}
+                      >
+                        {app.status} <i className="fas fa-chevron-down" style={{ fontSize: "0.65rem", marginLeft: 4 }} />
+                      </button>
+                    </td>
+                    <td style={{ color: "#6b7280", whiteSpace: "nowrap" }}>{app.date}</td>
+                    <td>
+                      <button
+                        className="icon-btn view"
+                        onClick={() => setExpandedId(expandedId === app.id ? null : app.id)}
+                        title={expandedId === app.id ? "Close" : "View"}
+                      >
+                        <i className={`fas fa-${expandedId === app.id ? "chevron-up" : "eye"}`} />
+                      </button>
+                    </td>
+                  </tr>
+                  {expandedId === app.id && (
+                    <tr className="detail-row">
+                      <td colSpan={7}>
+                        <div className="detail-panel">
+                          <div className="detail-grid">
+                            <div className="detail-item">
+                              <span className="detail-label">Full Name</span>
+                              <span>{app.firstName} {app.lastName}</span>
+                            </div>
+                            <div className="detail-item">
+                              <span className="detail-label">Email</span>
+                              <span>{app.email}</span>
+                            </div>
+                            <div className="detail-item">
+                              <span className="detail-label">Phone</span>
+                              <span>{app.phone || "-"}</span>
+                            </div>
+                            <div className="detail-item">
+                              <span className="detail-label">Type</span>
+                              <span className="type-badge">{app.type}</span>
+                            </div>
+                            {app.program && (
+                              <div className="detail-item">
+                                <span className="detail-label">Program</span>
+                                <span>{app.program}</span>
+                              </div>
+                            )}
+                            {app.organization && (
+                              <div className="detail-item">
+                                <span className="detail-label">Organization</span>
+                                <span>{app.organization}</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="detail-message">
+                            <span className="detail-label">Message</span>
+                            <p>{app.message}</p>
+                          </div>
+                          <div className="detail-actions">
+                            <button className="glass-btn glass-btn-primary" onClick={() => handleStatusChange(app.id)}>
+                              <i className="fas fa-arrow-right" />
+                              Change to {nextStatus[app.status]}
+                            </button>
+                          </div>
+                        </div>
                       </td>
                     </tr>
-                    {expandedId === app.id && (
-                      <tr className="details-row">
-                        <td colSpan={7}>
-                          <div className="details-panel">
-                            <div className="details-grid">
-                              <div className="detail-item">
-                                <span className="detail-label">Full Name</span>
-                                <span>{app.firstName} {app.lastName}</span>
-                              </div>
-                              <div className="detail-item">
-                                <span className="detail-label">Email</span>
-                                <span>{app.email}</span>
-                              </div>
-                              <div className="detail-item">
-                                <span className="detail-label">Phone</span>
-                                <span>{app.phone || "-"}</span>
-                              </div>
-                              <div className="detail-item">
-                                <span className="detail-label">Type</span>
-                                <span className="type-badge">{app.type}</span>
-                              </div>
-                              {app.program && (
-                                <div className="detail-item">
-                                  <span className="detail-label">Program</span>
-                                  <span>{app.program}</span>
-                                </div>
-                              )}
-                              {app.organization && (
-                                <div className="detail-item">
-                                  <span className="detail-label">Organization</span>
-                                  <span>{app.organization}</span>
-                                </div>
-                              )}
-                            </div>
-                            <div className="detail-message">
-                              <span className="detail-label">Message</span>
-                              <p>{app.message}</p>
-                            </div>
-                            <div className="detail-actions">
-                              <button
-                                className="status-change-btn"
-                                onClick={() => handleStatusChange(app.id)}
-                              >
-                                <i className="fas fa-arrow-right" />
-                                Change to {nextStatus[app.status]}
-                              </button>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  </React.Fragment>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </main>
+                  )}
+                </React.Fragment>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <style jsx>{`
-        .admin-layout {
-          display: flex; min-height: 100vh; background: var(--cream);
-        }
-
-        .sidebar {
-          width: 260px; background: var(--charcoal); display: flex; flex-direction: column;
-          flex-shrink: 0; position: sticky; top: 0; height: 100vh;
-        }
-
-        .sidebar-header {
-          display: flex; align-items: center; gap: 12px; padding: 24px 20px;
-          border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .sidebar-logo {
-          width: 36px; height: 36px; border-radius: 50%; object-fit: cover;
-          border: 2px solid var(--gold);
-        }
-
-        .sidebar-title {
-          color: var(--gold); font-weight: 700; font-size: 1rem;
-          font-family: "DM Sans", sans-serif;
-        }
-
-        .sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
-
-        .nav-link {
-          display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-          border-radius: var(--radius); color: var(--gray-light); font-size: 0.9rem;
-          font-weight: 500; transition: var(--transition); font-family: "DM Sans", sans-serif;
-        }
-
-        .nav-link i { width: 20px; text-align: center; }
-        .nav-link:hover { background: rgba(255,255,255,0.06); color: var(--white); }
-        .nav-link.active { background: var(--gold); color: var(--white); }
-
-        .sidebar-footer {
-          padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.08);
-          display: flex; flex-direction: column; gap: 12px;
-        }
-
-        .admin-info {
-          display: flex; align-items: center; gap: 10px; padding: 8px 16px;
-          color: var(--gray-light); font-size: 0.85rem;
-        }
-
-        .admin-info i { font-size: 1.4rem; color: var(--gold); }
-
-        .back-link {
-          display: flex; align-items: center; gap: 8px; padding: 8px 16px;
-          font-size: 0.85rem; color: var(--gray-light); border-radius: var(--radius);
-          transition: var(--transition);
-        }
-
-        .back-link:hover { background: rgba(255,255,255,0.06); color: var(--gold); }
-
-        .main-content { flex: 1; padding: 32px 40px; overflow-y: auto; }
-
-        .content-header { margin-bottom: 24px; }
-
-        .content-header h2 { font-size: 1.75rem; color: var(--charcoal); }
-        .content-header p { color: var(--gray); margin-top: 4px; }
-
         .filters {
-          display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-bottom: 20px;
         }
-
         .filter-group {
-          display: flex; align-items: center; gap: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
         }
-
         .filter-label {
-          font-size: 0.85rem; font-weight: 600; color: var(--gray); min-width: 50px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #6b7280;
+          min-width: 50px;
         }
-
         .filter-tabs {
-          display: flex; gap: 4px; flex-wrap: wrap;
+          display: flex;
+          gap: 4px;
+          flex-wrap: wrap;
         }
-
         .filter-tab {
-          padding: 6px 16px; border: 1px solid var(--gray-100); border-radius: var(--radius-full);
-          background: var(--white); cursor: pointer; font-size: 0.8rem; font-weight: 600;
-          transition: var(--transition); font-family: "DM Sans", sans-serif; color: var(--charcoal);
-        }
-
-        .filter-tab.active {
-          background: var(--gold); color: var(--white); border-color: var(--gold);
-        }
-
-        .filter-tab:hover:not(.active) {
-          background: var(--gray-100);
-        }
-
-        .table-card {
-          background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm);
-          overflow: hidden;
-        }
-
-        .data-table { width: 100%; border-collapse: collapse; }
-
-        .data-table th {
-          text-align: left; padding: 16px 20px; font-size: 0.8rem; text-transform: uppercase;
-          letter-spacing: 0.5px; color: var(--gray); border-bottom: 2px solid var(--gray-100);
+          padding: 6px 16px;
+          border: 1px solid rgba(0,0,0,0.06);
+          border-radius: 20px;
+          background: rgba(255,255,255,0.5);
+          cursor: pointer;
+          font-size: 0.8rem;
+          font-weight: 600;
+          transition: all 0.2s;
           font-family: "DM Sans", sans-serif;
+          color: #1a1a2e;
         }
-
-        .data-table td {
-          padding: 14px 20px; font-size: 0.9rem; border-bottom: 1px solid var(--gray-100);
-          color: var(--charcoal);
+        .filter-tab.active {
+          background: linear-gradient(135deg, #d4af37, #f5d97a);
+          color: #1a1a2e;
+          border-color: transparent;
         }
-
-        .name-cell { font-weight: 600; }
-        .program-cell { color: var(--gray); }
-        .date-cell { color: var(--gray); white-space: nowrap; }
-        .actions-col { width: 80px; }
-        .empty-cell { text-align: center; padding: 48px !important; color: var(--gray); }
-
+        .filter-tab:hover:not(.active) {
+          background: rgba(255,255,255,0.8);
+        }
         .type-badge {
-          display: inline-flex; padding: 4px 10px; border-radius: var(--radius-sm);
-          font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-          background: var(--gray-100); color: var(--charcoal);
+          display: inline-flex;
+          padding: 4px 10px;
+          border-radius: 8px;
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          background: rgba(107,114,128,0.1);
+          color: #1a1a2e;
         }
-
         .status-btn {
-          display: inline-flex; align-items: center; padding: 4px 12px;
-          border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 600;
-          border: none; cursor: pointer; transition: var(--transition);
-          font-family: "DM Sans", sans-serif; min-width: 100px;
+          display: inline-flex;
+          align-items: center;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-family: "DM Sans", sans-serif;
+          min-width: 100px;
           justify-content: center;
         }
-
         .status-btn:hover {
           filter: brightness(0.95);
         }
-
-        .action-btn {
-          display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
-          border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 600;
-          border: none; cursor: pointer; transition: var(--transition);
-          font-family: "DM Sans", sans-serif;
+        .icon-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.2s;
         }
-
-        .view-btn {
-          background: var(--gray-100); color: var(--charcoal);
-        }
-
-        .view-btn:hover {
-          background: var(--cream-dark);
-        }
-
-        .expanded-row td {
-          border-bottom: none;
-        }
-
-        .details-row td {
+        .icon-btn.view { background: rgba(107,114,128,0.1); color: #4b5563; }
+        .icon-btn.view:hover { background: rgba(107,114,128,0.2); }
+        .detail-row td {
           padding: 0 !important;
+          border-bottom: 1px solid rgba(0,0,0,0.04);
         }
-
-        .details-panel {
-          padding: 0 20px 24px;
-          border-bottom: 1px solid var(--gray-100);
+        .detail-panel {
+          padding: 0 24px 24px;
+          background: rgba(255,255,255,0.3);
         }
-
-        .details-grid {
-          display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-          padding: 16px 0;
+        .detail-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+          padding: 20px 0;
         }
-
         .detail-item {
-          display: flex; flex-direction: column; gap: 2px;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
         }
-
         .detail-label {
-          font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;
-          color: var(--gray); font-weight: 600;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: #6b7280;
+          font-weight: 600;
         }
-
         .detail-message {
-          padding: 16px 0; border-top: 1px solid var(--gray-100);
-          display: flex; flex-direction: column; gap: 6px;
+          padding: 16px 0;
+          border-top: 1px solid rgba(0,0,0,0.04);
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
         }
-
         .detail-message p {
-          line-height: 1.6; color: var(--charcoal);
+          line-height: 1.6;
+          color: #1a1a2e;
         }
-
         .detail-actions {
-          padding-top: 16px; border-top: 1px solid var(--gray-100);
+          padding-top: 16px;
         }
-
-        .status-change-btn {
-          display: inline-flex; align-items: center; gap: 8px;
-          padding: 10px 20px; background: var(--gold); color: var(--white);
-          border: none; border-radius: var(--radius); font-weight: 600;
-          cursor: pointer; transition: var(--transition);
-          font-family: "DM Sans", sans-serif; font-size: 0.85rem;
-        }
-
-        .status-change-btn:hover {
-          background: var(--gold-dark);
-        }
-
         @media (max-width: 768px) {
-          .sidebar { width: 64px; }
-          .sidebar-title, .nav-link span, .admin-info span, .back-link span { display: none; }
-          .sidebar-header { justify-content: center; padding: 16px 8px; }
-          .nav-link { justify-content: center; padding: 12px; }
-          .main-content { padding: 24px 16px; }
-          .details-grid { grid-template-columns: 1fr; }
+          .detail-grid { grid-template-columns: 1fr; }
         }
       `}</style>
-    </div>
+    </AdminLayout>
   );
 }

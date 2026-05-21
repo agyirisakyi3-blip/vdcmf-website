@@ -1,25 +1,10 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-
-const navLinks = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
-  { href: "/admin/blog", label: "Blog", icon: "fa-newspaper" },
-  { href: "/admin/applications", label: "Applications", icon: "fa-file-alt" },
-  { href: "/admin/programs", label: "Programs", icon: "fa-hand-holding-heart" },
-  { href: "/admin/messages", label: "Messages", icon: "fa-envelope" },
-  { href: "/admin/subscribers", label: "Subscribers", icon: "fa-users" },
-  { href: "/admin/settings", label: "Settings", icon: "fa-cog" },
-];
+import Link from "next/link";
+import AdminLayout from "@/components/admin/AdminLayout";
 
 export default function AdminDashboardPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const pathname = usePathname();
-
   const [totalApps, setTotalApps] = useState(0);
   const [pendingApps, setPendingApps] = useState(0);
   const [totalPosts, setTotalPosts] = useState(0);
@@ -60,329 +45,95 @@ export default function AdminDashboardPage() {
     fetchData();
   }, []);
 
-  if (status === "loading") {
-    return (
-      <div className="loading-page">
-        <div className="spinner" />
-        <style jsx>{`
-          .loading-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--cream);
-          }
-          .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--gray-100);
-            border-top-color: var(--gold);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-          }
-          @keyframes spin { to { transform: rotate(360deg); } }
-        `}</style>
-      </div>
-    );
-  }
-
-  if (status === "unauthenticated") {
-    return (
-      <div className="unauth-page">
-        <div className="unauth-card">
-          <i className="fas fa-lock" />
-          <h2>Please log in</h2>
-          <p>You need to be authenticated to access the admin dashboard.</p>
-          <Link href="/admin/login" className="btn btn-primary">Go to Login</Link>
-        </div>
-        <style jsx>{`
-          .unauth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--cream);
-            padding: 24px;
-          }
-          .unauth-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 48px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            max-width: 400px;
-          }
-          .unauth-card i {
-            font-size: 3rem;
-            color: var(--gold);
-            margin-bottom: 16px;
-          }
-          .unauth-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-          }
-          .unauth-card p {
-            color: var(--gray);
-            margin-bottom: 24px;
-          }
-        `}</style>
-      </div>
-    );
-  }
-
   const stats = [
-    { label: "Total Applications", value: String(totalApps), icon: "fa-file-alt", color: "var(--blue)" },
-    { label: "Pending Applications", value: String(pendingApps), icon: "fa-clock", color: "var(--gold)" },
-    { label: "Total Blog Posts", value: String(totalPosts), icon: "fa-newspaper", color: "var(--success)" },
-    { label: "Contact Messages", value: String(messages.length), icon: "fa-envelope", color: "var(--gh-red)" },
+    { label: "Total Applications", value: String(totalApps), icon: "fa-file-alt", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+    { label: "Pending Applications", value: String(pendingApps), icon: "fa-clock", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+    { label: "Total Blog Posts", value: String(totalPosts), icon: "fa-newspaper", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+    { label: "Contact Messages", value: String(messages.length), icon: "fa-envelope", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
   ];
 
   return (
-    <div className="admin-layout">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <img src="/logo.jpeg" alt="VDCMF" className="sidebar-logo" />
-          <span className="sidebar-title">VDCMF Admin</span>
-        </div>
-        <nav className="sidebar-nav">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`nav-link ${pathname === link.href ? "active" : ""}`}
-            >
-              <i className={`fas ${link.icon}`} />
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="sidebar-footer">
-          <div className="admin-info">
-            <i className="fas fa-user-circle" />
-            <span>{session?.user?.name || session?.user?.email}</span>
+    <AdminLayout title="Dashboard" subtitle="Welcome back, Admin">
+      <div className="stats-grid">
+        {stats.map((stat) => (
+          <div key={stat.label} className="stat-card glass-card">
+            <div className="stat-icon" style={{ background: stat.gradient }}>
+              <i className={`fas ${stat.icon}`} />
+            </div>
+            <div className="stat-info">
+              <span className="stat-value">{stat.value}</span>
+              <span className="stat-label">{stat.label}</span>
+            </div>
           </div>
-          <Link href="/" className="back-link">
-            <i className="fas fa-arrow-left" /> View Site
+        ))}
+      </div>
+
+      <div className="recent-section glass-table">
+        <div className="section-header">
+          <h3>Recent Contact Messages</h3>
+          <Link href="/admin/messages" className="glass-btn glass-btn-outline" style={{ padding: "8px 16px", fontSize: "0.8rem" }}>
+            View All <i className="fas fa-arrow-right" />
           </Link>
         </div>
-      </aside>
-
-      <main className="main-content">
-        <header className="content-header">
-          <h2>Dashboard</h2>
-          <p>Welcome back, {session?.user?.name || "Admin"}</p>
-        </header>
-
-        <div className="stats-grid">
-          {stats.map((stat) => (
-            <div key={stat.label} className="stat-card">
-              <div className="stat-icon" style={{ background: stat.color }}>
-                <i className={`fas ${stat.icon}`} />
-              </div>
-              <div className="stat-info">
-                <span className="stat-value">{stat.value}</span>
-                <span className="stat-label">{stat.label}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="recent-section">
-          <h3>Recent Contact Messages</h3>
-          <table className="recent-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Message</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loadingData ? (
-                <tr><td colSpan={4} className="empty-cell">Loading messages...</td></tr>
-              ) : messages.length === 0 ? (
-                <tr><td colSpan={4} className="empty-cell">No messages yet.</td></tr>
-              ) : (
-                messages.slice(0, 5).map((msg) => (
-                  <tr key={msg.id}>
-                    <td>{msg.name}</td>
-                    <td>{msg.email}</td>
-                    <td className="msg-preview">{msg.message}</td>
-                    <td>{new Date(msg.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </main>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loadingData ? (
+              <tr><td colSpan={4} className="glass-empty">Loading messages...</td></tr>
+            ) : messages.length === 0 ? (
+              <tr><td colSpan={4} className="glass-empty">No messages yet.</td></tr>
+            ) : (
+              messages.slice(0, 5).map((msg) => (
+                <tr key={msg.id}>
+                  <td style={{ fontWeight: 600 }}>{msg.name}</td>
+                  <td>{msg.email}</td>
+                  <td className="msg-preview">{msg.message}</td>
+                  <td style={{ color: "#6b7280", whiteSpace: "nowrap" }}>
+                    {new Date(msg.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <style jsx>{`
-        .admin-layout {
-          display: flex;
-          min-height: 100vh;
-          background: var(--cream);
-        }
-
-        .sidebar {
-          width: 260px;
-          background: var(--charcoal);
-          display: flex;
-          flex-direction: column;
-          flex-shrink: 0;
-          position: sticky;
-          top: 0;
-          height: 100vh;
-        }
-
-        .sidebar-header {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 24px 20px;
-          border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .sidebar-logo {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 2px solid var(--gold);
-        }
-
-        .sidebar-title {
-          color: var(--gold);
-          font-weight: 700;
-          font-size: 1rem;
-          font-family: "DM Sans", sans-serif;
-        }
-
-        .sidebar-nav {
-          flex: 1;
-          padding: 16px 12px;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-
-        .nav-link {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 12px 16px;
-          border-radius: var(--radius);
-          color: var(--gray-light);
-          font-size: 0.9rem;
-          font-weight: 500;
-          transition: var(--transition);
-          font-family: "DM Sans", sans-serif;
-        }
-
-        .nav-link i {
-          width: 20px;
-          text-align: center;
-        }
-
-        .nav-link:hover {
-          background: rgba(255,255,255,0.06);
-          color: var(--white);
-        }
-
-        .nav-link.active {
-          background: var(--gold);
-          color: var(--white);
-        }
-
-        .sidebar-footer {
-          padding: 16px 12px;
-          border-top: 1px solid rgba(255,255,255,0.08);
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .admin-info {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 8px 16px;
-          color: var(--gray-light);
-          font-size: 0.85rem;
-        }
-
-        .admin-info i {
-          font-size: 1.4rem;
-          color: var(--gold);
-        }
-
-        .back-link {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 16px;
-          font-size: 0.85rem;
-          color: var(--gray-light);
-          border-radius: var(--radius);
-          transition: var(--transition);
-        }
-
-        .back-link:hover {
-          background: rgba(255,255,255,0.06);
-          color: var(--gold);
-        }
-
-        .main-content {
-          flex: 1;
-          padding: 32px 40px;
-          overflow-y: auto;
-        }
-
-        .content-header {
-          margin-bottom: 32px;
-        }
-
-        .content-header h2 {
-          font-size: 1.75rem;
-          color: var(--charcoal);
-        }
-
-        .content-header p {
-          color: var(--gray);
-          margin-top: 4px;
-        }
-
         .stats-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 20px;
-          margin-bottom: 40px;
+          margin-bottom: 32px;
         }
 
         .stat-card {
-          background: var(--white);
-          border-radius: var(--radius);
-          padding: 24px;
           display: flex;
           align-items: center;
           gap: 20px;
-          box-shadow: var(--shadow-sm);
+          padding: 24px;
         }
 
         .stat-icon {
           width: 52px;
           height: 52px;
-          border-radius: var(--radius);
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .stat-icon i {
           font-size: 1.3rem;
-          color: var(--white);
+          color: #fff;
         }
 
         .stat-info {
@@ -393,49 +144,31 @@ export default function AdminDashboardPage() {
         .stat-value {
           font-size: 1.75rem;
           font-weight: 700;
-          color: var(--charcoal);
+          color: #1a1a2e;
           font-family: "Playfair Display", serif;
         }
 
         .stat-label {
           font-size: 0.85rem;
-          color: var(--gray);
+          color: #6b7280;
           margin-top: 2px;
         }
 
         .recent-section {
-          background: var(--white);
-          border-radius: var(--radius);
-          padding: 24px;
-          box-shadow: var(--shadow-sm);
+          padding: 0;
         }
 
-        .recent-section h3 {
-          font-size: 1.15rem;
-          margin-bottom: 16px;
+        .section-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px 24px 0;
         }
 
-        .recent-table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-
-        .recent-table th {
-          text-align: left;
-          padding: 12px 16px;
-          font-size: 0.8rem;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          color: var(--gray);
-          border-bottom: 2px solid var(--gray-100);
-          font-family: "DM Sans", sans-serif;
-        }
-
-        .recent-table td {
-          padding: 14px 16px;
-          font-size: 0.9rem;
-          border-bottom: 1px solid var(--gray-100);
-          color: var(--charcoal);
+        .section-header h3 {
+          font-size: 1.1rem;
+          color: #1a1a2e;
+          margin: 0;
         }
 
         .msg-preview {
@@ -443,38 +176,17 @@ export default function AdminDashboardPage() {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          color: var(--gray) !important;
+          color: #6b7280;
         }
 
         @media (max-width: 1024px) {
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
+          .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-          .sidebar {
-            width: 64px;
-          }
-          .sidebar-title,
-          .nav-link span,
-          .admin-info span,
-          .back-link span {
-            display: none;
-          }
-          .sidebar-header {
-            justify-content: center;
-            padding: 16px 8px;
-          }
-          .nav-link {
-            justify-content: center;
-            padding: 12px;
-          }
-          .main-content {
-            padding: 24px 16px;
-          }
+          .stats-grid { grid-template-columns: 1fr; }
         }
       `}</style>
-    </div>
+    </AdminLayout>
   );
 }
