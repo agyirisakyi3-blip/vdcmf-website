@@ -187,10 +187,10 @@ export default function AdminApplicationsPage() {
                 <option value="">Change status...</option>
                 {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
-              <button className="glass-btn glass-btn-sm" onClick={handleBulkStatus} disabled={!bulkStatus}>
+              <button className="btn btn-sm" onClick={handleBulkStatus} disabled={!bulkStatus}>
                 Apply
               </button>
-              <button className="glass-btn glass-btn-sm glass-btn-danger" onClick={handleBulkDelete}>
+              <button className="btn btn-sm btn-danger" onClick={handleBulkDelete}>
                 <i className="fas fa-trash" /> Delete
               </button>
             </div>
@@ -224,7 +224,7 @@ export default function AdminApplicationsPage() {
       {loading ? (
         <TableSkeleton rows={5} cols={7} />
       ) : (
-        <div className="glass-table">
+        <div className="tbl">
           <table>
             <thead>
               <tr>
@@ -242,7 +242,7 @@ export default function AdminApplicationsPage() {
             </thead>
             <tbody>
               {sorted.length === 0 ? (
-                <tr><td colSpan={8} className="glass-empty">
+                <tr><td colSpan={8} className="empty">
                   {search ? "No applications match your search." : "No applications found."}
                 </td></tr>
               ) : (
@@ -330,31 +330,29 @@ export default function AdminApplicationsPage() {
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 16px; flex-wrap: wrap; }
         .toolbar-right { display: flex; align-items: center; gap: 12px; }
         .bulk-bar { display: flex; align-items: center; gap: 10px; padding: 8px 16px; background: rgba(212,175,55,0.1); border-radius: 12px; }
-        .bulk-count { font-size: 0.85rem; font-weight: 600; color: #1a1a2e; }
-        .bulk-select { padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); font-size: 0.8rem; }
-        :global(.glass-btn-sm) { padding: 6px 14px; font-size: 0.8rem; }
-        :global(.glass-btn-danger) { background: rgba(220,38,38,0.1); color: #dc2626; }
-        :global(.glass-btn-danger:hover) { background: rgba(220,38,38,0.2); }
+        .bulk-count { font-size: 0.85rem; font-weight: 600; color: #1C1C1C; }
+        .bulk-select { padding: 6px 12px; border-radius: 8px; border: 1px solid #D0D0D0; font-size: 0.8rem; font-family: "DM Sans", sans-serif; }
+
         .filters { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .filter-group { display: flex; align-items: center; gap: 12px; }
         .filter-label { font-size: 0.85rem; font-weight: 600; color: #6b7280; min-width: 50px; }
         .filter-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-        .filter-tab { padding: 6px 16px; border: 1px solid rgba(0,0,0,0.06); border-radius: 20px; background: rgba(255,255,255,0.5); cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; font-family: "DM Sans", sans-serif; color: #1a1a2e; }
-        .filter-tab.active { background: linear-gradient(135deg, #d4af37, #f5d97a); color: #1a1a2e; border-color: transparent; }
-        .filter-tab:hover:not(.active) { background: rgba(255,255,255,0.8); }
-        .type-badge { display: inline-flex; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background: rgba(107,114,128,0.1); color: #1a1a2e; }
+        .filter-tab { padding: 6px 16px; border: 1px solid #D0D0D0; border-radius: 20px; background: #fff; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.15s; font-family: "DM Sans", sans-serif; color: #4B5563; }
+        .filter-tab.active { background: #D4AF37; color: #1C1C1C; border-color: #D4AF37; }
+        .filter-tab:hover:not(.active) { background: #FAFBFC; border-color: #A0A0A0; }
+        .type-badge { display: inline-flex; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background: #F3F4F6; color: #1C1C1C; }
         .status-dropdown-wrap { position: relative; }
         .status-dropdown { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer; font-family: "DM Sans", sans-serif; min-width: 100px; justify-content: center; appearance: auto; }
-        .icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: none; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .icon-btn.view { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
         .icon-btn.view { background: rgba(107,114,128,0.1); color: #4b5563; }
         .icon-btn.view:hover { background: rgba(107,114,128,0.2); }
-        .detail-row td { padding: 0 !important; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .detail-panel { padding: 0 24px 24px; background: rgba(255,255,255,0.3); }
+        .detail-row td { padding: 0 !important; border-bottom: 1px solid #EDEDED; }
+        .detail-panel { padding: 0 24px 24px; background: #FAFBFC; }
         .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px 0; }
         .detail-item { display: flex; flex-direction: column; gap: 2px; }
-        .detail-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; font-weight: 600; }
-        .detail-message { padding: 16px 0; border-top: 1px solid rgba(0,0,0,0.04); display: flex; flex-direction: column; gap: 6px; }
-        .detail-message p { line-height: 1.6; color: #1a1a2e; }
+        .detail-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6B7280; font-weight: 600; }
+        .detail-message { padding: 16px 0; border-top: 1px solid #EDEDED; display: flex; flex-direction: column; gap: 6px; }
+        .detail-message p { line-height: 1.6; color: #1C1C1C; }
         th.sortable { cursor: pointer; user-select: none; }
         th.sortable:hover { color: #d4af37; }
         th.sortable i { margin-left: 4px; font-size: 0.7rem; opacity: 0.5; }

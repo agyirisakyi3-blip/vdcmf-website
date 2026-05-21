@@ -134,13 +134,13 @@ export default function AdminMessagesPage() {
           {selected.size > 0 && (
             <div className="bulk-bar">
               <span className="bulk-count">{selected.size} selected</span>
-              <button className="glass-btn glass-btn-sm" onClick={() => handleBulkRead(true)}>
+              <button className="btn btn-sm" onClick={() => handleBulkRead(true)}>
                 <i className="fas fa-envelope-open" /> Mark Read
               </button>
-              <button className="glass-btn glass-btn-sm" onClick={() => handleBulkRead(false)}>
+              <button className="btn btn-sm" onClick={() => handleBulkRead(false)}>
                 <i className="fas fa-envelope" /> Mark Unread
               </button>
-              <button className="glass-btn glass-btn-sm glass-btn-danger" onClick={handleBulkDelete}>
+              <button className="btn btn-sm btn-danger" onClick={handleBulkDelete}>
                 <i className="fas fa-trash" /> Delete
               </button>
             </div>
@@ -151,7 +151,7 @@ export default function AdminMessagesPage() {
       {loading ? (
         <TableSkeleton rows={5} cols={6} />
       ) : (
-        <div className="glass-table">
+        <div className="tbl">
           <table>
             <thead>
               <tr>
@@ -168,7 +168,7 @@ export default function AdminMessagesPage() {
             </thead>
             <tbody>
               {sorted.length === 0 ? (
-                <tr><td colSpan={7} className="glass-empty">
+                <tr><td colSpan={7} className="empty">
                   {search ? "No messages match your search." : "No messages yet."}
                 </td></tr>
               ) : (
@@ -176,7 +176,7 @@ export default function AdminMessagesPage() {
                   <tr key={msg.id} style={!msg.read ? { fontWeight: 600 } : undefined}>
                     <td><input type="checkbox" checked={selected.has(msg.id)} onChange={() => toggleSelect(msg.id)} /></td>
                     <td>
-                      <span className={`glass-badge ${msg.read ? "glass-badge-neutral" : "glass-badge-warning"}`}>
+                      <span className={`badge ${msg.read ? "badge-neutral" : "badge-warning"}`}>
                         {msg.read ? "Read" : "New"}
                       </span>
                     </td>
@@ -211,7 +211,7 @@ export default function AdminMessagesPage() {
         const msg = messages.find((m) => m.id === expandedId);
         if (!msg) return null;
         return (
-          <div className="glass-card detail-card">
+          <div className="card detail-card">
             <div className="detail-header">
               <h3>{msg.name}</h3>
               <span className="detail-email">{msg.email}</span>
@@ -230,13 +230,11 @@ export default function AdminMessagesPage() {
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
         .toolbar-right { display: flex; align-items: center; gap: 12px; }
         .bulk-bar { display: flex; align-items: center; gap: 10px; padding: 8px 16px; background: rgba(212,175,55,0.1); border-radius: 12px; }
-        .bulk-count { font-size: 0.85rem; font-weight: 600; color: #1a1a2e; white-space: nowrap; }
-        :global(.glass-btn-sm) { padding: 6px 14px; font-size: 0.8rem; }
-        :global(.glass-btn-danger) { background: rgba(220,38,38,0.1); color: #dc2626; }
-        :global(.glass-btn-danger:hover) { background: rgba(220,38,38,0.2); }
-        .msg-preview { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #6b7280; }
+        .bulk-count { font-size: 0.85rem; font-weight: 600; color: #1C1C1C; white-space: nowrap; }
+
+        .msg-preview { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #6B7280; }
         .actions { display: flex; gap: 4px; }
-        .icon-btn { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .icon-btn.view, .icon-btn.read, .icon-btn.delete { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
         .icon-btn.view { background: rgba(107,114,128,0.1); color: #4b5563; }
         .icon-btn.view:hover { background: rgba(107,114,128,0.2); }
         .icon-btn.read { background: rgba(29,78,216,0.1); color: #1d4ed8; }
@@ -244,12 +242,12 @@ export default function AdminMessagesPage() {
         .icon-btn.delete { background: rgba(220,38,38,0.1); color: #dc2626; }
         .icon-btn.delete:hover { background: rgba(220,38,38,0.2); }
         .detail-card { margin-top: 20px; overflow: hidden; }
-        .detail-header { padding: 20px 24px; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .detail-header h3 { font-size: 1.1rem; margin-bottom: 4px; }
-        .detail-email { color: #6b7280; font-size: 0.85rem; }
+        .detail-header { padding: 20px 24px; border-bottom: 1px solid #EDEDED; }
+        .detail-header h3 { font-size: 1.1rem; margin-bottom: 4px; color: #1C1C1C; }
+        .detail-email { color: #6B7280; font-size: 0.85rem; }
         .detail-body { padding: 20px 24px; }
-        .detail-body p { line-height: 1.7; color: #1a1a2e; white-space: pre-wrap; }
-        .detail-footer { padding: 12px 24px; border-top: 1px solid rgba(0,0,0,0.04); font-size: 0.8rem; color: #6b7280; }
+        .detail-body p { line-height: 1.7; color: #1C1C1C; white-space: pre-wrap; }
+        .detail-footer { padding: 12px 24px; border-top: 1px solid #EDEDED; font-size: 0.8rem; color: #6B7280; }
         th.sortable { cursor: pointer; user-select: none; }
         th.sortable:hover { color: #d4af37; }
         th.sortable i { margin-left: 4px; font-size: 0.7rem; opacity: 0.5; }

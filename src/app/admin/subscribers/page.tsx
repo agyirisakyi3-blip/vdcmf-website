@@ -81,7 +81,7 @@ export default function AdminSubscribersPage() {
     >
       <div className="toolbar">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by email..." />
-        <button className="glass-btn glass-btn-outline" onClick={exportCSV} disabled={subscribers.length === 0}>
+        <button className="btn btn-outline" onClick={exportCSV} disabled={subscribers.length === 0}>
           <i className="fas fa-download" /> Export CSV
         </button>
       </div>
@@ -89,7 +89,7 @@ export default function AdminSubscribersPage() {
       {loading ? (
         <TableSkeleton rows={5} cols={4} />
       ) : (
-        <div className="glass-table">
+        <div className="tbl">
           <table>
             <thead>
               <tr>
@@ -101,7 +101,7 @@ export default function AdminSubscribersPage() {
             </thead>
             <tbody>
               {sorted.length === 0 ? (
-                <tr><td colSpan={4} className="glass-empty">
+                <tr><td colSpan={4} className="empty">
                   {search ? "No subscribers match your search." : "No subscribers yet."}
                 </td></tr>
               ) : (
@@ -109,7 +109,7 @@ export default function AdminSubscribersPage() {
                   <tr key={sub.id}>
                     <td style={{ fontWeight: 600, fontFamily: "monospace" }}>{sub.email}</td>
                     <td>
-                      <span className={`glass-badge ${sub.active ? "glass-badge-success" : "glass-badge-warning"}`}>
+                      <span className={`badge ${sub.active ? "badge-success" : "badge-warning"}`}>
                         {sub.active ? "Active" : "Inactive"}
                       </span>
                     </td>
@@ -132,7 +132,7 @@ export default function AdminSubscribersPage() {
       <style jsx>{`
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
         .toolbar button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .icon-btn { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; background: rgba(220,38,38,0.1); color: #dc2626; }
+        .icon-btn { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; background: rgba(220,38,38,0.1); color: #dc2626; }
         .icon-btn:hover { background: rgba(220,38,38,0.2); }
         th.sortable { cursor: pointer; user-select: none; }
         th.sortable:hover { color: #d4af37; }

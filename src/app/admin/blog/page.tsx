@@ -63,7 +63,7 @@ export default function AdminBlogPage() {
     <AdminLayout title="Blog Posts" subtitle="Manage your blog content">
       <div className="toolbar">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by title..." />
-        <Link href="/admin/blog/new" className="glass-btn glass-btn-primary">
+        <Link href="/admin/blog/new" className="btn btn-primary">
           <i className="fas fa-plus" /> New Post
         </Link>
       </div>
@@ -71,7 +71,7 @@ export default function AdminBlogPage() {
       {loading ? (
         <TableSkeleton rows={5} cols={4} />
       ) : (
-        <div className="glass-table">
+        <div className="tbl">
           <table>
             <thead>
               <tr>
@@ -89,7 +89,7 @@ export default function AdminBlogPage() {
             </thead>
             <tbody>
               {sorted.length === 0 ? (
-                <tr><td colSpan={4} className="glass-empty">
+                <tr><td colSpan={4} className="empty">
                   {search ? "No posts match your search." : "No posts found. Create your first post!"}
                 </td></tr>
               ) : (
@@ -97,7 +97,7 @@ export default function AdminBlogPage() {
                   <tr key={post.id}>
                     <td style={{ fontWeight: 600 }}>{post.title}</td>
                     <td>
-                      <span className={`glass-badge ${post.published ? "glass-badge-success" : "glass-badge-warning"}`}>
+                      <span className={`badge ${post.published ? "badge-success" : "badge-warning"}`}>
                         {post.published ? "Published" : "Draft"}
                       </span>
                     </td>
@@ -125,10 +125,10 @@ export default function AdminBlogPage() {
       <style jsx>{`
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
         .actions { display: flex; gap: 6px; }
-        .icon-btn {
+        .icon-btn.edit, .icon-btn.delete {
           display: inline-flex; align-items: center; justify-content: center;
-          width: 32px; height: 32px; border: none; border-radius: 8px;
-          font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+          width: 30px; height: 30px; border: none; border-radius: 6px;
+          font-size: 0.78rem; cursor: pointer; transition: all 0.15s;
           text-decoration: none;
         }
         .icon-btn.edit { background: rgba(29,78,216,0.1); color: #1d4ed8; }

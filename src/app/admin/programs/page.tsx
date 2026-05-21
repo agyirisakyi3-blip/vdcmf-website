@@ -121,38 +121,38 @@ export default function AdminProgramsPage() {
     <AdminLayout title="Programs" subtitle="Manage foundation programs">
       <div className="toolbar">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by title or slug..." />
-        <button className="glass-btn glass-btn-primary" onClick={openCreate}>
+        <button className="btn btn-primary" onClick={openCreate}>
           <i className="fas fa-plus" /> New Program
         </button>
       </div>
 
       {showForm && (
-        <div className="glass-card form-card">
+        <div className="card form-card">
           <h3>{editingId ? "Edit Program" : "New Program"}</h3>
           <div className="form-grid">
             <div className="form-field">
               <label>Title</label>
-              <input className="glass-input" type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+              <input className="input" type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
             </div>
             <div className="form-field">
               <label>Slug</label>
-              <input className="glass-input" type="text" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
+              <input className="input" type="text" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
             </div>
             <div className="form-field full-width">
               <label>Description</label>
-              <textarea className="glass-input" rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+              <textarea className="input" rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
             </div>
             <div className="form-field full-width">
               <label>Content (full page, optional)</label>
-              <textarea className="glass-input" rows={5} value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} />
+              <textarea className="input" rows={5} value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} />
             </div>
             <div className="form-field">
               <label>Icon class (e.g. fa-graduation-cap)</label>
-              <input className="glass-input" type="text" value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} />
+              <input className="input" type="text" value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} />
             </div>
             <div className="form-field">
               <label>Image URL</label>
-              <input className="glass-input" type="text" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} />
+              <input className="input" type="text" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} />
             </div>
             <div className="form-field checkbox-field">
               <label>
@@ -162,11 +162,11 @@ export default function AdminProgramsPage() {
             </div>
           </div>
           <div className="form-actions">
-            <button className="glass-btn glass-btn-primary" onClick={handleSave} disabled={saving}>
+            <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
               <i className={`fas ${saving ? "fa-spinner fa-spin" : "fa-save"}`} />
               {saving ? "Saving..." : editingId ? "Update" : "Create"}
             </button>
-            <button className="glass-btn glass-btn-outline" onClick={() => setShowForm(false)}>Cancel</button>
+            <button className="btn btn-outline" onClick={() => setShowForm(false)}>Cancel</button>
           </div>
         </div>
       )}
@@ -174,7 +174,7 @@ export default function AdminProgramsPage() {
       {loading ? (
         <TableSkeleton rows={5} cols={5} />
       ) : (
-        <div className="glass-table">
+        <div className="tbl">
           <table>
             <thead>
               <tr>
@@ -187,7 +187,7 @@ export default function AdminProgramsPage() {
             </thead>
             <tbody>
               {sorted.length === 0 ? (
-                <tr><td colSpan={5} className="glass-empty">
+                <tr><td colSpan={5} className="empty">
                   {search ? "No programs match your search." : "No programs yet. Create your first program!"}
                 </td></tr>
               ) : (
@@ -196,7 +196,7 @@ export default function AdminProgramsPage() {
                     <td style={{ fontWeight: 600 }}>{prog.title}</td>
                     <td style={{ color: "#6b7280", fontFamily: "monospace", fontSize: "0.85rem" }}>{prog.slug}</td>
                     <td>
-                      <span className={`glass-badge ${prog.published ? "glass-badge-success" : "glass-badge-warning"}`}>
+                      <span className={`badge ${prog.published ? "badge-success" : "badge-warning"}`}>
                         {prog.published ? "Published" : "Draft"}
                       </span>
                     </td>
@@ -224,7 +224,7 @@ export default function AdminProgramsPage() {
       <style jsx>{`
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
         .form-card { padding: 24px; margin-bottom: 24px; }
-        .form-card h3 { margin-bottom: 20px; font-size: 1.15rem; }
+        .form-card h3 { margin-bottom: 20px; font-size: 1.15rem; color: #1C1C1C; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .form-field { display: flex; flex-direction: column; gap: 6px; }
         .form-field.full-width { grid-column: 1 / -1; }
@@ -233,7 +233,7 @@ export default function AdminProgramsPage() {
         .checkbox-field label { display: flex; align-items: center; gap: 8px; cursor: pointer; flex-direction: row; }
         .form-actions { display: flex; gap: 12px; margin-top: 20px; }
         .actions { display: flex; gap: 6px; }
-        .icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: none; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .icon-btn.edit, .icon-btn.delete { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
         .icon-btn.edit { background: rgba(29,78,216,0.1); color: #1d4ed8; }
         .icon-btn.edit:hover { background: rgba(29,78,216,0.2); }
         .icon-btn.delete { background: rgba(220,38,38,0.1); color: #dc2626; }

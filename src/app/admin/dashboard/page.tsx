@@ -18,7 +18,7 @@ const CartesianGrid = dynamic(() => import("recharts").then((m) => m.CartesianGr
 const Tooltip = dynamic(() => import("recharts").then((m) => m.Tooltip), { ssr: false });
 const ResponsiveContainer = dynamic(() => import("recharts").then((m) => m.ResponsiveContainer), { ssr: false });
 
-const PIE_COLORS = ["#667eea", "#f5576c", "#43e97b", "#f5d97a", "#4facfe"];
+const PIE_COLORS = ["#D4AF37", "#1B4332", "#2D6A4F", "#B8860B", "#40916C"];
 
 interface AppItem {
   id: string; status: string; createdAt: string; fullName?: string;
@@ -142,14 +142,14 @@ export default function AdminDashboardPage() {
   }, [messages, apps, blogPosts]);
 
   const stats = [
-    { label: "Total Applications", value: String(totalApps), icon: "fa-file-alt", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
-    { label: "Pending Apps", value: String(pendingApps), icon: "fa-clock", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
-    { label: "Blog Posts", value: String(totalPosts), icon: "fa-newspaper", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
-    { label: "Messages", value: String(totalMessages), badge: `${unreadMessages} unread`, gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+    { label: "Total Applications", value: String(totalApps), icon: "fa-file-alt", gradient: "linear-gradient(135deg, #D4AF37, #B8860B)" },
+    { label: "Pending Apps", value: String(pendingApps), icon: "fa-clock", gradient: "linear-gradient(135deg, #1B4332, #2D6A4F)" },
+    { label: "Blog Posts", value: String(totalPosts), icon: "fa-newspaper", gradient: "linear-gradient(135deg, #2D6A4F, #40916C)" },
+    { label: "Messages", value: String(totalMessages), badge: `${unreadMessages} unread`, gradient: "linear-gradient(135deg, #D4AF37, #F5D97A)" },
   ];
 
   const typeIcons: Record<string, string> = { message: "fa-envelope", application: "fa-file-alt", blog: "fa-newspaper" };
-  const typeColors: Record<string, string> = { message: "#43e97b", application: "#667eea", blog: "#4facfe" };
+  const typeColors: Record<string, string> = { message: "#D4AF37", application: "#1B4332", blog: "#2D6A4F" };
 
   return (
     <AdminLayout title="Dashboard" subtitle="Welcome back, Admin">
@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
       ) : (
         <div className="stats-grid">
           {stats.map((stat) => (
-            <div key={stat.label} className="stat-card glass-card">
+            <div key={stat.label} className="stat-card card">
               <div className="stat-icon" style={{ background: stat.gradient }}>
                 <i className={`fas ${stat.icon}`} />
               </div>
@@ -175,12 +175,12 @@ export default function AdminDashboardPage() {
       )}
 
       <div className="charts-row">
-        <div className="chart-card glass-card">
+        <div className="chart-card card">
           <h3>Applications by Month</h3>
           {loading ? (
             <div className="chart-skeleton" style={{ height: 260, borderRadius: 12 }} />
           ) : appsByMonth.length === 0 ? (
-            <div className="glass-empty">No application data yet.</div>
+            <div className="empty">No application data yet.</div>
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={appsByMonth}>
@@ -190,21 +190,21 @@ export default function AdminDashboardPage() {
                 <Tooltip
                   contentStyle={{ borderRadius: 12, border: "none", boxShadow: "0 4px 20px rgba(0,0,0,0.1)" }}
                 />
-                <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="url(#barGradient)">
+                <Bar dataKey="count" radius={[6, 6, 0, 0]} fill="#D4AF37">
                   {appsByMonth.map((_, i) => (
-                    <Cell key={i} fill={i % 2 === 0 ? "#667eea" : "#764ba2"} />
+                    <Cell key={i} fill={i % 2 === 0 ? "#D4AF37" : "#1B4332"} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           )}
         </div>
-        <div className="chart-card glass-card">
+        <div className="chart-card card">
           <h3>Application Status</h3>
           {loading ? (
             <div className="chart-skeleton" style={{ height: 260, borderRadius: 12 }} />
           ) : appsByStatus.length === 0 ? (
-            <div className="glass-empty">No application data yet.</div>
+            <div className="empty">No application data yet.</div>
           ) : (
             <ResponsiveContainer width="100%" height={260}>
               <PieChart>
@@ -223,14 +223,14 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="dashboard-grid">
-        <div className="glass-card activity-card">
+        <div className="card activity-card">
           <div className="card-header">
             <h3>Recent Activity</h3>
           </div>
           {loading ? (
             <TableSkeleton rows={4} cols={1} />
           ) : recentActivity.length === 0 ? (
-            <div className="glass-empty" style={{ padding: 40 }}>No recent activity.</div>
+            <div className="empty" style={{ padding: 40 }}>No recent activity.</div>
           ) : (
             <div className="activity-list">
               {recentActivity.map((act) => (
@@ -250,7 +250,7 @@ export default function AdminDashboardPage() {
             </div>
           )}
         </div>
-        <div className="glass-card quick-actions-card">
+        <div className="card quick-actions-card">
           <div className="card-header">
             <h3>Quick Actions</h3>
           </div>
@@ -288,7 +288,7 @@ export default function AdminDashboardPage() {
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .stat-icon i {
@@ -302,15 +302,14 @@ export default function AdminDashboardPage() {
         }
 
         .stat-value {
-          font-size: 1.75rem;
+          font-size: 1.6rem;
           font-weight: 700;
-          color: #1a1a2e;
-          font-family: "Playfair Display", serif;
+          color: #1C1C1C;
         }
 
         .stat-label {
           font-size: 0.85rem;
-          color: #6b7280;
+          color: #6B7280;
           margin-top: 2px;
           display: flex;
           align-items: center;
@@ -319,7 +318,7 @@ export default function AdminDashboardPage() {
 
         .unread-badge {
           font-size: 0.7rem;
-          background: #f5576c;
+          background: #dc2626;
           color: #fff;
           padding: 2px 8px;
           border-radius: 20px;
@@ -339,9 +338,9 @@ export default function AdminDashboardPage() {
 
         .chart-card h3 {
           font-size: 1rem;
-          color: #1a1a2e;
+          color: #1C1C1C;
           margin: 0 0 16px;
-          font-family: "Playfair Display", serif;
+          font-family: "DM Sans", sans-serif;
         }
 
         .chart-skeleton {
@@ -363,14 +362,14 @@ export default function AdminDashboardPage() {
 
         .card-header {
           padding: 20px 24px;
-          border-bottom: 1px solid rgba(0,0,0,0.04);
+          border-bottom: 1px solid #EDEDED;
         }
 
         .card-header h3 {
           font-size: 1rem;
-          color: #1a1a2e;
+          color: #1C1C1C;
           margin: 0;
-          font-family: "Playfair Display", serif;
+          font-family: "DM Sans", sans-serif;
         }
 
         .activity-card {
@@ -392,7 +391,7 @@ export default function AdminDashboardPage() {
         }
 
         .activity-item:hover {
-          background: rgba(255,255,255,0.3);
+          background: #FAFBFC;
         }
 
         .activity-icon {
@@ -420,18 +419,18 @@ export default function AdminDashboardPage() {
         .activity-title {
           font-size: 0.9rem;
           font-weight: 600;
-          color: #1a1a2e;
+          color: #1C1C1C;
         }
 
         .activity-subtitle {
           font-size: 0.78rem;
-          color: #6b7280;
+          color: #6B7280;
           text-transform: capitalize;
         }
 
         .activity-time {
           font-size: 0.75rem;
-          color: #9ca3af;
+          color: #9CA3AF;
           white-space: nowrap;
         }
 
@@ -453,11 +452,11 @@ export default function AdminDashboardPage() {
           padding: 18px 20px;
           font-size: 0.85rem;
           font-weight: 500;
-          color: #1a1a2e;
+          color: #1C1C1C;
           text-decoration: none;
-          border-bottom: 1px solid rgba(0,0,0,0.04);
-          border-right: 1px solid rgba(0,0,0,0.04);
-          transition: all 0.25s ease;
+          border-bottom: 1px solid #EDEDED;
+          border-right: 1px solid #EDEDED;
+          transition: all 0.2s ease;
         }
 
         .qa-btn:nth-child(even) {
@@ -469,16 +468,15 @@ export default function AdminDashboardPage() {
         }
 
         .qa-btn:hover {
-          background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(245,217,122,0.05));
-          transform: translateY(-1px);
+          background: #FAFBFC;
         }
 
         .qa-btn i {
           font-size: 1rem;
-          color: #d4af37;
+          color: #D4AF37;
         }
 
-        .glass-empty {
+        .empty {
           padding: 24px;
           text-align: center;
           color: #6b7280;

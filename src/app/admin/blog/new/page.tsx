@@ -67,43 +67,43 @@ export default function NewBlogPostPage() {
   return (
     <AdminLayout title="New Blog Post" subtitle="Create a new blog post">
       <div className="toolbar">
-        <Link href="/admin/blog" className="glass-btn glass-btn-outline">
+        <Link href="/admin/blog" className="btn btn-outline">
           <i className="fas fa-arrow-left" /> Back to Posts
         </Link>
       </div>
 
-      <div className="glass-card form-card">
+      <div className="card form-card">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="title">Title</label>
-            <input id="title" name="title" type="text" value={form.title} onChange={handleTitleChange} placeholder="Post title" className="glass-input" required />
+            <input id="title" name="title" type="text" value={form.title} onChange={handleTitleChange} placeholder="Post title" className="input" required />
           </div>
 
           <div className="form-group">
             <label htmlFor="slug">Slug</label>
-            <input id="slug" name="slug" type="text" value={form.slug} onChange={handleChange} placeholder="post-slug" className="glass-input" required />
+            <input id="slug" name="slug" type="text" value={form.slug} onChange={handleChange} placeholder="post-slug" className="input" required />
           </div>
 
           <div className="form-group">
             <label htmlFor="content">Content</label>
-            <textarea id="content" name="content" rows={12} value={form.content} onChange={handleChange} placeholder="Write your blog post content here..." className="glass-input" required />
+            <textarea id="content" name="content" rows={12} value={form.content} onChange={handleChange} placeholder="Write your blog post content here..." className="input" required />
           </div>
 
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="excerpt">Excerpt</label>
-              <textarea id="excerpt" name="excerpt" rows={3} value={form.excerpt} onChange={handleChange} placeholder="Brief summary of the post" className="glass-input" />
+              <textarea id="excerpt" name="excerpt" rows={3} value={form.excerpt} onChange={handleChange} placeholder="Brief summary of the post" className="input" />
             </div>
             <div className="form-group">
               <label htmlFor="coverImage">Cover Image URL</label>
-              <input id="coverImage" name="coverImage" type="text" value={form.coverImage} onChange={handleChange} placeholder="https://..." className="glass-input" />
+              <input id="coverImage" name="coverImage" type="text" value={form.coverImage} onChange={handleChange} placeholder="https://..." className="input" />
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="category">Category</label>
-              <select id="category" name="category" value={form.category} onChange={handleChange} className="glass-input">
+              <select id="category" name="category" value={form.category} onChange={handleChange} className="input">
                 <option value="">Select category</option>
                 <option value="Education">Education</option>
                 <option value="Health">Health</option>
@@ -121,11 +121,11 @@ export default function NewBlogPostPage() {
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="glass-btn glass-btn-primary" disabled={loading}>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
               <i className={`fas ${loading ? "fa-spinner fa-spin" : "fa-plus"}`} />
               {loading ? "Saving..." : "Create Post"}
             </button>
-            <Link href="/admin/blog" className="glass-btn glass-btn-outline">Cancel</Link>
+            <Link href="/admin/blog" className="btn btn-outline">Cancel</Link>
           </div>
         </form>
       </div>
