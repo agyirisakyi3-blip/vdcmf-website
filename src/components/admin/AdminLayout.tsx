@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
+import { ToastProvider } from "./Toast";
 
 const navLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
@@ -59,6 +60,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
 
   return (
     <div className="admin-root">
+      <ToastProvider>
       <aside className="admin-sidebar">
         <div className="sidebar-brand">
           <div className="brand-logo-wrap">
@@ -111,6 +113,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           {children}
         </div>
       </main>
+      </ToastProvider>
 
       <style jsx>{`
         .admin-root {
@@ -191,8 +194,13 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           color: rgba(255,255,255,0.55);
           font-size: 0.9rem;
           font-weight: 500;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
           text-decoration: none;
+          transform: translateX(0);
+        }
+
+        .nav-item:hover {
+          transform: translateX(4px);
         }
 
         .nav-icon-wrap {
@@ -204,7 +212,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           justify-content: center;
           background: rgba(255,255,255,0.05);
           flex-shrink: 0;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
         }
 
         .nav-item i {
@@ -228,6 +236,12 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
         .nav-item.active .nav-icon-wrap {
           background: linear-gradient(135deg, #d4af37, #f5d97a);
           box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+          animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3); }
+          50% { box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5); }
         }
 
         .nav-item.active i {
@@ -331,16 +345,26 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
 
         .page-body {
           padding: 24px 40px 40px;
+          animation: fadeSlideIn 0.35s ease;
+        }
+
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         /* ─── Shared Glass Card ─── */
         :global(.glass-card) {
-          background: rgba(255,255,255,0.75);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.5);
-          border-radius: 16px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.04);
+          background: rgba(255,255,255,0.65);
+          backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,0.4);
+          border-radius: 20px;
+          transition: all 0.3s ease;
+        }
+
+        :global(.glass-card:hover) {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
 
         :global(.glass-table) {

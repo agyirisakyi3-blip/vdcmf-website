@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
+import { useToast } from "@/components/admin/Toast";
+import SearchBar from "@/components/admin/SearchBar";
 
 function getGroup(key: string): string {
   if (key.startsWith("site_")) return "Site";
@@ -13,10 +15,11 @@ function getGroup(key: string): string {
 }
 
 export default function AdminSettingsPage() {
+  const { toast } = useToast();
   const [entries, setEntries] = useState<{ key: string; value: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -27,22 +30,20 @@ export default function AdminSettingsPage() {
           setEntries(data.settings || []);
         }
       } catch {
-        // ignore
+        toast("error", "Failed to load settings");
       } finally {
         setLoading(false);
       }
     };
     fetchSettings();
-  }, []);
+  }, [toast]);
 
   const handleChange = (key: string, value: string) => {
     setEntries((prev) => prev.map((e) => (e.key === key ? { ...e, value } : e)));
-    setSaved(false);
   };
 
   const handleSave = async () => {
     setSaving(true);
-    setSaved(false);
     try {
       const res = await fetch("/api/settings", {
         method: "PUT",
@@ -50,29 +51,30 @@ export default function AdminSettingsPage() {
         body: JSON.stringify({ settings: entries }),
       });
       if (res.ok) {
-        setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
+        toast("success", "Settings saved successfully");
       } else {
-        alert("Failed to save settings.");
+        toast("error", "Failed to save settings.");
       }
     } catch {
-      alert("Failed to save settings.");
+      toast("error", "Failed to save settings.");
     } finally {
       setSaving(false);
     }
   };
 
+  const filtered = entries.filter((e) =>
+    !search || e.key.toLowerCase().includes(search.toLowerCase()) || e.value.toLowerCase().includes(search.toLowerCase())
+  );
+
   const groups = ["Site", "Hero Section", "Social Media", "Contact", "About", "Other"];
 
   return (
-    <AdminLayout
-      title="Site Settings"
-      subtitle="Manage global site settings"
-    >
+    <AdminLayout title="Site Settings" subtitle="Manage global site settings">
       <div className="settings-toolbar">
+        <SearchBar value={search} onChange={setSearch} placeholder="Search settings..." />
         <button className="glass-btn glass-btn-primary" onClick={handleSave} disabled={saving}>
           <i className={`fas ${saving ? "fa-spinner fa-spin" : "fa-save"}`} />
-          {saving ? "Saving..." : saved ? "Saved!" : "Save Changes"}
+          {saving ? "Saving..." : "Save Changes"}
         </button>
       </div>
 
@@ -80,7 +82,7 @@ export default function AdminSettingsPage() {
         <div className="glass-card" style={{ padding: 48, textAlign: "center", color: "#6b7280" }}>
           Loading settings...
         </div>
-      ) : (
+      ) : !search ? (
         groups.map((group) => {
           const groupEntries = entries.filter((e) => getGroup(e.key) === group);
           if (groupEntries.length === 0) return null;
@@ -106,45 +108,44 @@ export default function AdminSettingsPage() {
             </div>
           );
         })
+      ) : (
+        <div className="settings-group">
+          <h3 className="group-title">Search Results ({filtered.length})</h3>
+          <div className="glass-card settings-card">
+            {filtered.length === 0 ? (
+              <div style={{ padding: 24, textAlign: "center", color: "#6b7280" }}>No settings match your search.</div>
+            ) : (
+              filtered.map((entry) => (
+                <div key={entry.key} className="field-row">
+                  <label className="field-label" htmlFor={entry.key}>
+                    {entry.key.replace(/^(site_|hero_|social_|contact_|about_)/, "").replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                    <span className="field-key">{entry.key}</span>
+                  </label>
+                  <input
+                    id={entry.key}
+                    className="glass-input"
+                    type="text"
+                    value={entry.value}
+                    onChange={(e) => handleChange(entry.key, e.target.value)}
+                  />
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       )}
 
       <style jsx>{`
-        .settings-toolbar {
-          display: flex;
-          justify-content: flex-end;
-          margin-bottom: 24px;
-        }
+        .settings-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
         .settings-toolbar button:disabled { opacity: 0.7; cursor: not-allowed; }
         .settings-group { margin-bottom: 28px; }
-        .group-title {
-          font-size: 1rem;
-          color: #1a1a2e;
-          margin-bottom: 12px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          font-family: "DM Sans", sans-serif;
-        }
+        .group-title { font-size: 1rem; color: #1a1a2e; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-family: "DM Sans", sans-serif; }
         .settings-card { overflow: hidden; }
-        .field-row {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          padding: 14px 20px;
-          border-bottom: 1px solid rgba(0,0,0,0.04);
-        }
+        .field-row { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-bottom: 1px solid rgba(0,0,0,0.04); }
         .field-row:last-child { border-bottom: none; }
-        .field-label {
-          min-width: 200px;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: #1a1a2e;
-          text-transform: capitalize;
-        }
-        .field-input { flex: 1; }
-        @media (max-width: 768px) {
-          .field-row { flex-direction: column; align-items: stretch; gap: 6px; }
-          .field-label { min-width: auto; }
-        }
+        .field-label { min-width: 200px; font-size: 0.85rem; font-weight: 600; color: #1a1a2e; text-transform: capitalize; display: flex; flex-direction: column; gap: 2px; }
+        .field-key { font-size: 0.7rem; color: #9ca3af; font-weight: 400; font-family: monospace; }
+        @media (max-width: 768px) { .field-row { flex-direction: column; align-items: stretch; gap: 6px; } .field-label { min-width: auto; } }
       `}</style>
     </AdminLayout>
   );
