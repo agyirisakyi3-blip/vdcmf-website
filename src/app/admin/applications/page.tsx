@@ -3,31 +3,34 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
   { href: "/admin/blog", label: "Blog", icon: "fa-newspaper" },
   { href: "/admin/applications", label: "Applications", icon: "fa-file-alt" },
+  { href: "/admin/programs", label: "Programs", icon: "fa-hand-holding-heart" },
+  { href: "/admin/messages", label: "Messages", icon: "fa-envelope" },
+  { href: "/admin/subscribers", label: "Subscribers", icon: "fa-users" },
+  { href: "/admin/settings", label: "Settings", icon: "fa-cog" },
 ];
 
-type ApplicationType = "All" | "Volunteer" | "Program" | "Partnership";
-type ApplicationStatus = "All" | "Pending" | "Reviewed" | "Accepted" | "Rejected";
-type AppStatus = "Pending" | "Reviewed" | "Accepted" | "Rejected";
-
-interface AppData {
+interface ApiApp {
   id: string;
   type: string;
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
-  program: string | null;
+  phone: string | null;
+  program: { title: string } | null;
   organization: string | null;
-  message: string;
-  status: AppStatus;
-  date: string;
+  message: string | null;
+  status: string;
+  createdAt: string;
 }
+
+type ApplicationType = "All" | "Volunteer" | "Program" | "Partnership";
+type ApplicationStatus = "All" | "Pending" | "Reviewed" | "Accepted" | "Rejected";
 
 const typeTabs: ApplicationType[] = ["All", "Volunteer", "Program", "Partnership"];
 const statusTabs: ApplicationStatus[] = ["All", "Pending", "Reviewed", "Accepted", "Rejected"];
@@ -46,49 +49,27 @@ const statusTextColors: Record<string, string> = {
   Rejected: "#dc2626",
 };
 
-const placeholderApplications: AppData[] = [
-  {
-    id: "1",
-    type: "Volunteer",
-    firstName: "Abena",
-    lastName: "Osei",
-    email: "abena@example.com",
-    phone: "+233 50 123 4567",
-    program: null,
-    organization: null,
-    message: "I am passionate about education and would love to volunteer as a tutor for the scholarship program. I have 3 years of teaching experience.",
-    status: "Pending",
-    date: "May 20, 2026",
-  },
-  {
-    id: "2",
-    type: "Program",
-    firstName: "Kwame",
-    lastName: "Asante",
-    email: "kwame@example.com",
-    phone: "+233 24 987 6543",
-    program: "Education & Scholarship",
-    organization: null,
-    message: "I would like to enroll in the Education & Scholarship program for the upcoming semester.",
-    status: "Reviewed",
-    date: "May 18, 2026",
-  },
-  {
-    id: "3",
-    type: "Partnership",
-    firstName: "Yaw",
-    lastName: "Mensah",
-    email: "yaw@example.com",
-    phone: "+233 27 456 7890",
-    program: null,
-    organization: "Mensah Foundation",
-    message: "We are an NGO based in Accra and would like to partner with VDMCF on community development projects in the Northern Region.",
-    status: "Pending",
-    date: "May 15, 2026",
-  },
-];
+const nextStatus: Record<string, string> = { Pending: "Reviewed", Reviewed: "Accepted", Accepted: "Rejected", Rejected: "Pending" };
 
-const nextStatus: Record<AppStatus, AppStatus> = { Pending: "Reviewed", Reviewed: "Accepted", Accepted: "Rejected", Rejected: "Pending" };
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function mapApiApp(app: ApiApp) {
+  return {
+    id: app.id,
+    type: capitalize(app.type),
+    firstName: app.firstName,
+    lastName: app.lastName,
+    email: app.email,
+    phone: app.phone || "",
+    program: app.program?.title || null,
+    organization: app.organization || null,
+    message: app.message || "",
+    status: capitalize(app.status) as "Pending" | "Reviewed" | "Accepted" | "Rejected",
+    date: new Date(app.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
+  };
+}
 
 export default function AdminApplicationsPage() {
   const { data: session, status } = useSession();
@@ -98,7 +79,25 @@ export default function AdminApplicationsPage() {
   const [typeFilter, setTypeFilter] = useState<ApplicationType>("All");
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus>("All");
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [applications, setApplications] = useState<AppData[]>(placeholderApplications);
+  const [applications, setApplications] = useState<ReturnType<typeof mapApiApp>[]>([]);
+  const [loadingApps, setLoadingApps] = useState(true);
+
+  useEffect(() => {
+    const fetchApps = async () => {
+      try {
+        const res = await fetch("/api/applications");
+        if (res.ok) {
+          const data = await res.json();
+          setApplications((data.applications || []).map(mapApiApp));
+        }
+      } catch {
+        // ignore
+      } finally {
+        setLoadingApps(false);
+      }
+    };
+    fetchApps();
+  }, []);
 
   const filtered = applications.filter((app) => {
     if (typeFilter !== "All" && app.type !== typeFilter) return false;
@@ -106,16 +105,26 @@ export default function AdminApplicationsPage() {
     return true;
   });
 
-  const handleStatusChange = (id: string) => {
-    setApplications((prev) =>
-      prev.map((app) => {
-        if (app.id === id) {
-          const next = nextStatus[app.status];
-          return { ...app, status: next as AppStatus };
-        }
-        return app;
-      })
-    );
+  const handleStatusChange = async (id: string) => {
+    const app = applications.find((a) => a.id === id);
+    if (!app) return;
+    const newStatus = nextStatus[app.status];
+    try {
+      const res = await fetch(`/api/applications/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus.toUpperCase() }),
+      });
+      if (res.ok) {
+        setApplications((prev) =>
+          prev.map((a) => (a.id === id ? { ...a, status: newStatus as "Pending" | "Reviewed" | "Accepted" | "Rejected" } : a))
+        );
+      } else {
+        alert("Failed to update status.");
+      }
+    } catch {
+      alert("Failed to update status.");
+    }
   };
 
   if (status === "loading") {
@@ -205,93 +214,94 @@ export default function AdminApplicationsPage() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((app) => (
-                <>
-                  <tr key={app.id} className={expandedId === app.id ? "expanded-row" : ""}>
-                    <td>
-                      <span className="type-badge">{app.type}</span>
-                    </td>
-                    <td className="name-cell">{app.firstName} {app.lastName}</td>
-                    <td>{app.email}</td>
-                    <td className="program-cell">{app.program || app.organization || "-"}</td>
-                    <td>
-                      <button
-                        className="status-btn"
-                        style={{
-                          background: statusColors[app.status],
-                          color: statusTextColors[app.status],
-                        }}
-                        onClick={() => handleStatusChange(app.id)}
-                        title={`Click to change to ${nextStatus[app.status]}`}
-                      >
-                        {app.status} <i className="fas fa-chevron-down" style={{ fontSize: "0.65rem", marginLeft: 4 }} />
-                      </button>
-                    </td>
-                    <td className="date-cell">{app.date}</td>
-                    <td>
-                      <button className="action-btn view-btn" onClick={() => setExpandedId(expandedId === app.id ? null : app.id)}>
-                        <i className={`fas fa-${expandedId === app.id ? "chevron-up" : "eye"}`} />
-                        {expandedId === app.id ? "Close" : "View"}
-                      </button>
-                    </td>
-                  </tr>
-                  {expandedId === app.id && (
-                    <tr key={`${app.id}-details`} className="details-row">
-                      <td colSpan={7}>
-                        <div className="details-panel">
-                          <div className="details-grid">
-                            <div className="detail-item">
-                              <span className="detail-label">Full Name</span>
-                              <span>{app.firstName} {app.lastName}</span>
-                            </div>
-                            <div className="detail-item">
-                              <span className="detail-label">Email</span>
-                              <span>{app.email}</span>
-                            </div>
-                            <div className="detail-item">
-                              <span className="detail-label">Phone</span>
-                              <span>{app.phone || "-"}</span>
-                            </div>
-                            <div className="detail-item">
-                              <span className="detail-label">Type</span>
-                              <span className="type-badge">{app.type}</span>
-                            </div>
-                            {app.program && (
-                              <div className="detail-item">
-                                <span className="detail-label">Program</span>
-                                <span>{app.program}</span>
-                              </div>
-                            )}
-                            {app.organization && (
-                              <div className="detail-item">
-                                <span className="detail-label">Organization</span>
-                                <span>{app.organization}</span>
-                              </div>
-                            )}
-                          </div>
-                          <div className="detail-message">
-                            <span className="detail-label">Message</span>
-                            <p>{app.message}</p>
-                          </div>
-                          <div className="detail-actions">
-                            <button
-                              className="status-change-btn"
-                              onClick={() => handleStatusChange(app.id)}
-                            >
-                              <i className="fas fa-arrow-right" />
-                              Change to {nextStatus[app.status]}
-                            </button>
-                          </div>
-                        </div>
+              {loadingApps ? (
+                <tr><td colSpan={7} className="empty-cell">Loading applications...</td></tr>
+              ) : filtered.length === 0 ? (
+                <tr><td colSpan={7} className="empty-cell">No applications found.</td></tr>
+              ) : (
+                filtered.map((app) => (
+                  <React.Fragment key={app.id}>
+                    <tr className={expandedId === app.id ? "expanded-row" : ""}>
+                      <td>
+                        <span className="type-badge">{app.type}</span>
+                      </td>
+                      <td className="name-cell">{app.firstName} {app.lastName}</td>
+                      <td>{app.email}</td>
+                      <td className="program-cell">{app.program || app.organization || "-"}</td>
+                      <td>
+                        <button
+                          className="status-btn"
+                          style={{
+                            background: statusColors[app.status],
+                            color: statusTextColors[app.status],
+                          }}
+                          onClick={() => handleStatusChange(app.id)}
+                          title={`Click to change to ${nextStatus[app.status]}`}
+                        >
+                          {app.status} <i className="fas fa-chevron-down" style={{ fontSize: "0.65rem", marginLeft: 4 }} />
+                        </button>
+                      </td>
+                      <td className="date-cell">{app.date}</td>
+                      <td>
+                        <button className="action-btn view-btn" onClick={() => setExpandedId(expandedId === app.id ? null : app.id)}>
+                          <i className={`fas fa-${expandedId === app.id ? "chevron-up" : "eye"}`} />
+                          {expandedId === app.id ? "Close" : "View"}
+                        </button>
                       </td>
                     </tr>
-                  )}
-                </>
-              ))}
-              {filtered.length === 0 && (
-                <tr>
-                  <td colSpan={7} className="empty-cell">No applications found.</td>
-                </tr>
+                    {expandedId === app.id && (
+                      <tr className="details-row">
+                        <td colSpan={7}>
+                          <div className="details-panel">
+                            <div className="details-grid">
+                              <div className="detail-item">
+                                <span className="detail-label">Full Name</span>
+                                <span>{app.firstName} {app.lastName}</span>
+                              </div>
+                              <div className="detail-item">
+                                <span className="detail-label">Email</span>
+                                <span>{app.email}</span>
+                              </div>
+                              <div className="detail-item">
+                                <span className="detail-label">Phone</span>
+                                <span>{app.phone || "-"}</span>
+                              </div>
+                              <div className="detail-item">
+                                <span className="detail-label">Type</span>
+                                <span className="type-badge">{app.type}</span>
+                              </div>
+                              {app.program && (
+                                <div className="detail-item">
+                                  <span className="detail-label">Program</span>
+                                  <span>{app.program}</span>
+                                </div>
+                              )}
+                              {app.organization && (
+                                <div className="detail-item">
+                                  <span className="detail-label">Organization</span>
+                                  <span>{app.organization}</span>
+                                </div>
+                              )}
+                            </div>
+                            <div className="detail-message">
+                              <span className="detail-label">Message</span>
+                              <p>{app.message}</p>
+                            </div>
+                            <div className="detail-actions">
+                              <button
+                                className="status-change-btn"
+                                onClick={() => handleStatusChange(app.id)}
+                              >
+                                <i className="fas fa-arrow-right" />
+                                Change to {nextStatus[app.status]}
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))
               )}
             </tbody>
           </table>

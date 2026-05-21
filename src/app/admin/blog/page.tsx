@@ -3,28 +3,61 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
   { href: "/admin/blog", label: "Blog", icon: "fa-newspaper" },
   { href: "/admin/applications", label: "Applications", icon: "fa-file-alt" },
+  { href: "/admin/programs", label: "Programs", icon: "fa-hand-holding-heart" },
+  { href: "/admin/messages", label: "Messages", icon: "fa-envelope" },
+  { href: "/admin/subscribers", label: "Subscribers", icon: "fa-users" },
+  { href: "/admin/settings", label: "Settings", icon: "fa-cog" },
 ];
 
-const placeholderPosts = [
-  { id: "1", title: "Education Scholarship Program Launch", status: "Published", date: "May 15, 2026" },
-  { id: "2", title: "Mobile Health Clinic Update — Q1 2026", status: "Published", date: "Apr 28, 2026" },
-  { id: "3", title: "Upcoming Youth Empowerment Workshop", status: "Draft", date: "May 10, 2026" },
-];
+interface PostData {
+  id: string;
+  title: string;
+  published: boolean;
+  createdAt: string;
+}
 
 export default function AdminBlogPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleDelete = (id: string, title: string) => {
-    if (confirm(`Are you sure you want to delete "${title}"?`)) {
-      alert(`Delete action for post ${id} — API coming soon.`);
+  const [posts, setPosts] = useState<PostData[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch("/api/blog");
+        if (res.ok) {
+          const data = await res.json();
+          setPosts(data.posts || []);
+        }
+      } catch {
+        // ignore
+      } finally {
+        setLoadingPosts(false);
+      }
+    };
+    fetchPosts();
+  }, []);
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+    try {
+      const res = await fetch(`/api/blog/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setPosts((prev) => prev.filter((p) => p.id !== id));
+      } else {
+        alert("Failed to delete post.");
+      }
+    } catch {
+      alert("Failed to delete post.");
     }
   };
 
@@ -112,25 +145,33 @@ export default function AdminBlogPage() {
               </tr>
             </thead>
             <tbody>
-              {placeholderPosts.map((post) => (
-                <tr key={post.id}>
-                  <td className="title-cell">{post.title}</td>
-                  <td>
-                    <span className={`status-badge ${post.status === "Published" ? "published" : "draft"}`}>
-                      {post.status}
-                    </span>
-                  </td>
-                  <td className="date-cell">{post.date}</td>
-                  <td className="actions-cell">
-                    <Link href={`/admin/blog/${post.id}/edit`} className="action-btn edit-btn">
-                      <i className="fas fa-edit" /> Edit
-                    </Link>
-                    <button className="action-btn delete-btn" onClick={() => handleDelete(post.id, post.title)}>
-                      <i className="fas fa-trash" /> Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {loadingPosts ? (
+                <tr><td colSpan={4} className="empty-cell">Loading posts...</td></tr>
+              ) : posts.length === 0 ? (
+                <tr><td colSpan={4} className="empty-cell">No posts found. Create your first post!</td></tr>
+              ) : (
+                posts.map((post) => (
+                  <tr key={post.id}>
+                    <td className="title-cell">{post.title}</td>
+                    <td>
+                      <span className={`status-badge ${post.published ? "published" : "draft"}`}>
+                        {post.published ? "Published" : "Draft"}
+                      </span>
+                    </td>
+                    <td className="date-cell">
+                      {new Date(post.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                    </td>
+                    <td className="actions-cell">
+                      <Link href={`/admin/blog/${post.id}/edit`} className="action-btn edit-btn">
+                        <i className="fas fa-edit" /> Edit
+                      </Link>
+                      <button className="action-btn delete-btn" onClick={() => handleDelete(post.id, post.title)}>
+                        <i className="fas fa-trash" /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -353,6 +394,10 @@ export default function AdminBlogPage() {
 
         .actions-col {
           width: 180px;
+        }
+
+        .empty-cell {
+          text-align: center; padding: 48px !important; color: var(--gray);
         }
 
         .action-btn {

@@ -9,6 +9,10 @@ const navLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
   { href: "/admin/blog", label: "Blog", icon: "fa-newspaper" },
   { href: "/admin/applications", label: "Applications", icon: "fa-file-alt" },
+  { href: "/admin/programs", label: "Programs", icon: "fa-hand-holding-heart" },
+  { href: "/admin/messages", label: "Messages", icon: "fa-envelope" },
+  { href: "/admin/subscribers", label: "Subscribers", icon: "fa-users" },
+  { href: "/admin/settings", label: "Settings", icon: "fa-cog" },
 ];
 
 export default function NewBlogPostPage() {

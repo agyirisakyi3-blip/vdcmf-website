@@ -35,7 +35,7 @@ export default function ScrollReveal({
     return () => observer.disconnect();
   }, []);
 
-  const Component = Tag as any;
+  const Component = Tag as React.ElementType;
 
   return (
     <Component

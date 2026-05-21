@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { usePageTitle } from "@/app/seo";
 
+declare global {
+  interface Window {
+    PaystackPop?: unknown;
+  }
+}
+
 const presetAmounts = [50, 100, 250];
 
 export default function DonatePage() {
@@ -20,7 +26,7 @@ export default function DonatePage() {
       : `$${selectedAmount}`;
 
   const handlePaystack = () => {
-    if (typeof window !== "undefined" && (window as any).PaystackPop) {
+    if (typeof window !== "undefined" && window.PaystackPop) {
       alert("Paystack integration ready");
     } else {
       alert("Payment gateway loading... Please try again.");
@@ -100,7 +106,7 @@ export default function DonatePage() {
               <span className="summary-amount">{displayAmount}</span>
             </div>
 
-            {typeof window !== "undefined" && (window as any).PaystackPop ? (
+            {typeof window !== "undefined" && window.PaystackPop ? (
               <button className="btn btn-primary btn-large donate-now-btn" onClick={handlePaystack}>
                 <i className="fas fa-lock" /> Donate {displayAmount}
               </button>

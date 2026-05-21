@@ -3,17 +3,62 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
   { href: "/admin/blog", label: "Blog", icon: "fa-newspaper" },
   { href: "/admin/applications", label: "Applications", icon: "fa-file-alt" },
+  { href: "/admin/programs", label: "Programs", icon: "fa-hand-holding-heart" },
+  { href: "/admin/messages", label: "Messages", icon: "fa-envelope" },
+  { href: "/admin/subscribers", label: "Subscribers", icon: "fa-users" },
+  { href: "/admin/settings", label: "Settings", icon: "fa-cog" },
 ];
 
 export default function AdminDashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+
+  const [totalApps, setTotalApps] = useState(0);
+  const [pendingApps, setPendingApps] = useState(0);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [messages, setMessages] = useState<{ id: string; name: string; email: string; message: string; createdAt: string }[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [appsRes, blogRes, contactRes] = await Promise.all([
+          fetch("/api/applications"),
+          fetch("/api/blog"),
+          fetch("/api/contact"),
+        ]);
+
+        if (appsRes.ok) {
+          const appsData: { applications: { status: string }[] } = await appsRes.json();
+          setTotalApps(appsData.applications.length);
+          setPendingApps(appsData.applications.filter((a) => a.status === "PENDING").length);
+        }
+
+        if (blogRes.ok) {
+          const blogData = (await blogRes.json()) as { posts: unknown[] };
+          setTotalPosts((blogData.posts || []).length);
+        }
+
+        if (contactRes.ok) {
+          const contactData = (await contactRes.json()) as { messages: { id: string; name: string; email: string; message: string; createdAt: string }[] };
+          setMessages(contactData.messages || []);
+        }
+      } catch {
+        // silently fail — stats stay at 0
+      } finally {
+        setLoadingData(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   if (status === "loading") {
     return (
@@ -86,10 +131,10 @@ export default function AdminDashboardPage() {
   }
 
   const stats = [
-    { label: "Total Applications", value: "12", icon: "fa-file-alt", color: "var(--blue)" },
-    { label: "Pending Applications", value: "5", icon: "fa-clock", color: "var(--gold)" },
-    { label: "Total Blog Posts", value: "8", icon: "fa-newspaper", color: "var(--success)" },
-    { label: "Contact Messages", value: "23", icon: "fa-envelope", color: "var(--gh-red)" },
+    { label: "Total Applications", value: String(totalApps), icon: "fa-file-alt", color: "var(--blue)" },
+    { label: "Pending Applications", value: String(pendingApps), icon: "fa-clock", color: "var(--gold)" },
+    { label: "Total Blog Posts", value: String(totalPosts), icon: "fa-newspaper", color: "var(--success)" },
+    { label: "Contact Messages", value: String(messages.length), icon: "fa-envelope", color: "var(--gh-red)" },
   ];
 
   return (
@@ -154,24 +199,20 @@ export default function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Kwame Asante</td>
-                <td>kwame@example.com</td>
-                <td className="msg-preview">I would like to partner with VDMCF...</td>
-                <td>May 20, 2026</td>
-              </tr>
-              <tr>
-                <td>Abena Osei</td>
-                <td>abena@example.com</td>
-                <td className="msg-preview">Interested in volunteering for the education program...</td>
-                <td>May 18, 2026</td>
-              </tr>
-              <tr>
-                <td>Yaw Mensah</td>
-                <td>yaw@example.com</td>
-                <td className="msg-preview">Can you share more about the health initiative...</td>
-                <td>May 15, 2026</td>
-              </tr>
+              {loadingData ? (
+                <tr><td colSpan={4} className="empty-cell">Loading messages...</td></tr>
+              ) : messages.length === 0 ? (
+                <tr><td colSpan={4} className="empty-cell">No messages yet.</td></tr>
+              ) : (
+                messages.slice(0, 5).map((msg) => (
+                  <tr key={msg.id}>
+                    <td>{msg.name}</td>
+                    <td>{msg.email}</td>
+                    <td className="msg-preview">{msg.message}</td>
+                    <td>{new Date(msg.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

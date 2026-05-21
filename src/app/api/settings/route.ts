@@ -5,43 +5,47 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-    const where = session ? {} : { published: true };
-
-    const programs = await prisma.program.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
+    const settings = await prisma.siteSetting.findMany({
+      orderBy: { key: "asc" },
     });
 
-    return NextResponse.json({ programs });
+    const map: Record<string, string> = {};
+    for (const s of settings) {
+      map[s.key] = s.value;
+    }
+
+    return NextResponse.json({ settings, map });
   } catch (error) {
     const message = error instanceof Error ? error.message : "An unexpected error occurred";
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
 
-export async function POST(req: Request) {
+export async function PUT(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const body = await req.json();
-    const { title, slug, description, content, icon, image, published } = body;
+    const body = await req.json() as { settings: { key: string; value: string }[] };
 
-    if (!title || !slug || !description) {
+    if (!Array.isArray(body.settings)) {
       return NextResponse.json(
-        { success: false, error: "Missing required fields: title, slug, description" },
+        { success: false, error: "Missing required field: settings (array of {key, value})" },
         { status: 400 }
       );
     }
 
-    const program = await prisma.program.create({
-      data: { title, slug, description, content, icon, image, published: published ?? true },
-    });
+    for (const s of body.settings) {
+      await prisma.siteSetting.upsert({
+        where: { key: s.key },
+        update: { value: s.value },
+        create: { key: s.key, value: s.value },
+      });
+    }
 
-    return NextResponse.json({ success: true, program }, { status: 201 });
+    return NextResponse.json({ success: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "An unexpected error occurred";
     return NextResponse.json({ success: false, error: message }, { status: 500 });

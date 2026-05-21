@@ -42,8 +42,11 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
+    const session = await getServerSession(authOptions);
+    const where = session ? {} : { published: true };
+
     const posts = await prisma.blogPost.findMany({
-      where: { published: true },
+      where,
       orderBy: { createdAt: "desc" },
       include: { author: { select: { name: true } } },
     });
