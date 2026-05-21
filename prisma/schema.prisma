@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  posts     BlogPost[]
+
+  @@map("admin_users")
+}
+
+model BlogPost {
+  id         String     @id @default(cuid())
+  title      String
+  slug       String     @unique
+  content    String
+  excerpt    String?
+  coverImage String?    @map("cover_image")
+  category   String?
+  published  Boolean    @default(false)
+  authorId   String?    @map("author_id")
+  author     AdminUser? @relation(fields: [authorId], references: [id])
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+
+  @@map("blog_posts")
+}
+
+model Program {
+  id          String @id @default(cuid())
+  title       String
+  slug        String @unique
+  description String
+  content     String?
+  icon        String?
+  image       String?
+  published   Boolean @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  applications Application[]
+
+  @@map("programs")
+}
+
+enum ApplicationType {
+  VOLUNTEER
+  PROGRAM
+  PARTNERSHIP
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+model Application {
+  id              String            @id @default(cuid())
+  type            ApplicationType
+  status          ApplicationStatus @default(PENDING)
+  firstName       String            @map("first_name")
+  lastName        String            @map("last_name")
+  email           String
+  phone           String?
+  programId       String?           @map("program_id")
+  program         Program?          @relation(fields: [programId], references: [id])
+  organization    String?
+  message         String?
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  @@map("applications")
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+
+  @@map("site_settings")
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_messages")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("newsletter_subscribers")
+}

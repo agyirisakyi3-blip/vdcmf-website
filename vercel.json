@@ -1,5 +1,6 @@
 {
-    "name": "vdcmf",
-    "buildCommand": "echo 'No build needed'",
-    "outputDirectory": "."
+  "name": "vdcmf",
+  "buildCommand": "npx next build",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
 }

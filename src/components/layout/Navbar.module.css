@@ -1,0 +1,256 @@
+.topBar {
+  background: var(--charcoal);
+  color: var(--cream);
+  font-size: 0.875rem;
+  padding: 8px 0;
+}
+
+.topBarContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.languageSwitcher {
+  display: flex;
+  gap: 4px;
+}
+
+.langBtn {
+  background: transparent;
+  border: none;
+  color: var(--cream);
+  padding: 4px 12px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  opacity: 0.6;
+  transition: var(--transition);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.langBtn.active,
+.langBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+}
+
+.topLinks {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.topLinks a {
+  opacity: 0.8;
+}
+
+.topLinks a:hover {
+  opacity: 1;
+  color: var(--gold);
+}
+
+.giveBtn {
+  background: var(--gold);
+  color: var(--white) !important;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+
+.giveBtn:hover {
+  background: var(--gold-dark) !important;
+  opacity: 1 !important;
+}
+
+.header {
+  background: var(--white);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  padding: 16px 0;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logoText {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  background: linear-gradient(
+    90deg,
+    var(--charcoal) 0%,
+    var(--charcoal) 30%,
+    var(--gold) 50%,
+    var(--charcoal) 70%,
+    var(--charcoal) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: vdmcf-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes vdmcf-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.navMenu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 32px;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  font-weight: 500;
+  color: var(--charcoal);
+  padding: 8px 0;
+  display: block;
+}
+
+.navLink:hover {
+  color: var(--gold);
+}
+
+.dropdownContent {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--white);
+  min-width: 200px;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius);
+  padding: 8px 0;
+  z-index: 100;
+}
+
+.dropdownContent a {
+  display: block;
+  padding: 12px 20px;
+  color: var(--charcoal);
+}
+
+.dropdownContent a:hover {
+  background: var(--cream);
+  color: var(--gold);
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 1001;
+}
+
+.btnDonate {
+  background: var(--gold);
+  color: var(--white);
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btnDonate:hover {
+  background: var(--gold-dark);
+  transform: translateY(-2px);
+}
+
+.mobileToggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mobileToggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--charcoal);
+  transition: var(--transition);
+}
+
+@media (max-width: 1024px) {
+  .navMenu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--white);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .navMenu.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .navMenu .navLink {
+    font-size: 1.5rem;
+  }
+
+  .dropdownContent {
+    position: static;
+    box-shadow: none;
+    padding: 8px 0 0;
+    text-align: center;
+  }
+
+  .navItem.dropdown {
+    text-align: center;
+  }
+
+  .mobileToggle {
+    display: flex;
+  }
+
+  .btnDonate {
+    display: none;
+  }
+}
