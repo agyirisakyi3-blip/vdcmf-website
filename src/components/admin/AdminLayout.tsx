@@ -371,7 +371,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           border: none;
           background: rgba(255,255,255,0.06);
           border-radius: 8px;
-          color: rgba(255,255,255,0.4);
+          color: rgba(255,255,255,0.6);
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -381,7 +381,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           font-size: 0.75rem;
           order: ${collapsed ? "0" : "0"};
         }
-        .collapse-btn:hover { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); }
+        .collapse-btn:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
 
         .brand-logo-wrap {
           width: 36px;
@@ -437,9 +437,9 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           gap: 10px;
           padding: 10px 12px;
           border-radius: 10px;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.7);
           font-size: 0.88rem;
-          font-weight: 500;
+          font-weight: 600;
           transition: all 0.25s ease;
           text-decoration: none;
           flex: 1;
@@ -447,8 +447,8 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           cursor: pointer;
         }
         .nav-item:hover {
-          color: rgba(255,255,255,0.85);
-          background: rgba(255,255,255,0.06);
+          color: #fff;
+          background: rgba(255,255,255,0.10);
         }
         .nav-item.active {
           color: #fff;
@@ -462,12 +462,12 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(255,255,255,0.05);
+          background: rgba(255,255,255,0.10);
           flex-shrink: 0;
           position: relative;
           transition: all 0.25s ease;
         }
-        .nav-item:hover .nav-icon-wrap { background: rgba(255,255,255,0.1); }
+        .nav-item:hover .nav-icon-wrap { background: rgba(255,255,255,0.18); }
         .nav-item.active .nav-icon-wrap {
           background: linear-gradient(135deg, #d4af37, #f5d97a);
           box-shadow: 0 4px 12px rgba(212,175,55,0.3);
@@ -492,10 +492,10 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           margin-left: auto;
           font-size: 0.6rem;
           transition: transform 0.3s ease;
-          opacity: 0.4;
+          opacity: 0.55;
           flex-shrink: 0;
         }
-        .sub-chevron.open { transform: rotate(180deg); opacity: 0.7; }
+        .sub-chevron.open { transform: rotate(180deg); opacity: 0.85; }
 
         /* Badges */
         .badge-dot {
@@ -549,15 +549,15 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           gap: 8px;
           padding: 8px 12px;
           border-radius: 8px;
-          color: rgba(255,255,255,0.45);
+          color: rgba(255,255,255,0.6);
           font-size: 0.82rem;
           text-decoration: none;
           transition: all 0.2s;
           position: relative;
         }
-        .sub-item:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.05); }
+        .sub-item:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.06); }
         .sub-item.active { color: #d4af37; }
-        .sub-dot { font-size: 0.35rem; flex-shrink: 0; opacity: 0.4; }
+        .sub-dot { font-size: 0.35rem; flex-shrink: 0; opacity: 0.55; }
         .sub-item.active .sub-dot { opacity: 1; color: #d4af37; }
         .sub-indicator {
           position: absolute;
@@ -591,14 +591,14 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           font-size: 0.7rem;
           text-transform: uppercase;
           letter-spacing: 1px;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.5);
           font-weight: 600;
         }
         .flyout-item {
           display: block;
           padding: 8px 12px;
           border-radius: 8px;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.75);
           font-size: 0.85rem;
           text-decoration: none;
           transition: all 0.2s;
@@ -622,7 +622,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           font-size: 0.7rem;
           text-transform: uppercase;
           letter-spacing: 1px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.5);
           font-weight: 600;
         }
         .recent-header i { font-size: 0.65rem; }
@@ -631,7 +631,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           display: block;
           padding: 4px 12px;
           font-size: 0.65rem;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.4);
           font-weight: 500;
         }
         .recent-item {
@@ -640,7 +640,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           gap: 8px;
           padding: 6px 12px;
           border-radius: 6px;
-          color: rgba(255,255,255,0.4);
+          color: rgba(255,255,255,0.6);
           font-size: 0.78rem;
           text-decoration: none;
           transition: all 0.2s;
@@ -648,13 +648,13 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        .recent-item:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.04); }
-        .recent-item i { font-size: 0.7rem; opacity: 0.5; flex-shrink: 0; }
+        .recent-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.05); }
+        .recent-item i { font-size: 0.7rem; opacity: 0.65; flex-shrink: 0; }
         .recent-item span { overflow: hidden; text-overflow: ellipsis; }
         .recent-empty {
           padding: 8px 12px;
           font-size: 0.78rem;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.4);
         }
 
         /* ─── Footer ─── */
@@ -682,7 +682,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           position: relative;
           flex-shrink: 0;
         }
-        .profile-avatar i { font-size: 1.5rem; color: rgba(255,255,255,0.4); }
+        .profile-avatar i { font-size: 1.5rem; color: rgba(255,255,255,0.6); }
         .profile-indicator {
           position: absolute;
           top: 0;
@@ -705,21 +705,21 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
         .profile-name {
           font-size: 0.82rem;
           font-weight: 600;
-          color: rgba(255,255,255,0.8);
+          color: rgba(255,255,255,0.9);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
         .profile-role {
           font-size: 0.65rem;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.55);
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
         .profile-chevron {
           margin-left: auto;
           font-size: 0.55rem;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.5);
           transition: transform 0.3s;
           flex-shrink: 0;
         }
@@ -748,10 +748,10 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           gap: 10px;
           padding: 8px 8px 12px;
         }
-        .dropdown-header i { font-size: 1.8rem; color: rgba(255,255,255,0.3); }
+        .dropdown-header i { font-size: 1.8rem; color: rgba(255,255,255,0.5); }
         .dropdown-header div { display: flex; flex-direction: column; }
         .dropdown-name { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.85); }
-        .dropdown-role { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+        .dropdown-role { font-size: 0.7rem; color: rgba(255,255,255,0.55); }
         .dropdown-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 4px 0; }
         .dropdown-item {
           display: flex;
@@ -759,7 +759,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           gap: 10px;
           padding: 9px 10px;
           border-radius: 8px;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.75);
           font-size: 0.85rem;
           text-decoration: none;
           transition: all 0.2s;
@@ -784,9 +784,9 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           width: 28px;
           height: 28px;
           border: none;
-          background: rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.10);
           border-radius: 8px;
-          color: rgba(255,255,255,0.4);
+          color: rgba(255,255,255,0.6);
           cursor: pointer;
           display: flex;
           align-items: center;
@@ -795,8 +795,8 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           transition: all 0.2s;
           font-size: 0.75rem;
         }
-        .theme-btn:hover { background: rgba(255,255,255,0.12); color: var(--accent, #d4af37); }
-        .theme-label { font-size: 0.78rem; color: rgba(255,255,255,0.3); transition: opacity 0.2s; }
+        .theme-btn:hover { background: rgba(255,255,255,0.18); color: var(--accent, #d4af37); }
+        .theme-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); transition: opacity 0.2s; }
 
         .view-site-btn {
           display: flex;
@@ -805,11 +805,11 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           padding: 8px 10px;
           border-radius: 8px;
           font-size: 0.78rem;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.5);
           text-decoration: none;
           transition: all 0.2s;
         }
-        .view-site-btn:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.04); }
+        .view-site-btn:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
         .view-site-btn i { font-size: 0.75rem; }
 
         /* ─── Main Content ─── */
