@@ -6,14 +6,18 @@ import { authOptions } from "@/lib/auth";
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
-    const where = session ? {} : { published: true };
+    const isPublic = !session;
+    const where = isPublic ? { published: true } : {};
 
     const programs = await prisma.program.findMany({
       where,
+      select: { id: true, title: true, slug: true, description: true, content: true, icon: true, image: true, published: true, createdAt: true },
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json({ programs });
+    const res = NextResponse.json({ programs });
+    if (isPublic) res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=120");
+    return res;
   } catch (error) {
     const message = error instanceof Error ? error.message : "An unexpected error occurred";
     return NextResponse.json({ success: false, error: message }, { status: 500 });

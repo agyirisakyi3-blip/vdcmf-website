@@ -34,8 +34,9 @@ export async function GET() {
 
   try {
     const applications = await prisma.application.findMany({
+      select: { id: true, type: true, status: true, firstName: true, lastName: true, email: true, phone: true, programId: true, organization: true, message: true, createdAt: true, program: { select: { title: true } } },
       orderBy: { createdAt: "desc" },
-      include: { program: { select: { title: true } } },
+      take: 200,
     });
 
     return NextResponse.json({ applications });
