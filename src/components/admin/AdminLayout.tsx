@@ -50,11 +50,32 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [dark, setDark] = useState(false);
   const [badges, setBadges] = useState<Record<string, number>>({});
   const [recentPosts, setRecentPosts] = useState<{ id: string; title: string }[]>([]);
   const [recentApplications, setRecentApplications] = useState<{ id: string; firstName: string; lastName: string; type: string }[]>([]);
 
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("admin-theme");
+    if (stored === "dark") {
+      setDark(true);
+      document.documentElement.setAttribute("data-admin-theme", "dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    if (next) {
+      document.documentElement.setAttribute("data-admin-theme", "dark");
+      localStorage.setItem("admin-theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-admin-theme");
+      localStorage.setItem("admin-theme", "light");
+    }
+  };
 
   useEffect(() => {
     navLinks.forEach((link) => {
@@ -280,6 +301,13 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
               </div>
             )}
 
+            <div className="theme-toggle-row">
+              <button className="theme-btn" onClick={toggleTheme} title={dark ? "Switch to light mode" : "Switch to dark mode"}>
+                <i className={`fas fa-${dark ? "sun" : "moon"}`} />
+              </button>
+              <span className={`theme-label ${collapsed ? "hidden" : ""}`}>{dark ? "Light Mode" : "Dark Mode"}</span>
+            </div>
+
             <Link href="/" className="view-site-btn">
               <i className="fas fa-arrow-left" />
               <span className={collapsed ? "hidden" : ""}>View Site</span>
@@ -302,8 +330,12 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
         .admin-root {
           display: flex;
           min-height: 100vh;
-          background: linear-gradient(135deg, #f5f7fa, #e4e9f2);
+          background: var(--admin-bg, linear-gradient(135deg, #f5f7fa, #e4e9f2));
           font-family: "DM Sans", sans-serif;
+        }
+        .admin-root,
+        .admin-root :global(*) {
+          transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
         }
 
         /* ─── Sidebar ─── */
@@ -741,6 +773,31 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
         .dropdown-item.logout:hover { color: #fca5a5; background: rgba(239,68,68,0.1); }
         .dropdown-item i { width: 18px; text-align: center; }
 
+        .theme-toggle-row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 6px 10px;
+          border-radius: 8px;
+        }
+        .theme-btn {
+          width: 28px;
+          height: 28px;
+          border: none;
+          background: rgba(255,255,255,0.06);
+          border-radius: 8px;
+          color: rgba(255,255,255,0.4);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: all 0.2s;
+          font-size: 0.75rem;
+        }
+        .theme-btn:hover { background: rgba(255,255,255,0.12); color: var(--accent, #d4af37); }
+        .theme-label { font-size: 0.78rem; color: rgba(255,255,255,0.3); transition: opacity 0.2s; }
+
         .view-site-btn {
           display: flex;
           align-items: center;
@@ -765,8 +822,8 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
         }
         .page-header { padding: 32px 40px 0; }
         .header-content { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-        .page-title { font-size: 1.65rem; font-weight: 700; color: #1a1a2e; font-family: "DM Sans", sans-serif; margin: 0; }
-        .page-subtitle { margin-top: 4px; color: #6b7280; font-size: 0.9rem; }
+        .page-title { font-size: 1.65rem; font-weight: 700; color: var(--admin-heading, #1a1a2e); font-family: "DM Sans", sans-serif; margin: 0; }
+        .page-subtitle { margin-top: 4px; color: var(--admin-muted, #6b7280); font-size: 0.9rem; }
         .page-body { padding: 24px 40px 40px; animation: fadeSlideIn 0.35s ease; }
         @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -806,6 +863,128 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
           .page-header { padding: 24px 16px 0; }
           .page-body { padding: 16px; }
           .collapse-btn { display: none; }
+        }
+      `}</style>
+
+      <style jsx global>{`
+        [data-admin-theme="dark"] {
+          --admin-bg: linear-gradient(135deg, #0f1117, #1a1d28);
+          --admin-heading: #e2e8f0;
+          --admin-muted: #94a3b8;
+        }
+        [data-admin-theme="dark"] .glass-card {
+          background: rgba(30,35,50,0.75);
+          border-color: rgba(255,255,255,0.06);
+        }
+        [data-admin-theme="dark"] .glass-card:hover {
+          box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        [data-admin-theme="dark"] .glass-table {
+          background: rgba(30,35,50,0.7);
+          border-color: rgba(255,255,255,0.06);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.15);
+        }
+        [data-admin-theme="dark"] .glass-table th {
+          color: rgba(255,255,255,0.45);
+          border-bottom-color: rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.04);
+        }
+        [data-admin-theme="dark"] .glass-table td {
+          color: rgba(255,255,255,0.7);
+          border-bottom-color: rgba(255,255,255,0.04);
+        }
+        [data-admin-theme="dark"] .glass-table tr:hover td {
+          background: rgba(255,255,255,0.05);
+        }
+        [data-admin-theme="dark"] .glass-input {
+          background: rgba(30,35,50,0.6);
+          border-color: rgba(255,255,255,0.08);
+          color: rgba(255,255,255,0.8);
+        }
+        [data-admin-theme="dark"] .glass-input:focus {
+          background: rgba(30,35,50,0.8);
+          box-shadow: 0 0 0 3px rgba(212,175,55,0.2);
+        }
+        [data-admin-theme="dark"] .glass-empty {
+          color: rgba(255,255,255,0.35);
+        }
+        [data-admin-theme="dark"] .glass-btn-outline {
+          background: rgba(30,35,50,0.4);
+          border-color: rgba(255,255,255,0.1);
+          color: rgba(255,255,255,0.7);
+        }
+        [data-admin-theme="dark"] .glass-btn-outline:hover {
+          background: rgba(30,35,50,0.6);
+          color: rgba(255,255,255,0.9);
+        }
+        [data-admin-theme="dark"] .form-card h3 {
+          color: rgba(255,255,255,0.85);
+        }
+        [data-admin-theme="dark"] .form-field label {
+          color: rgba(255,255,255,0.5);
+        }
+        [data-admin-theme="dark"] .toolbar .bulk-bar {
+          background: rgba(212,175,55,0.08);
+        }
+        [data-admin-theme="dark"] .bulk-count {
+          color: rgba(255,255,255,0.7);
+        }
+        [data-admin-theme="dark"] .stat-label {
+          color: rgba(255,255,255,0.5);
+        }
+        [data-admin-theme="dark"] .stat-value {
+          color: rgba(255,255,255,0.9);
+        }
+        [data-admin-theme="dark"] .chart-card h3 {
+          color: rgba(255,255,255,0.85);
+        }
+        [data-admin-theme="dark"] .activity-title {
+          color: rgba(255,255,255,0.85);
+        }
+        [data-admin-theme="dark"] .activity-subtitle {
+          color: rgba(255,255,255,0.4);
+        }
+        [data-admin-theme="dark"] .qa-btn {
+          color: rgba(255,255,255,0.65);
+          border-bottom-color: rgba(255,255,255,0.04);
+          border-right-color: rgba(255,255,255,0.04);
+        }
+        [data-admin-theme="dark"] .qa-btn:hover {
+          background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(245,217,122,0.05));
+        }
+        [data-admin-theme="dark"] .detail-header h3 {
+          color: rgba(255,255,255,0.85);
+        }
+        [data-admin-theme="dark"] .detail-body p {
+          color: rgba(255,255,255,0.7);
+        }
+        [data-admin-theme="dark"] .detail-email {
+          color: rgba(255,255,255,0.4);
+        }
+        [data-admin-theme="dark"] .detail-footer span {
+          color: rgba(255,255,255,0.4);
+        }
+        [data-admin-theme="dark"] .msg-preview {
+          color: rgba(255,255,255,0.4);
+        }
+        [data-admin-theme="dark"] .icon-btn.view {
+          background: rgba(107,114,128,0.15);
+          color: rgba(255,255,255,0.5);
+        }
+        [data-admin-theme="dark"] .icon-btn.view:hover {
+          background: rgba(107,114,128,0.25);
+        }
+        [data-admin-theme="dark"] .icon-btn.read {
+          background: rgba(29,78,216,0.15);
+          color: #60a5fa;
+        }
+        [data-admin-theme="dark"] .icon-btn.delete {
+          background: rgba(220,38,38,0.15);
+          color: #fca5a5;
+        }
+        [data-admin-theme="dark"] .icon-btn.edit {
+          background: rgba(29,78,216,0.15);
+          color: #60a5fa;
         }
       `}</style>
     </div>
