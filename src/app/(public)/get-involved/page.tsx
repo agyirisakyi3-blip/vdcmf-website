@@ -1,8 +1,6 @@
-"use client";
+'use client';
 
 import Link from "next/link";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import { usePageTitle } from "@/app/seo";
 
 // Four ways to support: Volunteer, Advocacy, Make Kits, Fundraise
 const ways = [
@@ -14,7 +12,6 @@ const ways = [
 
 // Get Involved page: ways grid, reasons section, and CTA to contact
 export default function GetInvolvedPage() {
-  usePageTitle("Get Involved | VDMCF");
   return (
     <>
       <section className="page-banner">
@@ -31,14 +28,12 @@ export default function GetInvolvedPage() {
         <div className="container">
           <div className="ways-grid">
             {ways.map((w, i) => (
-              <ScrollReveal key={i}>
-                <Link href={w.href} className="card way-card">
+              <Link href={w.href} className="card way-card">
                   <div className="way-icon"><i className={`fas ${w.icon}`} /></div>
                   <h3>{w.title}</h3>
                   <p>{w.desc}</p>
                   <span className="way-link">Get Started <i className="fas fa-arrow-right" /></span>
                 </Link>
-              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -81,10 +76,7 @@ export default function GetInvolvedPage() {
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 650px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); }
+
         .ways-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
         .way-card { padding: 36px 24px; text-align: center; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; }
         .way-icon { width: 72px; height: 72px; background: var(--warm); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; transition: var(--transition); }
@@ -105,8 +97,9 @@ export default function GetInvolvedPage() {
         .cta-card h2 { margin-bottom: 12px; }
         .cta-card p { color: var(--text-light); margin-bottom: 28px; }
         @media (max-width: 900px) { .ways-grid { grid-template-columns: repeat(2,1fr); } .reasons-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 600px) { .ways-grid { grid-template-columns: 1fr; } .page-banner { padding: 80px 0 40px; } }
+        @media (max-width: 600px) { .ways-grid { grid-template-columns: 1fr; } }
       `}</style>
     </>
   );
 }
+

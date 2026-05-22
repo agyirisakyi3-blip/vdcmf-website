@@ -1,7 +1,4 @@
-"use client";
-
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import { usePageTitle } from "@/app/seo";
+'use client';
 
 // Placeholder blog posts — content coming in 2026
 const posts = [
@@ -15,7 +12,6 @@ const posts = [
 
 // Blog listing page showing placeholder posts by category
 export default function BlogPage() {
-  usePageTitle("News & Stories | VDMCF");
   return (
     <>
       <section className="page-banner">
@@ -32,8 +28,7 @@ export default function BlogPage() {
         <div className="container">
           <div className="blog-grid">
             {posts.map((post, i) => (
-              <ScrollReveal key={i}>
-                <article className="card blog-card">
+              <article className="card blog-card">
                   <div className="blog-image">
                     <img src={post.image} alt={post.title} loading="lazy" />
                     <span className="blog-category">{post.category}</span>
@@ -44,17 +39,13 @@ export default function BlogPage() {
                     <p>{post.excerpt}</p>
                   </div>
                 </article>
-              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 650px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); }
+
         .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
         .blog-card { }
         .blog-image { height: 220px; overflow: hidden; position: relative; }
@@ -66,8 +57,9 @@ export default function BlogPage() {
         .blog-content h3 { font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
         .blog-content p { color: var(--text-light); font-size: 0.9rem; line-height: 1.6; }
         @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } .page-banner { padding: 80px 0 40px; } }
+        @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
       `}</style>
     </>
   );
 }
+

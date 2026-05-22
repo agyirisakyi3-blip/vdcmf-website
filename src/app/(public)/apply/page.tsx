@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { useState, FormEvent } from "react";
@@ -102,10 +104,7 @@ export default function ApplyPage() {
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 650px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); }
+
         .apply-card { max-width: 720px; margin: 0 auto; overflow: hidden; }
         .tab-nav { display: flex; border-bottom: 1px solid var(--warm); }
         .tab-btn { flex: 1; padding: 16px 24px; border: none; background: var(--warm); cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: var(--transition); font-family: inherit; color: var(--text); }
@@ -126,3 +125,4 @@ export default function ApplyPage() {
     </>
   );
 }
+

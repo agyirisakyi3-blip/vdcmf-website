@@ -42,19 +42,29 @@ export async function POST(req: Request) {
 }
 
 // Public — returns published posts; if authenticated, returns all posts
-export async function GET() {
+// Paginated at 50 posts per request to keep response sizes bounded
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const skip = Math.max(0, parseInt(searchParams.get("skip") || "0"));
+    const take = Math.min(100, Math.max(1, parseInt(searchParams.get("take") || "50")));
+
     const session = await getServerSession(authOptions);
     const isPublic = !session;
     const where = isPublic ? { published: true } : {};
 
-    const posts = await prisma.blogPost.findMany({
-      where,
-      select: { id: true, title: true, slug: true, excerpt: true, coverImage: true, category: true, published: true, createdAt: true, author: { select: { name: true } } },
-      orderBy: { createdAt: "desc" },
-    });
+    const [posts, total] = await Promise.all([
+      prisma.blogPost.findMany({
+        where,
+        select: { id: true, title: true, slug: true, excerpt: true, coverImage: true, category: true, published: true, createdAt: true, author: { select: { name: true } } },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take,
+      }),
+      prisma.blogPost.count({ where }),
+    ]);
 
-    const res = NextResponse.json({ posts });
+    const res = NextResponse.json({ posts, total, skip, take });
     if (isPublic) res.headers.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=120");
     return res;
   } catch (error) {

@@ -103,36 +103,46 @@ export default function AdminMessagesPage() {
     }
   };
 
-  // Bulk mark selected messages as read or unread
+  // Bulk mark — runs all requests in parallel via Promise.allSettled
   const handleBulkRead = async (markRead: boolean) => {
     if (selected.size === 0) return;
     toast("info", `${markRead ? "Marking" : "Unmarking"} ${selected.size} message(s)...`);
-    for (const id of selected) {
-      try {
-        await fetch(`/api/contact/${id}`, {
+    const ids = Array.from(selected);
+    const results = await Promise.allSettled(
+      ids.map((id) =>
+        fetch(`/api/contact/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ read: markRead }),
-        });
-        setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, read: markRead } : m)));
-      } catch { /* skip */ }
-    }
-    toast("success", `${selected.size} message(s) updated`);
+        })
+      )
+    );
+    results.forEach((r, i) => {
+      if (r.status === "fulfilled") {
+        setMessages((prev) => prev.map((m) => (m.id === ids[i] ? { ...m, read: markRead } : m)));
+      }
+    });
+    const succeeded = results.filter((r) => r.status === "fulfilled").length;
+    toast("success", `${succeeded}/${selected.size} message(s) updated`);
     setSelected(new Set());
   };
 
-  // Bulk delete all selected messages
+  // Bulk delete — runs all requests in parallel
   const handleBulkDelete = async () => {
     if (selected.size === 0) return;
     toast("info", `Deleting ${selected.size} message(s)...`);
-    for (const id of selected) {
-      try {
-        await fetch(`/api/contact/${id}`, { method: "DELETE" });
-        setMessages((prev) => prev.filter((m) => m.id !== id));
-        if (expandedId === id) setExpandedId(null);
-      } catch { /* skip */ }
-    }
-    toast("success", `${selected.size} message(s) deleted`);
+    const ids = Array.from(selected);
+    const results = await Promise.allSettled(
+      ids.map((id) => fetch(`/api/contact/${id}`, { method: "DELETE" }))
+    );
+    results.forEach((r, i) => {
+      if (r.status === "fulfilled") {
+        setMessages((prev) => prev.filter((m) => m.id !== ids[i]));
+        if (expandedId === ids[i]) setExpandedId(null);
+      }
+    });
+    const succeeded = results.filter((r) => r.status === "fulfilled").length;
+    toast("success", `${succeeded}/${selected.size} message(s) deleted`);
     setSelected(new Set());
   };
 

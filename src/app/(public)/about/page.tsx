@@ -1,12 +1,9 @@
-"use client";
+'use client';
 
-import ScrollReveal from "@/components/ui/ScrollReveal";
 import Link from "next/link";
-import { usePageTitle } from "@/app/seo";
 
 // About page: mission, approach, vision/mission strip, and CTA to donate/volunteer
 export default function AboutPage() {
-  usePageTitle("About Us | VDMCF");
   return (
     <>
       <section className="page-banner">
@@ -22,20 +19,16 @@ export default function AboutPage() {
       <section className="section about-mission">
         <div className="container">
           <div className="mission-grid">
-            <ScrollReveal>
-              <div className="mission-card">
+            <div className="mission-card">
                 <span className="overline text-accent">Our Mission</span>
                 <p>Every child deserves access to education, every woman deserves opportunity, every man deserves support and restoration, and every community deserves hope. Like a honeybee tirelessly nurturing and sustaining its community, we are committed to empowering, uplifting, and restoring lives through compassion, innovation, and sustainable development.</p>
                 <p>Our mission goes beyond charity. We focus on long-term transformation by equipping individuals and communities with the tools, skills, knowledge, and support needed to thrive independently and sustainably.</p>
               </div>
-            </ScrollReveal>
-            <ScrollReveal>
-              <div className="mission-card">
+            <div className="mission-card">
                 <span className="overline text-accent">Our Approach</span>
                 <p>We work hand-in-hand with local leaders, families, and volunteers to identify the most pressing needs and co-create solutions that honour Ghanaian culture and wisdom. From remote villages to urban centres, our programs reach those who need them most.</p>
                 <p>Through education scholarships, mobile health clinics, vocational training centres, and community development initiatives, we are building a future where every Ghanaian can live with dignity and purpose.</p>
               </div>
-            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -70,10 +63,7 @@ export default function AboutPage() {
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 700px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); font-size: 1.15rem; line-height: 1.7; }
+
         .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
         .mission-card p { color: var(--text-light); line-height: 1.8; margin-bottom: 16px; }
         .vm-strip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 900px; margin: 0 auto; }
@@ -93,3 +83,4 @@ export default function AboutPage() {
     </>
   );
 }
+

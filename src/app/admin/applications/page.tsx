@@ -154,39 +154,49 @@ export default function AdminApplicationsPage() {
     }
   };
 
-  // Bulk status update for all selected rows
+  // Bulk status update — runs all requests in parallel via Promise.allSettled
   const handleBulkStatus = async () => {
     if (!bulkStatus || selected.size === 0) return;
     const newStatus = bulkStatus;
     toast("info", `Updating ${selected.size} application(s) to ${newStatus}...`);
-    for (const id of selected) {
-      try {
-        await fetch(`/api/applications/${id}`, {
+    const ids = Array.from(selected);
+    const results = await Promise.allSettled(
+      ids.map((id) =>
+        fetch(`/api/applications/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: newStatus.toUpperCase() }),
-        });
+        })
+      )
+    );
+    results.forEach((r, i) => {
+      if (r.status === "fulfilled") {
         setApplications((prev) =>
-          prev.map((a) => (a.id === id ? { ...a, status: newStatus as AppItem["status"] } : a))
+          prev.map((a) => (a.id === ids[i] ? { ...a, status: newStatus as AppItem["status"] } : a))
         );
-      } catch { /* skip failed ones */ }
-    }
-    toast("success", `${selected.size} application(s) updated`);
+      }
+    });
+    const succeeded = results.filter((r) => r.status === "fulfilled").length;
+    toast("success", `${succeeded}/${selected.size} application(s) updated`);
     setSelected(new Set());
     setBulkStatus("");
   };
 
-  // Bulk delete all selected rows
+  // Bulk delete — runs all requests in parallel
   const handleBulkDelete = async () => {
     if (selected.size === 0) return;
     toast("info", `Deleting ${selected.size} application(s)...`);
-    for (const id of selected) {
-      try {
-        await fetch(`/api/applications/${id}`, { method: "DELETE" });
-        setApplications((prev) => prev.filter((a) => a.id !== id));
-      } catch { /* skip */ }
-    }
-    toast("success", `${selected.size} application(s) deleted`);
+    const ids = Array.from(selected);
+    const results = await Promise.allSettled(
+      ids.map((id) => fetch(`/api/applications/${id}`, { method: "DELETE" }))
+    );
+    results.forEach((r, i) => {
+      if (r.status === "fulfilled") {
+        setApplications((prev) => prev.filter((a) => a.id !== ids[i]));
+      }
+    });
+    const succeeded = results.filter((r) => r.status === "fulfilled").length;
+    toast("success", `${succeeded}/${selected.size} application(s) deleted`);
     setSelected(new Set());
   };
 

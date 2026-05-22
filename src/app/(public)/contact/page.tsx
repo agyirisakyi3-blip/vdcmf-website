@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { useState, FormEvent } from "react";
@@ -76,10 +78,7 @@ export default function ContactPage() {
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 650px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); }
+
         .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: start; }
         .contact-card { padding: 28px; display: flex; flex-direction: column; gap: 20px; }
         .contact-item { display: flex; align-items: flex-start; gap: 14px; }
@@ -101,3 +100,4 @@ export default function ContactPage() {
     </>
   );
 }
+

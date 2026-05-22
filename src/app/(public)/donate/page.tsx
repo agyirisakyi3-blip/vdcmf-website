@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { useState } from "react";
@@ -84,10 +86,7 @@ export default function DonatePage() {
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 650px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); }
+
         .donate-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start; }
         .donate-card { padding: 36px; }
         .donate-card h3 { font-family: 'DM Sans', sans-serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 24px; }
@@ -115,7 +114,6 @@ export default function DonatePage() {
         .alt-card a { color: var(--accent); font-weight: 600; }
         @media (max-width: 768px) {
           .donate-grid { grid-template-columns: 1fr; gap: 32px; }
-          .page-banner { padding: 80px 0 40px; }
           .donate-card { padding: 24px; }
           .amount-grid { grid-template-columns: repeat(2,1fr); }
         }
@@ -123,3 +121,4 @@ export default function DonatePage() {
     </>
   );
 }
+

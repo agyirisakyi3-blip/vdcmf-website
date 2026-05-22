@@ -1,3 +1,5 @@
+'use client';
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -239,10 +241,7 @@ export default function ProgramsPage() {
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 650px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); font-size: 1.1rem; }
+
 
         .stats-section { padding: 0; margin-top: -40px; position: relative; z-index: 2; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -352,7 +351,6 @@ export default function ProgramsPage() {
           .testimonial-author { align-items: center; }
         }
         @media (max-width: 600px) {
-          .page-banner { padding: 80px 0 40px; }
           .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
           .stat-card { padding: 24px 16px; }
           .stat-value { font-size: 1.5rem; }
@@ -365,3 +363,4 @@ export default function ProgramsPage() {
     </>
   );
 }
+

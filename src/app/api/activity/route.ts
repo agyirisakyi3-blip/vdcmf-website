@@ -13,6 +13,7 @@ export async function GET() {
 
   try {
     const logs = await prisma.activityLog.findMany({
+      select: { id: true, entity: true, action: true, summary: true, createdAt: true },
       orderBy: { createdAt: "desc" },
       take: 50,
     });

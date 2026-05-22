@@ -1,7 +1,4 @@
-"use client";
-
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import { usePageTitle } from "@/app/seo";
+'use client';
 
 // Team member data with name, role, image, and bio
 const teamMembers = [
@@ -15,7 +12,6 @@ const teamMembers = [
 
 // Team page: grid of team member cards with photos and bios
 export default function TeamPage() {
-  usePageTitle("Our Team | VDMCF");
   return (
     <>
       <section className="page-banner">
@@ -32,8 +28,7 @@ export default function TeamPage() {
         <div className="container">
           <div className="team-grid">
             {teamMembers.map((m, i) => (
-              <ScrollReveal key={i}>
-                <div className="card team-card">
+              <div className="card team-card">
                   <div className="team-image">
                     <img src={m.image} alt={m.name} loading="lazy" />
                   </div>
@@ -43,17 +38,13 @@ export default function TeamPage() {
                     <p>{m.bio}</p>
                   </div>
                 </div>
-              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
       <style jsx>{`
-        .page-banner { padding: 100px 0 60px; background: var(--warm); text-align: center; }
-        .banner-content { max-width: 650px; margin: 0 auto; }
-        .banner-content h1 { margin-bottom: 16px; }
-        .banner-desc { color: var(--text-light); }
+
         .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; max-width: 1050px; margin: 0 auto; }
         .team-card { }
         .team-image { height: 260px; overflow: hidden; }
@@ -64,8 +55,9 @@ export default function TeamPage() {
         .team-role { display: block; font-size: 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         .team-content p { color: var(--text-light); font-size: 0.9rem; line-height: 1.6; }
         @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2,1fr); } }
-        @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } .page-banner { padding: 80px 0 40px; } }
+        @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
       `}</style>
     </>
   );
 }
+
