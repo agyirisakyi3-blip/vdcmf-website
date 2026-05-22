@@ -111,3 +111,18 @@ model NewsletterSubscriber {
 
   @@map("newsletter_subscribers")
 }
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  entity    String
+  entityId  String   @map("entity_id")
+  action    String
+  summary   String
+  metadata  String?
+  userId    String?  @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}

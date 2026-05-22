@@ -19,6 +19,16 @@ export async function POST(req: Request) {
       data: { type, firstName, lastName, email, phone, programId, organization, message },
     });
 
+    await prisma.activityLog.create({
+      data: {
+        entity: "application",
+        entityId: application.id,
+        action: "created",
+        summary: `${firstName} ${lastName} — ${type} application submitted`,
+        metadata: JSON.stringify({ type }),
+      },
+    });
+
     return NextResponse.json({ success: true, application }, { status: 201 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "An unexpected error occurred";

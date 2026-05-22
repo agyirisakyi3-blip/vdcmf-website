@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { updateApplicationStatus } from "@/lib/workflow";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
@@ -28,6 +29,44 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   }
 }
 
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const { id } = await params;
+
+    const application = await prisma.application.findUnique({
+      where: { id },
+      select: { id: true, firstName: true, lastName: true, type: true },
+    });
+
+    if (!application) {
+      return NextResponse.json({ error: "Application not found" }, { status: 404 });
+    }
+
+    await prisma.activityLog.create({
+      data: {
+        entity: "application",
+        entityId: id,
+        action: "deleted",
+        summary: `${application.firstName} ${application.lastName} — ${application.type} application deleted`,
+        metadata: JSON.stringify({ type: application.type }),
+        userId: (session.user as unknown as { id: string }).id,
+      },
+    });
+
+    await prisma.application.delete({ where: { id } });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "An unexpected error occurred";
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
+}
+
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -46,10 +85,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       );
     }
 
-    const application = await prisma.application.update({
-      where: { id },
-      data: { status },
-    });
+    const userId = (session.user as unknown as { id: string }).id;
+    const application = await updateApplicationStatus(id, status, userId);
 
     return NextResponse.json({ application });
   } catch (error) {

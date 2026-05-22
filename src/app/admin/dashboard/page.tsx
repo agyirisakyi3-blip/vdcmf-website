@@ -50,10 +50,11 @@ export default function AdminDashboardPage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const [appsRes, blogRes, contactRes] = await Promise.all([
+      const [appsRes, blogRes, contactRes, activityRes] = await Promise.all([
         fetch("/api/applications"),
         fetch("/api/blog"),
         fetch("/api/contact"),
+        fetch("/api/activity"),
       ]);
 
       if (appsRes.ok) {
@@ -98,6 +99,21 @@ export default function AdminDashboardPage() {
         setTotalMessages(msgs.length);
         setUnreadMessages(msgs.filter((m) => !m.read).length);
       }
+
+      if (activityRes.ok) {
+        const activityData = (await activityRes.json()) as { logs: { id: string; entity: string; action: string; summary: string; createdAt: string }[] };
+        const logs = activityData.logs || [];
+        setRecentActivity(
+          logs.map((log) => ({
+            id: log.id,
+            type: (log.entity === "application" ? "application" : "message") as "message" | "application" | "blog",
+            title: log.summary,
+            subtitle: log.action.replace("_", " "),
+            href: `/admin/${log.entity === "application" ? "applications" : log.entity}s`,
+            createdAt: log.createdAt,
+          }))
+        );
+      }
     } catch {
       toast("error", "Failed to load dashboard data");
     } finally {
@@ -110,36 +126,6 @@ export default function AdminDashboardPage() {
     const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, [fetchData]);
-
-  useEffect(() => {
-    const activity: ActivityItem[] = [
-      ...messages.map((m) => ({
-        id: m.id,
-        type: "message" as const,
-        title: m.name,
-        subtitle: m.email,
-        href: "/admin/messages",
-        createdAt: m.createdAt,
-      })),
-      ...apps.map((a) => ({
-        id: a.id,
-        type: "application" as const,
-        title: a.fullName || "Applicant",
-        subtitle: a.status,
-        href: "/admin/applications",
-        createdAt: a.createdAt,
-      })),
-      ...blogPosts.map((b) => ({
-        id: b.id,
-        type: "blog" as const,
-        title: b.title,
-        subtitle: "Blog post",
-        href: "/admin/blog",
-        createdAt: b.createdAt,
-      })),
-    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 8);
-    setRecentActivity(activity);
-  }, [messages, apps, blogPosts]);
 
   const stats = [
     { label: "Total Applications", value: String(totalApps), icon: "fa-file-alt", gradient: "linear-gradient(135deg, #D4AF37, #B8860B)" },
