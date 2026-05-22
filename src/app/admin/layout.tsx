@@ -2,6 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 
+// Wraps all admin pages in next-auth SessionProvider for auth state
 export default function AdminLayout({
   children,
 }: {

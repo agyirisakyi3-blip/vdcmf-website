@@ -4,10 +4,12 @@ import { useState, useMemo } from "react";
 
 export type SortDir = "asc" | "desc";
 
+// Client-side table sorting by column with direction toggle
 export function useSortable<T>(data: T[], defaultKey?: keyof T) {
   const [sortKey, setSortKey] = useState<keyof T | null>(defaultKey ?? null);
   const [sortDir, setSortDir] = useState<SortDir>("asc");
 
+  // Toggle direction if same column, otherwise sort asc on new column
   const toggleSort = (key: keyof T) => {
     if (sortKey === key) {
       setSortDir((d) => (d === "asc" ? "desc" : "asc"));
@@ -17,6 +19,7 @@ export function useSortable<T>(data: T[], defaultKey?: keyof T) {
     }
   };
 
+  // Memoized sorted copy with null-safe string/numeric comparison
   const sorted = useMemo(() => {
     if (!sortKey) return data;
     return [...data].sort((a, b) => {
@@ -29,6 +32,7 @@ export function useSortable<T>(data: T[], defaultKey?: keyof T) {
     });
   }, [data, sortKey, sortDir]);
 
+  // Font Awesome icon name for the sort indicator
   const sortIcon = (key: keyof T) => {
     if (sortKey !== key) return "fa-sort";
     return sortDir === "asc" ? "fa-sort-up" : "fa-sort-down";

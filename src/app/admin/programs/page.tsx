@@ -7,6 +7,7 @@ import { useSortable } from "@/components/admin/useSortable";
 import { useToast } from "@/components/admin/Toast";
 import SearchBar from "@/components/admin/SearchBar";
 
+// Shape of a program from the API
 interface ProgramData {
   id: string;
   title: string;
@@ -19,10 +20,12 @@ interface ProgramData {
   createdAt: string;
 }
 
+// Default empty form used for create/reset
 const emptyForm = { title: "", slug: "", description: "", content: "", icon: "", image: "", published: true };
 
 export default function AdminProgramsPage() {
   const { toast } = useToast();
+  // Programs list, inline form state, and search
   const [programs, setPrograms] = useState<ProgramData[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -31,6 +34,7 @@ export default function AdminProgramsPage() {
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
 
+  // Fetch all programs on mount
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
@@ -48,8 +52,10 @@ export default function AdminProgramsPage() {
     fetchPrograms();
   }, [toast]);
 
+  // Open the form in create mode with empty fields
   const openCreate = () => { setForm(emptyForm); setEditingId(null); setShowForm(true); };
 
+  // Open the form in edit mode pre-populated with existing data
   const openEdit = (prog: ProgramData) => {
     setForm({
       title: prog.title,
@@ -64,6 +70,7 @@ export default function AdminProgramsPage() {
     setShowForm(true);
   };
 
+  // Save (create or update) program via POST or PUT
   const handleSave = async () => {
     if (!form.title || !form.slug || !form.description) {
       toast("error", "Title, slug, and description are required.");
@@ -97,6 +104,7 @@ export default function AdminProgramsPage() {
     }
   };
 
+  // Delete a program by ID with confirmation toast
   const handleDelete = async (id: string, title: string) => {
     toast("warning", `Deleting "${title}"...`);
     try {
@@ -110,6 +118,7 @@ export default function AdminProgramsPage() {
     }
   };
 
+  // Filter programs by title or slug search
   const filtered = programs.filter((p) =>
     !search || p.title.toLowerCase().includes(search.toLowerCase()) ||
     p.slug.toLowerCase().includes(search.toLowerCase())
@@ -126,6 +135,7 @@ export default function AdminProgramsPage() {
         </button>
       </div>
 
+      {/* Inline create/edit form inside a card */}
       {showForm && (
         <div className="card form-card">
           <h3>{editingId ? "Edit Program" : "New Program"}</h3>

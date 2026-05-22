@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+// Site footer with brand, navigation links, social icons, and contact info
 export default function Footer() {
   return (
     <footer className="footer">

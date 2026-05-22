@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Protected — marks a contact message as read/unread (admin only)
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -33,6 +34,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   }
 }
 
+// Protected — deletes a contact message (admin only)
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) {

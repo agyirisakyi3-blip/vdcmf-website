@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 
+// NextAuth credentials provider with bcrypt password verification
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -11,6 +12,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+      // Look up admin user by email, verify password with bcrypt
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
@@ -33,6 +35,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    // Attach id and role to the JWT token on sign-in
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -40,6 +43,7 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
+    // Expose id and role from token to the session object
     async session({ session, token }) {
       if (session.user) {
         (session.user as unknown as { id: string }).id = token.id as string;

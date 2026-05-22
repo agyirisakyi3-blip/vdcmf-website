@@ -8,6 +8,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 export default function NewBlogPostPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  // Form state for all blog post fields
   const [form, setForm] = useState({
     title: "",
     slug: "",
@@ -18,6 +19,7 @@ export default function NewBlogPostPage() {
     published: false,
   });
 
+  // Generic change handler for all form inputs (incl. checkbox)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = type === "checkbox" ? (e.target as HTMLInputElement).checked : undefined;
@@ -27,6 +29,7 @@ export default function NewBlogPostPage() {
     }));
   };
 
+  // Auto-generates slug from title as the user types
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setForm((prev) => ({
@@ -39,6 +42,7 @@ export default function NewBlogPostPage() {
     }));
   };
 
+  // Submit handler — creates a new blog post via POST /api/blog
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);

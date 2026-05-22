@@ -3,12 +3,14 @@
 import { useState, FormEvent } from "react";
 import { usePageTitle } from "@/app/seo";
 
+// Contact page with info panel and form submitting to POST /api/contact
 export default function ContactPage() {
   usePageTitle("Contact Us | VDMCF");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // POST form data to the contact API endpoint
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);

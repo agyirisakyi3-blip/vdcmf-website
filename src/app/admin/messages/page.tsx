@@ -7,6 +7,7 @@ import { useSortable } from "@/components/admin/useSortable";
 import { useToast } from "@/components/admin/Toast";
 import SearchBar from "@/components/admin/SearchBar";
 
+// Shape of a contact message from the API
 interface MessageData {
   id: string;
   name: string;
@@ -18,12 +19,14 @@ interface MessageData {
 
 export default function AdminMessagesPage() {
   const { toast } = useToast();
+  // Messages, expanded detail, and selection state
   const [messages, setMessages] = useState<MessageData[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
+  // Fetch contact messages on mount
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -41,6 +44,7 @@ export default function AdminMessagesPage() {
     fetchMessages();
   }, [toast]);
 
+  // Toggle read/unread status on a single message
   const toggleRead = async (id: string, currentRead: boolean) => {
     try {
       const res = await fetch(`/api/contact/${id}`, {
@@ -57,6 +61,7 @@ export default function AdminMessagesPage() {
     }
   };
 
+  // Delete a single message by ID
   const handleDelete = async (id: string, name: string) => {
     toast("warning", `Deleting message from "${name}"...`);
     try {
@@ -71,6 +76,7 @@ export default function AdminMessagesPage() {
     }
   };
 
+  // Filter messages by search in name, email, or message body
   const filtered = messages.filter((m) => {
     if (!search) return true;
     const q = search.toLowerCase();
@@ -79,6 +85,7 @@ export default function AdminMessagesPage() {
 
   const { sorted, toggleSort, sortIcon } = useSortable(filtered, "createdAt");
 
+  // Toggle single row checkbox selection
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
@@ -87,6 +94,7 @@ export default function AdminMessagesPage() {
     });
   };
 
+  // Select or deselect all visible rows
   const toggleSelectAll = () => {
     if (selected.size === sorted.length) {
       setSelected(new Set());
@@ -95,6 +103,7 @@ export default function AdminMessagesPage() {
     }
   };
 
+  // Bulk mark selected messages as read or unread
   const handleBulkRead = async (markRead: boolean) => {
     if (selected.size === 0) return;
     toast("info", `${markRead ? "Marking" : "Unmarking"} ${selected.size} message(s)...`);
@@ -112,6 +121,7 @@ export default function AdminMessagesPage() {
     setSelected(new Set());
   };
 
+  // Bulk delete all selected messages
   const handleBulkDelete = async () => {
     if (selected.size === 0) return;
     toast("info", `Deleting ${selected.size} message(s)...`);
@@ -207,6 +217,7 @@ export default function AdminMessagesPage() {
         </div>
       )}
 
+      {/* Expanded detail card showing full message content */}
       {expandedId && (() => {
         const msg = messages.find((m) => m.id === expandedId);
         if (!msg) return null;

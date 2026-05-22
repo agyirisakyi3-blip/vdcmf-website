@@ -4,6 +4,7 @@ import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { usePageTitle } from "@/app/seo";
 
+// Four ways to support: Volunteer, Advocacy, Make Kits, Fundraise
 const ways = [
   { icon: "fa-hands-heart", title: "Volunteer", desc: "Share your time and skills to make a difference in your community. Join our team of dedicated volunteers working on the ground in Ghana.", href: "/apply" },
   { icon: "fa-bullhorn", title: "Advocacy", desc: "Help raise awareness about issues affecting vulnerable populations. Use your voice to champion education, health, and dignity for all.", href: "/contact" },
@@ -11,6 +12,7 @@ const ways = [
   { icon: "fa-hand-holding-dollar", title: "Fundraise", desc: "Organize your own fundraiser to support VDMCF programs. Every cedi raised goes directly to transforming lives.", href: "/contact" },
 ];
 
+// Get Involved page: ways grid, reasons section, and CTA to contact
 export default function GetInvolvedPage() {
   usePageTitle("Get Involved | VDMCF");
   return (

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Public — anyone can submit a contact message
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -26,6 +27,7 @@ export async function POST(req: Request) {
   }
 }
 
+// Protected — lists contact messages (admin only, limited to 100)
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session) {

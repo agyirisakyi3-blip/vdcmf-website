@@ -5,6 +5,7 @@ import Link from "next/link";
 import HeroSlider from "@/components/ui/HeroSlider";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
+// Animated counter that increments when scrolled into view
 function StatCounter({ value, suffix = "", label }: { value: number; suffix?: string; label: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -47,6 +48,7 @@ function StatCounter({ value, suffix = "", label }: { value: number; suffix?: st
   );
 }
 
+// Static program data for the homepage programs grid
 const programs = [
   { icon: "fa-graduation-cap", title: "Education", desc: "Providing access to quality education through scholarships, learning resources, and school support programs for underprivileged children.", href: "/programs" },
   { icon: "fa-tools", title: "Vocational Training", desc: "Equipping youth and adults with practical skills in trades like tailoring, carpentry, and IT for economic independence.", href: "/programs" },
@@ -54,6 +56,7 @@ const programs = [
   { icon: "fa-hands-helping", title: "Community Development", desc: "Building stronger communities through advocacy, food security initiatives, and women empowerment programs.", href: "/programs" },
 ];
 
+// Ways to get involved CTA cards
 const ways = [
   { icon: "fa-hands-heart", title: "Volunteer", desc: "Share your time and skills to make a difference.", href: "/apply" },
   { icon: "fa-hand-holding-dollar", title: "Donate", desc: "Support our programs with a one-time or monthly gift.", href: "/donate" },
@@ -61,6 +64,7 @@ const ways = [
   { icon: "fa-boxes-packing", title: "Fundraise", desc: "Organize your own fundraiser to support VDMCF.", href: "/get-involved" },
 ];
 
+// Homepage: hero slider, stats, about, programs, CTA, vision/mission, donate, newsletter, contact
 export default function HomePage() {
   return (
     <>

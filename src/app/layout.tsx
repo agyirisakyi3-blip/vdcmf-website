@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
+// Load DM Sans font (body text) with CSS variable
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -9,6 +10,7 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+// Load Playfair Display font (headings) with CSS variable
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -16,6 +18,7 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+// Root metadata with template-based title and SEO keywords
 export const metadata: Metadata = {
   title: {
     template: "%s | VDMCF",
@@ -45,6 +48,7 @@ export const metadata: Metadata = {
   },
 };
 
+// Root layout wrapping all pages with fonts and global head links
 export default function RootLayout({
   children,
 }: Readonly<{

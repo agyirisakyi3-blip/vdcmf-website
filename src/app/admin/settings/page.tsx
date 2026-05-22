@@ -5,6 +5,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { useToast } from "@/components/admin/Toast";
 import SearchBar from "@/components/admin/SearchBar";
 
+// Groups a setting key into a section by its prefix
 function getGroup(key: string): string {
   if (key.startsWith("site_")) return "Site";
   if (key.startsWith("hero_")) return "Hero Section";
@@ -16,11 +17,13 @@ function getGroup(key: string): string {
 
 export default function AdminSettingsPage() {
   const { toast } = useToast();
+  // All setting entries, loading/saving state, and search
   const [entries, setEntries] = useState<{ key: string; value: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
 
+  // Fetch all settings on mount
   useEffect(() => {
     const fetchSettings = async () => {
       try {
@@ -38,10 +41,12 @@ export default function AdminSettingsPage() {
     fetchSettings();
   }, [toast]);
 
+  // Update a single setting's value in local state on input change
   const handleChange = (key: string, value: string) => {
     setEntries((prev) => prev.map((e) => (e.key === key ? { ...e, value } : e)));
   };
 
+  // Save all settings at once via PUT /api/settings
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -62,10 +67,12 @@ export default function AdminSettingsPage() {
     }
   };
 
+  // Filter settings by key or value search
   const filtered = entries.filter((e) =>
     !search || e.key.toLowerCase().includes(search.toLowerCase()) || e.value.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Section headings used to group settings in the UI
   const groups = ["Site", "Hero Section", "Social Media", "Contact", "About", "Other"];
 
   return (
@@ -83,6 +90,7 @@ export default function AdminSettingsPage() {
           Loading settings...
         </div>
       ) : !search ? (
+        // Render settings grouped by section when not searching
         groups.map((group) => {
           const groupEntries = entries.filter((e) => getGroup(e.key) === group);
           if (groupEntries.length === 0) return null;

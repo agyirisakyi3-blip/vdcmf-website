@@ -1,5 +1,6 @@
 "use client";
 
+// Animated table skeleton loader with configurable rows/cols
 export function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
   return (
     <div className="glass-table" style={{ padding: 0, overflow: "hidden" }}>
@@ -42,6 +43,7 @@ export function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: nu
   );
 }
 
+// Animated stat card skeleton (4-grid layout)
 export function StatSkeleton() {
   return (
     <div className="stats-grid-skeleton" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20, marginBottom: 32 }}>

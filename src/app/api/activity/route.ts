@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Returns the 50 most recent activity log entries for the dashboard
+// feed. Only authenticated admins can view this.
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session) {

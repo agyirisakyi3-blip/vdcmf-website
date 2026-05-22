@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { ToastProvider } from "./Toast";
 
+// Sidebar navigation link definition with optional badge and sub-links
 interface NavLink {
   href: string;
   label: string;
@@ -47,16 +48,21 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
+  // Sidebar collapse state
   const [collapsed, setCollapsed] = useState(false);
+  // Track which sub-menus are expanded (keyed by nav href)
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  // Dark mode toggle state
   const [dark, setDark] = useState(false);
+  // Unread counts for messages, applications, subscribers
   const [badges, setBadges] = useState<Record<string, number>>({});
   const [recentPosts, setRecentPosts] = useState<{ id: string; title: string }[]>([]);
   const [recentApplications, setRecentApplications] = useState<{ id: string; firstName: string; lastName: string; type: string }[]>([]);
 
   const userMenuRef = useRef<HTMLDivElement>(null);
 
+  // Restore saved theme preference on mount
   useEffect(() => {
     const stored = localStorage.getItem("admin-theme");
     if (stored === "dark") {
@@ -65,6 +71,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
     }
   }, []);
 
+  // Toggle dark/light theme and persist to localStorage
   const toggleTheme = () => {
     const next = !dark;
     setDark(next);
@@ -77,6 +84,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
     }
   };
 
+  // Auto-expand sub-menu when a child route is active
   useEffect(() => {
     navLinks.forEach((link) => {
       if (link.children) {
@@ -86,6 +94,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
     });
   }, [pathname]);
 
+  // Fetch sidebar badge counts and recent items on mount
   useEffect(() => {
     const fetchSidebarData = async () => {
       try {
@@ -118,6 +127,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
     fetchSidebarData();
   }, []);
 
+  // Close user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setUserMenuOpen(false);

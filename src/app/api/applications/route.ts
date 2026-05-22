@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Public endpoint — anyone can submit an application.
+// Logs the submission to the activity feed so admins see new entries.
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -36,6 +38,7 @@ export async function POST(req: Request) {
   }
 }
 
+// Protected — returns the 200 most recent applications with their program names.
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session) {

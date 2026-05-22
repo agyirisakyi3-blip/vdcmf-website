@@ -4,8 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePageTitle } from "@/app/seo";
 
+// Quick-select donation amounts
 const presetAmounts = [50, 100, 250];
 
+// Donation page with preset/custom amounts, one-time/monthly toggle, and payment methods
 export default function DonatePage() {
   usePageTitle("Donate | VDMCF");
   const [amount, setAmount] = useState<number | "custom">(100);

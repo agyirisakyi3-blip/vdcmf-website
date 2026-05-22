@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 import { usePageTitle } from "@/app/seo";
 
+// Three-tab application form: Volunteer, Program, or Partnership
 type Tab = "volunteer" | "program" | "partnership";
 
 const tabs: { key: Tab; label: string }[] = [
@@ -15,6 +16,7 @@ const programs = ["Education & Scholarship", "Health & Wellness", "Community Dev
 
 const initialForm = { firstName: "", lastName: "", email: "", phone: "", programId: "", organization: "", message: "" };
 
+// Application page with tabbed form submitting to POST /api/applications
 export default function ApplyPage() {
   const [activeTab, setActiveTab] = useState<Tab>("volunteer");
   const [form, setForm] = useState(initialForm);
@@ -23,9 +25,11 @@ export default function ApplyPage() {
 
   usePageTitle("Apply | VDMCF");
 
+  // Sync form state with input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setForm({ ...form, [e.target.name]: e.target.value });
   const switchTab = (tab: Tab) => { setActiveTab(tab); setStatus(null); };
 
+  // Submit form data based on active tab type
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);

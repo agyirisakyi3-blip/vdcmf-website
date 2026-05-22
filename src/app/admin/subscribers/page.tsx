@@ -7,6 +7,7 @@ import { useSortable } from "@/components/admin/useSortable";
 import { useToast } from "@/components/admin/Toast";
 import SearchBar from "@/components/admin/SearchBar";
 
+// Shape of a newsletter subscriber from the API
 interface SubscriberData {
   id: string;
   email: string;
@@ -16,10 +17,12 @@ interface SubscriberData {
 
 export default function AdminSubscribersPage() {
   const { toast } = useToast();
+  // Subscribers list, loading, and search state
   const [subscribers, setSubscribers] = useState<SubscriberData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
+  // Fetch all subscribers on mount
   useEffect(() => {
     const fetchSubscribers = async () => {
       try {
@@ -37,6 +40,7 @@ export default function AdminSubscribersPage() {
     fetchSubscribers();
   }, [toast]);
 
+  // Delete (unsubscribe) a subscriber by ID
   const handleDelete = async (id: string, email: string) => {
     toast("warning", `Removing "${email}"...`);
     try {
@@ -50,6 +54,7 @@ export default function AdminSubscribersPage() {
     }
   };
 
+  // Export active subscribers to a downloadable CSV file
   const exportCSV = () => {
     const header = "Email,Active,Date Subscribed\n";
     const rows = subscribers
@@ -66,12 +71,14 @@ export default function AdminSubscribersPage() {
     toast("success", "CSV exported");
   };
 
+  // Filter subscribers by email search
   const filtered = subscribers.filter((s) =>
     !search || s.email.toLowerCase().includes(search.toLowerCase())
   );
 
   const { sorted, toggleSort, sortIcon } = useSortable(filtered, "createdAt");
 
+  // Count active subscribers for the subtitle summary
   const activeCount = subscribers.filter((s) => s.active).length;
 
   return (

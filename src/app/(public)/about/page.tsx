@@ -4,6 +4,7 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import Link from "next/link";
 import { usePageTitle } from "@/app/seo";
 
+// About page: mission, approach, vision/mission strip, and CTA to donate/volunteer
 export default function AboutPage() {
   usePageTitle("About Us | VDMCF");
   return (

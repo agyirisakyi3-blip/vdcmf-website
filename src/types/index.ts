@@ -2,12 +2,14 @@ import type { ApplicationType, ApplicationStatus } from "@/generated/prisma/enum
 
 export type { ApplicationType, ApplicationStatus };
 
+// Navigation link with optional dropdown children
 export interface NavLink {
   label: string;
   href: string;
   children?: { label: string; href: string }[];
 }
 
+// Global site configuration / contact info
 export interface SiteConfig {
   name: string;
   shortName: string;
@@ -18,11 +20,13 @@ export interface SiteConfig {
   whatsapp: string;
 }
 
+// Dashboard stat card data
 export interface StatItem {
   value: string;
   label: string;
 }
 
+// Team member profile
 export interface TeamMember {
   name: string;
   role: string;
@@ -31,6 +35,7 @@ export interface TeamMember {
   social?: { linkedin?: string; twitter?: string; email?: string };
 }
 
+// Program listing item
 export interface ProgramItem {
   id: string;
   title: string;
@@ -39,6 +44,7 @@ export interface ProgramItem {
   icon: string;
 }
 
+// Application form submission payload
 export interface ApplicationFormData {
   type: ApplicationType;
   firstName: string;

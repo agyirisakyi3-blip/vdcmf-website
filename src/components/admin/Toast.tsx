@@ -16,8 +16,10 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue>({ toast: () => {} });
 
+// Hook to trigger toasts from any child component
 export const useToast = () => useContext(ToastContext);
 
+// Font Awesome icon per toast type
 const icons: Record<ToastType, string> = {
   success: "fa-check-circle",
   error: "fa-exclamation-circle",
@@ -25,6 +27,7 @@ const icons: Record<ToastType, string> = {
   warning: "fa-exclamation-triangle",
 };
 
+// Gradient background per toast type
 const gradients: Record<ToastType, string> = {
   success: "linear-gradient(135deg, #43e97b, #38f9d7)",
   error: "linear-gradient(135deg, #f5576c, #ff6f91)",
@@ -35,6 +38,7 @@ const gradients: Record<ToastType, string> = {
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
+  // Add a toast and auto-remove after 4 seconds
   const toast = useCallback((type: ToastType, message: string) => {
     const id = Date.now() + Math.random();
     setToasts((prev) => [...prev, { id, type, message }]);

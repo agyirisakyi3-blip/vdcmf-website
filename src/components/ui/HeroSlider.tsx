@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 
+// Hero slides with background image, title, description, and CTA buttons
 const slides = [
   {
     bgImage: "https://images.unsplash.com/photo-1523803326055-52701c0c3fec?w=1920&q=80",
@@ -34,10 +35,13 @@ const slides = [
 ];
 
 export default function HeroSlider() {
+  // Index of the currently visible slide
   const [active, setActive] = useState(0);
 
+  // Advance to the next slide (loops back to 0)
   const next = useCallback(() => setActive((p) => (p + 1) % slides.length), []);
 
+  // Auto-rotate every 6 seconds
   useEffect(() => {
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);

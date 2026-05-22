@@ -48,6 +48,9 @@ export default function AdminDashboardPage() {
   const [messages, setMessages] = useState<MsgItem[]>([]);
   const [blogPosts, setBlogPosts] = useState<BlogItem[]>([]);
 
+  // Fetches all dashboard data in parallel every 30 seconds.
+  // The activity endpoint returns persisted workflow logs that power
+  // the "Recent Activity" feed, replacing the old computed approach.
   const fetchData = useCallback(async () => {
     try {
       const [appsRes, blogRes, contactRes, activityRes] = await Promise.all([
@@ -64,6 +67,7 @@ export default function AdminDashboardPage() {
         setTotalApps(appList.length);
         setPendingApps(appList.filter((a) => a.status === "PENDING").length);
 
+        // Aggregate status counts for the pie chart
         const statusCounts: Record<string, number> = {};
         appList.forEach((a) => {
           statusCounts[a.status] = (statusCounts[a.status] || 0) + 1;
@@ -72,6 +76,7 @@ export default function AdminDashboardPage() {
           Object.entries(statusCounts).map(([name, value]) => ({ name, value }))
         );
 
+        // Aggregate applications by month for the bar chart
         const months: Record<string, number> = {};
         appList.forEach((a) => {
           const d = new Date(a.createdAt);
@@ -100,6 +105,8 @@ export default function AdminDashboardPage() {
         setUnreadMessages(msgs.filter((m) => !m.read).length);
       }
 
+      // Populate the activity feed from the persisted workflow log.
+      // Each log entry maps to an ActivityItem with a linked href.
       if (activityRes.ok) {
         const activityData = (await activityRes.json()) as { logs: { id: string; entity: string; action: string; summary: string; createdAt: string }[] };
         const logs = activityData.logs || [];

@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 
+// Generate sitemap.xml for search engines with all public pages
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.vdcmf.org";
   return [

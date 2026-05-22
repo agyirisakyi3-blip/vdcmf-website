@@ -29,6 +29,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   }
 }
 
+// Logs the deletion before removing the record so the activity
+// feed still captures what was deleted and by whom.
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -67,6 +69,9 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
   }
 }
 
+// Delegates to the workflow service which validates the status
+// transition and logs the change. Returns a clear error if the
+// transition is not allowed (e.g. ACCEPTED → PENDING).
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) {

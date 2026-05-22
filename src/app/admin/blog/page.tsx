@@ -8,6 +8,7 @@ import { useSortable } from "@/components/admin/useSortable";
 import { useToast } from "@/components/admin/Toast";
 import SearchBar from "@/components/admin/SearchBar";
 
+// Shape of a blog post from the API
 interface PostData {
   id: string;
   title: string;
@@ -17,10 +18,12 @@ interface PostData {
 
 export default function AdminBlogPage() {
   const { toast } = useToast();
+  // Posts list, loading, and search state
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
+  // Fetch all blog posts on mount
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -38,6 +41,7 @@ export default function AdminBlogPage() {
     fetchPosts();
   }, [toast]);
 
+  // Delete a post by ID with confirmation toast
   const handleDelete = async (id: string, title: string) => {
     toast("warning", `Deleting "${title}"...`);
     try {
@@ -53,6 +57,7 @@ export default function AdminBlogPage() {
     }
   };
 
+  // Filter posts by title search
   const filtered = posts.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -63,6 +68,7 @@ export default function AdminBlogPage() {
     <AdminLayout title="Blog Posts" subtitle="Manage your blog content">
       <div className="toolbar">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by title..." />
+        {/* Navigate to new post creation page */}
         <Link href="/admin/blog/new" className="btn btn-primary">
           <i className="fas fa-plus" /> New Post
         </Link>

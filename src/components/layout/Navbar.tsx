@@ -4,10 +4,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export default function Navbar() {
+  // Mobile hamburger menu state
   const [menuOpen, setMenuOpen] = useState(false);
+  // Transparent-to-solid background transition on scroll
   const [scrolled, setScrolled] = useState(false);
+  // Currently open dropdown identifier (null = all closed)
   const [dropdown, setDropdown] = useState<string | null>(null);
 
+  // Add scrolled class when page scrolls past 20px
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });

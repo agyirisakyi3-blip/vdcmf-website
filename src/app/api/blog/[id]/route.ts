@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Public — fetches a single blog post by its ID
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
@@ -23,6 +24,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   }
 }
 
+// Protected — updates an existing blog post (admin only)
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -46,6 +48,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   }
 }
 
+// Protected — deletes a blog post (admin only)
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) {

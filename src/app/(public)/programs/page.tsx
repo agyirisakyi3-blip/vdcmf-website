@@ -5,6 +5,7 @@ import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { usePageTitle } from "@/app/seo";
 
+// Programs page: fetches programs from API, shows stats, testimonials carousel, timeline
 interface Program {
   id: string;
   title: string;
@@ -17,6 +18,7 @@ interface Program {
   createdAt: string;
 }
 
+// Background gradients for program cards
 const gradients = [
   "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
   "linear-gradient(135deg, #0F4C5C 0%, #1A7A6D 100%)",
@@ -48,6 +50,7 @@ const timeline = [
   { year: "2025", title: "Regional Expansion", desc: "Extended programs to three additional districts, partnering with 15 local organizations." },
 ];
 
+// Programs page: fetches from /api/programs, displays cards with expand/collapse, testimonials auto-rotate
 export default function ProgramsPage() {
   usePageTitle("Our Programs | VDMCF");
   const [programs, setPrograms] = useState<Program[]>([]);

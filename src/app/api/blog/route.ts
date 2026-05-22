@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Protected — creates a new blog post (admin only)
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -40,6 +41,7 @@ export async function POST(req: Request) {
   }
 }
 
+// Public — returns published posts; if authenticated, returns all posts
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);

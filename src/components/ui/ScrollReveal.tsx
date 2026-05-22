@@ -9,6 +9,7 @@ interface ScrollRevealProps {
   as?: React.ElementType;
 }
 
+// Wrapper that animates children into view via IntersectionObserver
 export default function ScrollReveal({
   children,
   direction = "fade-up",
@@ -17,6 +18,7 @@ export default function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
+  // Observe element once; add "visible" class when it enters viewport
   useEffect(() => {
     const el = ref.current;
     if (!el) return;

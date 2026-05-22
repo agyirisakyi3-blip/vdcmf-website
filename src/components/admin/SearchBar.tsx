@@ -1,5 +1,6 @@
 "use client";
 
+// Controlled search input with clear button
 interface SearchBarProps {
   value: string;
   onChange: (val: string) => void;

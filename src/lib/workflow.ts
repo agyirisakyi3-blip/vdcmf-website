@@ -3,6 +3,8 @@ import { ApplicationStatus } from "@/generated/prisma/enums";
 
 type StatusValue = (typeof ApplicationStatus)[keyof typeof ApplicationStatus];
 
+// Defines which status transitions are valid for applications.
+// Once ACCEPTED or REJECTED, no further changes are allowed.
 const ALLOWED_TRANSITIONS: Record<StatusValue, StatusValue[]> = {
   PENDING: ["REVIEWED", "REJECTED"],
   REVIEWED: ["ACCEPTED", "REJECTED"],
@@ -14,6 +16,8 @@ export function isValidTransition(from: StatusValue, to: StatusValue): boolean {
   return ALLOWED_TRANSITIONS[from]?.includes(to) ?? false;
 }
 
+// Updates an application's status only if the transition is valid,
+// and records the change in the activity log for audit/history.
 export async function updateApplicationStatus(
   applicationId: string,
   newStatus: StatusValue,
@@ -45,6 +49,7 @@ export async function updateApplicationStatus(
     data: { status: newStatus },
   });
 
+  // Log every status change so the dashboard can display a live activity feed
   await prisma.activityLog.create({
     data: {
       entity: "application",

@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  // Login form state: email, password, error, and loading
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Submit handler — authenticates via next-auth credentials provider
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);

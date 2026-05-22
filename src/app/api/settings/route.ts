@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Public — fetches all site settings as both an array and a key-value map
 export async function GET() {
   try {
     const settings = await prisma.siteSetting.findMany({
@@ -21,6 +22,7 @@ export async function GET() {
   }
 }
 
+// Protected — upserts site settings in bulk (admin only)
 export async function PUT(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {

@@ -3,6 +3,7 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { usePageTitle } from "@/app/seo";
 
+// Placeholder blog posts — content coming in 2026
 const posts = [
   { image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&q=80", category: "Education", title: "Coming Soon", excerpt: "Stories of transformation through education — stay tuned for scholarship success stories and school impact reports.", date: "Coming 2026" },
   { image: "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=600&q=80", category: "Health", title: "Coming Soon", excerpt: "Updates on our mobile health clinics, wellness campaigns, and health outreach initiatives across rural Ghana.", date: "Coming 2026" },
@@ -12,6 +13,7 @@ const posts = [
   { image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&q=80", category: "Impact", title: "Coming Soon", excerpt: "Annual impact reports and updates on how your support is transforming lives across Ghana.", date: "Coming 2026" },
 ];
 
+// Blog listing page showing placeholder posts by category
 export default function BlogPage() {
   usePageTitle("News & Stories | VDMCF");
   return (

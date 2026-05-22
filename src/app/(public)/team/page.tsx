@@ -3,6 +3,7 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { usePageTitle } from "@/app/seo";
 
+// Team member data with name, role, image, and bio
 const teamMembers = [
   { name: "Prophetess Melissa Marie Justine Agbelom", role: "Certified Christian Counsellor & CEO", image: "/Melissa.jpeg", bio: "Certified Christian Counsellor and CEO of Vision de Melbee Care Foundation, currently pursuing a BA in Theology and Biblical Studies." },
   { name: "Dr. Abena Osei", role: "Programs Director", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80", bio: "Experienced development professional overseeing all program implementation, monitoring, and evaluation." },
@@ -12,6 +13,7 @@ const teamMembers = [
   { name: "Maame Esi", role: "Health Programs Coordinator", image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&q=80", bio: "Coordinating mobile health clinics and wellness initiatives." },
 ];
 
+// Team page: grid of team member cards with photos and bios
 export default function TeamPage() {
   usePageTitle("Our Team | VDMCF");
   return (

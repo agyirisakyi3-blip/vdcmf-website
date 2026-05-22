@@ -7,6 +7,7 @@ import { useSortable } from "@/components/admin/useSortable";
 import { useToast } from "@/components/admin/Toast";
 import SearchBar from "@/components/admin/SearchBar";
 
+// Raw application shape returned from the API
 interface ApiApp {
   id: string;
   type: string;
@@ -21,12 +22,15 @@ interface ApiApp {
   createdAt: string;
 }
 
+// Filter options for type and status tabs
 type FilterType = "All" | "Volunteer" | "Program" | "Partnership";
 type FilterStatus = "All" | "Pending" | "Reviewed" | "Accepted" | "Rejected";
 
+// Tab definitions for type and status filter bars
 const typeTabs: FilterType[] = ["All", "Volunteer", "Program", "Partnership"];
 const statusTabs: FilterStatus[] = ["All", "Pending", "Reviewed", "Accepted", "Rejected"];
 
+// Color scheme for each status badge
 const statusStyle: Record<string, { bg: string; color: string }> = {
   Pending: { bg: "rgba(180,83,9,0.12)", color: "#b45309" },
   Reviewed: { bg: "rgba(29,78,216,0.1)", color: "#1d4ed8" },
@@ -34,12 +38,15 @@ const statusStyle: Record<string, { bg: string; color: string }> = {
   Rejected: { bg: "rgba(220,38,38,0.1)", color: "#dc2626" },
 };
 
+// Available statuses for inline dropdown
 const statuses = ["Pending", "Reviewed", "Accepted", "Rejected"];
 
+// Capitalises the first letter of a string
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
+// Transforms raw API application into display-friendly format
 function mapApp(app: ApiApp) {
   return {
     id: app.id,
@@ -61,6 +68,7 @@ type AppItem = ReturnType<typeof mapApp>;
 
 export default function AdminApplicationsPage() {
   const { toast } = useToast();
+  // Filter, selection, and data state
   const [typeFilter, setTypeFilter] = useState<FilterType>("All");
   const [statusFilter, setStatusFilter] = useState<FilterStatus>("All");
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -71,6 +79,7 @@ export default function AdminApplicationsPage() {
   const [bulkStatus, setBulkStatus] = useState("");
   const [savingId, setSavingId] = useState<string | null>(null);
 
+  // Fetch all applications on mount
   useEffect(() => {
     const fetchApps = async () => {
       try {
@@ -88,6 +97,7 @@ export default function AdminApplicationsPage() {
     fetchApps();
   }, [toast]);
 
+  // Filter applications by type, status, and search query
   const filtered = applications.filter((app) => {
     if (typeFilter !== "All" && app.type !== typeFilter) return false;
     if (statusFilter !== "All" && app.status !== statusFilter) return false;
@@ -102,6 +112,7 @@ export default function AdminApplicationsPage() {
 
   const { sorted, toggleSort, sortIcon } = useSortable(filtered, "createdAt");
 
+  // Inline status change dropdown handler
   const handleStatusChange = async (id: string, newStatus: string) => {
     setSavingId(id);
     try {
@@ -125,6 +136,7 @@ export default function AdminApplicationsPage() {
     }
   };
 
+  // Toggle single row checkbox selection
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
       const next = new Set(prev);
@@ -133,6 +145,7 @@ export default function AdminApplicationsPage() {
     });
   };
 
+  // Select or deselect all visible rows
   const toggleSelectAll = () => {
     if (selected.size === sorted.length) {
       setSelected(new Set());
@@ -141,6 +154,7 @@ export default function AdminApplicationsPage() {
     }
   };
 
+  // Bulk status update for all selected rows
   const handleBulkStatus = async () => {
     if (!bulkStatus || selected.size === 0) return;
     const newStatus = bulkStatus;
@@ -162,6 +176,7 @@ export default function AdminApplicationsPage() {
     setBulkStatus("");
   };
 
+  // Bulk delete all selected rows
   const handleBulkDelete = async () => {
     if (selected.size === 0) return;
     toast("info", `Deleting ${selected.size} application(s)...`);

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// Protected — lists newsletter subscribers (admin only, limited to 200)
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -23,6 +24,7 @@ export async function GET() {
   }
 }
 
+// Protected — deletes a subscriber by ?id= query param (admin only)
 export async function DELETE(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
