@@ -1,5 +1,7 @@
 'use client';
 
+import Image from "next/image";
+
 // Placeholder blog posts — content coming in 2026
 const posts = [
   { image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&q=80", category: "Education", title: "Coming Soon", excerpt: "Stories of transformation through education — stay tuned for scholarship success stories and school impact reports.", date: "Coming 2026" },
@@ -28,9 +30,9 @@ export default function BlogPage() {
         <div className="container">
           <div className="blog-grid">
             {posts.map((post, i) => (
-              <article className="card blog-card">
+              <article key={i} className="card blog-card">
                   <div className="blog-image">
-                    <img src={post.image} alt={post.title} loading="lazy" />
+                    <Image src={post.image} alt={post.title} fill style={{ objectFit: "cover" }} />
                     <span className="blog-category">{post.category}</span>
                   </div>
                   <div className="blog-content">
@@ -49,8 +51,8 @@ export default function BlogPage() {
         .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
         .blog-card { }
         .blog-image { height: 220px; overflow: hidden; position: relative; }
-        .blog-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        .blog-card:hover .blog-image img { transform: scale(1.08); }
+        .blog-image :global(img) { transition: transform 0.6s ease; }
+        .blog-card:hover .blog-image :global(img) { transform: scale(1.08); }
         .blog-category { position: absolute; top: 16px; left: 16px; background: var(--accent); color: var(--dark); padding: 6px 14px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
         .blog-content { padding: 24px; }
         .blog-content time { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; }

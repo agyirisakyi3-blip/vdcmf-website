@@ -124,7 +124,7 @@ export default function AdminSubscribersPage() {
                       {new Date(sub.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                     </td>
                     <td>
-                      <button className="icon-btn" onClick={() => handleDelete(sub.id, sub.email)} title="Delete">
+                      <button className="icon-btn" onClick={() => handleDelete(sub.id, sub.email)} title="Delete" aria-label="Delete subscriber">
                         <i className="fas fa-trash" />
                       </button>
                     </td>

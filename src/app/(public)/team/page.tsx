@@ -1,5 +1,7 @@
 'use client';
 
+import Image from "next/image";
+
 // Team member data with name, role, image, and bio
 const teamMembers = [
   { name: "Prophetess Melissa Marie Justine Agbelom", role: "Certified Christian Counsellor & CEO", image: "/Melissa.jpeg", bio: "Certified Christian Counsellor and CEO of Vision de Melbee Care Foundation, currently pursuing a BA in Theology and Biblical Studies." },
@@ -28,9 +30,9 @@ export default function TeamPage() {
         <div className="container">
           <div className="team-grid">
             {teamMembers.map((m, i) => (
-              <div className="card team-card">
+              <div key={i} className="card team-card">
                   <div className="team-image">
-                    <img src={m.image} alt={m.name} loading="lazy" />
+                    <Image src={m.image} alt={m.name} fill style={{ objectFit: "cover", objectPosition: "center 30%" }} />
                   </div>
                   <div className="team-content">
                     <h3>{m.name}</h3>
@@ -47,9 +49,9 @@ export default function TeamPage() {
 
         .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; max-width: 1050px; margin: 0 auto; }
         .team-card { }
-        .team-image { height: 260px; overflow: hidden; }
-        .team-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; transition: transform 0.6s ease; }
-        .team-card:hover .team-image img { transform: scale(1.06); }
+        .team-image { height: 260px; overflow: hidden; position: relative; }
+        .team-image :global(img) { transition: transform 0.6s ease; }
+        .team-card:hover .team-image :global(img) { transform: scale(1.06); }
         .team-content { padding: 24px; text-align: center; }
         .team-content h3 { font-family: 'DM Sans', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
         .team-role { display: block; font-size: 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }

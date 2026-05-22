@@ -360,3 +360,70 @@ img {
 @media (max-width: 640px) {
   .page-banner { padding: 80px 0 40px; }
 }
+
+/* ===== Public Dark Mode ===== */
+[data-public-theme="dark"] {
+  --text: #E5E7EB;
+  --text-light: #9CA3AF;
+  --dark: #F3F4F6;
+  --card-bg: #16181C;
+  --warm: #16181C;
+  --bg: #0D0E10;
+  --bg-alt: #1F2128;
+  --white: #16181C;
+}
+
+[data-public-theme="dark"] body {
+  background: #0D0E10;
+  color: var(--text);
+}
+
+[data-public-theme="dark"] h1,
+[data-public-theme="dark"] h2,
+[data-public-theme="dark"] h3,
+[data-public-theme="dark"] h4 {
+  color: #F3F4F6;
+}
+
+[data-public-theme="dark"] .card {
+  background: #16181C;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+[data-public-theme="dark"] .card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+[data-public-theme="dark"] .form-group input,
+[data-public-theme="dark"] .form-group textarea,
+[data-public-theme="dark"] .form-group select {
+  background: #16181C;
+  border-color: rgba(255,255,255,0.08);
+  color: #E5E7EB;
+}
+
+[data-public-theme="dark"] .form-group input:focus,
+[data-public-theme="dark"] .form-group textarea:focus,
+[data-public-theme="dark"] .form-group select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
+}
+
+[data-public-theme="dark"] .page-banner {
+  background: #16181C;
+}
+
+[data-public-theme="dark"] .section-warm {
+  background: #16181C;
+}
+
+[data-public-theme="dark"] .btn-outline-dark {
+  border-color: rgba(255,255,255,0.3);
+  color: #E5E7EB;
+}
+
+[data-public-theme="dark"] .btn-outline-dark:hover {
+  background: var(--accent);
+  color: var(--dark);
+  border-color: var(--accent);
+}

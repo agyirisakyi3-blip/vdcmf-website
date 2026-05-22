@@ -215,10 +215,10 @@ export default function AdminProgramsPage() {
                     </td>
                     <td>
                       <div className="actions">
-                        <button className="icon-btn edit" onClick={() => openEdit(prog)} title="Edit">
+                        <button className="icon-btn edit" onClick={() => openEdit(prog)} title="Edit" aria-label="Edit program">
                           <i className="fas fa-edit" />
                         </button>
-                        <button className="icon-btn delete" onClick={() => handleDelete(prog.id, prog.title)} title="Delete">
+                        <button className="icon-btn delete" onClick={() => handleDelete(prog.id, prog.title)} title="Delete" aria-label="Delete program">
                           <i className="fas fa-trash" />
                         </button>
                       </div>

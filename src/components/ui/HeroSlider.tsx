@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Hero slides with background image, title, description, and CTA buttons
 const slides = [
@@ -51,7 +52,15 @@ export default function HeroSlider() {
     <section className="hero">
       {slides.map((slide, i) => (
         <div key={i} className={`hero-slide${i === active ? " active" : ""}`}>
-          <div className="hero-bg" style={{ backgroundImage: `url('${slide.bgImage}')` }} />
+          <div className="hero-bg">
+            <Image
+              src={slide.bgImage}
+              alt={`Hero slide ${i + 1}: ${slide.title.replace(/<br\s*\/?>/g, ' ')}`}
+              fill
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              priority={i === 0}
+            />
+          </div>
           <div className="hero-overlay" />
           <div className="hero-content">
             <div className="hero-chip">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 // Site footer with brand, navigation links, social icons, and contact info
 export default function Footer() {
@@ -8,7 +9,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <Link href="/" className="footer-logo-link">
-              <img src="/logo.svg" alt="VDCMF" width={56} height={56} />
+              <Image src="/logo.svg" alt="VDCMF Logo" width={56} height={56} unoptimized />
               <span className="footer-logo-text">VDCMF</span>
             </Link>
             <p className="footer-desc">
@@ -72,8 +73,7 @@ export default function Footer() {
           gap: 12px;
           margin-bottom: 20px;
         }
-        .footer-logo-link img {
-          width: 56px; height: 56px;
+        .footer-logo-link :global(img) {
           border-radius: 50%;
           object-fit: cover;
         }

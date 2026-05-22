@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
-export default function Navbar() {
+interface NavbarProps {
+  dark?: boolean;
+  onToggle?: () => void;
+}
+
+export default function Navbar({ dark, onToggle }: NavbarProps) {
   // Mobile hamburger menu state
   const [menuOpen, setMenuOpen] = useState(false);
   // Transparent-to-solid background transition on scroll
@@ -25,7 +31,7 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
         <div className="nav-inner">
           <Link href="/" className="nav-logo" onClick={closeMenu}>
-            <img src="/logo.svg" alt="VDCMF" width={40} height={40} />
+            <Image src="/logo.svg" alt="VDCMF Logo" width={40} height={40} priority unoptimized />
             <span className="nav-logo-text">VDCMF</span>
           </Link>
 
@@ -58,6 +64,11 @@ export default function Navbar() {
           </ul>
 
           <div className="nav-right">
+            {onToggle && (
+              <button className="theme-toggle-btn" onClick={onToggle} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}>
+                <i className={`fas fa-${dark ? "sun" : "moon"}`} />
+              </button>
+            )}
             <Link href="/donate" className="btn btn-primary btn-sm nav-donate-btn">Donate Now</Link>
             <button className={`hamburger ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
               <span /><span /><span />
@@ -99,9 +110,7 @@ export default function Navbar() {
           gap: 10px;
           z-index: 1002;
         }
-        .nav-logo img {
-          width: 40px;
-          height: 40px;
+        .nav-logo :global(img) {
           border-radius: 50%;
           object-fit: cover;
         }
@@ -171,6 +180,28 @@ export default function Navbar() {
         .nav-donate-btn {
           padding: 10px 22px;
           border-radius: var(--radius-full);
+        }
+        .theme-toggle-btn {
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255,255,255,0.12);
+          border: none;
+          border-radius: 50%;
+          color: #fff;
+          cursor: pointer;
+          font-size: 0.9rem;
+          transition: var(--transition);
+        }
+        .navbar-scrolled .theme-toggle-btn {
+          background: var(--bg-alt);
+          color: var(--text);
+        }
+        .theme-toggle-btn:hover {
+          background: var(--accent);
+          color: var(--dark);
         }
         .hamburger {
           display: none;

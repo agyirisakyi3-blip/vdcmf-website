@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import HeroSlider from "@/components/ui/HeroSlider";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
@@ -94,7 +95,7 @@ export default function HomePage() {
                 <Link href="/about" className="btn btn-secondary">Learn Our Story <i className="fas fa-arrow-right" /></Link>
               </div>
               <div className="about-image">
-                <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=600&q=80" alt="Community" />
+                <Image src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=600&q=80" alt="Community members working together" width={600} height={400} className="about-img" />
                 <div className="about-image-card">
                   <i className="fas fa-quote-left" />
                   <p>Dignity is not a privilege — it is a right.</p>
@@ -225,7 +226,7 @@ export default function HomePage() {
               <Link href="/contact" className="btn btn-secondary">Send Us a Message <i className="fas fa-arrow-right" /></Link>
             </div>
             <div className="contact-home-image">
-              <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&q=80" alt="Contact" />
+              <Image src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&q=80" alt="Contact and communication" width={600} height={400} />
             </div>
           </div>
         </div>
@@ -258,7 +259,7 @@ export default function HomePage() {
         .about-text p { color: var(--text-light); line-height: 1.8; margin-bottom: 16px; }
         .about-text .btn { margin-top: 8px; }
         .about-image { position: relative; }
-        .about-image img { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+        .about-image :global(img) { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
         .about-image-card {
           position: absolute; bottom: -20px; left: -20px;
           background: var(--primary); padding: 24px 28px; border-radius: var(--radius);
@@ -330,7 +331,7 @@ export default function HomePage() {
         .contact-home-items { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
         .contact-home-item { display: flex; align-items: center; gap: 14px; font-size: 0.95rem; color: var(--text); }
         .contact-home-item i { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius); background: var(--warm); color: var(--accent); flex-shrink: 0; }
-        .contact-home-image img { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+        .contact-home-image :global(img) { border-radius: var(--radius-lg); box-shadow: var(--shadow); }
 
         @media (max-width: 900px) {
           .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }

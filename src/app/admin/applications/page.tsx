@@ -296,7 +296,7 @@ export default function AdminApplicationsPage() {
                       </td>
                       <td style={{ color: "#6b7280", whiteSpace: "nowrap" }}>{app.date}</td>
                       <td>
-                        <button className="icon-btn view" onClick={() => setExpandedId(expandedId === app.id ? null : app.id)} title={expandedId === app.id ? "Close" : "View"}>
+                        <button className="icon-btn view" onClick={() => setExpandedId(expandedId === app.id ? null : app.id)} title={expandedId === app.id ? "Close" : "View"} aria-label={expandedId === app.id ? "Close details" : "View details"}>
                           <i className={`fas fa-${expandedId === app.id ? "chevron-up" : "eye"}`} />
                         </button>
                       </td>

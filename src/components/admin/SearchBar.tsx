@@ -19,7 +19,7 @@ export default function SearchBar({ value, onChange, placeholder = "Search..." }
         onChange={(e) => onChange(e.target.value)}
       />
       {value && (
-        <button className="search-clear" onClick={() => onChange("")}>
+        <button className="search-clear" onClick={() => onChange("")} aria-label="Clear search">
           <i className="fas fa-times" />
         </button>
       )}

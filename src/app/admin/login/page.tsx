@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -36,7 +37,7 @@ export default function AdminLoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="logo-section">
-          <img src="/logo.svg" alt="VDCMF" className="logo" />
+          <Image src="/logo.svg" alt="VDCMF Logo" width={80} height={80} className="logo" unoptimized />
           <h1>Admin Login</h1>
           <p>Vision De Melbee Care Foundation</p>
         </div>

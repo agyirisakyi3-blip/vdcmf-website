@@ -112,10 +112,10 @@ export default function AdminBlogPage() {
                     </td>
                     <td>
                       <div className="actions">
-                        <Link href={`/admin/blog/${post.id}/edit`} className="icon-btn edit" title="Edit">
+                        <Link href={`/admin/blog/${post.id}/edit`} className="icon-btn edit" title="Edit" aria-label="Edit post">
                           <i className="fas fa-edit" />
                         </Link>
-                        <button className="icon-btn delete" onClick={() => handleDelete(post.id, post.title)} title="Delete">
+                        <button className="icon-btn delete" onClick={() => handleDelete(post.id, post.title)} title="Delete" aria-label="Delete post">
                           <i className="fas fa-trash" />
                         </button>
                       </div>

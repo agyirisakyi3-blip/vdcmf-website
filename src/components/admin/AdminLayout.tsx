@@ -162,7 +162,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
       <ToastProvider>
         <aside className={`admin-sidebar ${collapsed ? "collapsed" : ""}`}>
           <div className="sidebar-brand">
-            <button className="collapse-btn" onClick={() => setCollapsed(!collapsed)} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
+            <button className="collapse-btn" onClick={() => setCollapsed(!collapsed)} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
               <i className={`fas fa-${collapsed ? "chevron-right" : "chevron-left"}`} />
             </button>
             <div className="brand-logo-wrap">
@@ -312,7 +312,7 @@ export default function AdminLayout({ children, title, subtitle }: Props) {
             )}
 
             <div className="theme-toggle-row">
-              <button className="theme-btn" onClick={toggleTheme} title={dark ? "Switch to light mode" : "Switch to dark mode"}>
+              <button className="theme-btn" onClick={toggleTheme} title={dark ? "Switch to light mode" : "Switch to dark mode"} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}>
                 <i className={`fas fa-${dark ? "sun" : "moon"}`} />
               </button>
               <span className={`theme-label ${collapsed ? "hidden" : ""}`}>{dark ? "Light Mode" : "Dark Mode"}</span>

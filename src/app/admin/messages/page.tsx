@@ -208,13 +208,13 @@ export default function AdminMessagesPage() {
                     </td>
                     <td>
                       <div className="actions">
-                        <button className="icon-btn view" onClick={() => setExpandedId(expandedId === msg.id ? null : msg.id)} title="View">
+                        <button className="icon-btn view" onClick={() => setExpandedId(expandedId === msg.id ? null : msg.id)} title="View" aria-label={expandedId === msg.id ? "Collapse message" : "Expand message"}>
                           <i className={`fas fa-${expandedId === msg.id ? "chevron-up" : "eye"}`} />
                         </button>
-                        <button className="icon-btn read" onClick={() => toggleRead(msg.id, msg.read)} title={msg.read ? "Mark unread" : "Mark read"}>
+                        <button className="icon-btn read" onClick={() => toggleRead(msg.id, msg.read)} title={msg.read ? "Mark unread" : "Mark read"} aria-label={msg.read ? "Mark as unread" : "Mark as read"}>
                           <i className={`fas fa-${msg.read ? "envelope" : "envelope-open"}`} />
                         </button>
-                        <button className="icon-btn delete" onClick={() => handleDelete(msg.id, msg.name)} title="Delete">
+                        <button className="icon-btn delete" onClick={() => handleDelete(msg.id, msg.name)} title="Delete" aria-label="Delete message">
                           <i className="fas fa-trash" />
                         </button>
                       </div>

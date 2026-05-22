@@ -11,10 +11,17 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   // POST form data to the contact API endpoint
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const newErrors: Record<string, string> = {};
+    if (!form.name.trim() || form.name.trim().length < 2) newErrors.name = "Name must be at least 2 characters";
+    if (!form.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = "Please enter a valid email";
+    if (!form.message.trim() || form.message.trim().length < 10) newErrors.message = "Message must be at least 10 characters";
+    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return; }
     setLoading(true);
     setStatus(null);
     try {
@@ -66,9 +73,9 @@ export default function ContactPage() {
             <div className="card form-card">
               <h3>Send Us a Message</h3>
               <form onSubmit={handleSubmit}>
-                <div className="form-group"><label htmlFor="name">Name</label><input id="name" type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your full name" /></div>
-                <div className="form-group"><label htmlFor="email">Email</label><input id="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="your@email.com" /></div>
-                <div className="form-group"><label htmlFor="message">Message</label><textarea id="message" rows={5} required value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Tell us how you'd like to get involved..." /></div>
+                <div className="form-group"><label htmlFor="name">Name</label><input id="name" type="text" required value={form.name} onChange={(e) => { setForm({ ...form, name: e.target.value }); setErrors({ ...errors, name: "" }); }} placeholder="Your full name" />{errors.name && <span className="field-error">{errors.name}</span>}</div>
+                <div className="form-group"><label htmlFor="email">Email</label><input id="email" type="email" required value={form.email} onChange={(e) => { setForm({ ...form, email: e.target.value }); setErrors({ ...errors, email: "" }); }} placeholder="your@email.com" />{errors.email && <span className="field-error">{errors.email}</span>}</div>
+                <div className="form-group"><label htmlFor="message">Message</label><textarea id="message" rows={5} required value={form.message} onChange={(e) => { setForm({ ...form, message: e.target.value }); setErrors({ ...errors, message: "" }); }} placeholder="Tell us how you'd like to get involved..." />{errors.message && <span className="field-error">{errors.message}</span>}</div>
                 <button type="submit" className="btn btn-primary" disabled={loading}>{loading ? <><i className="fas fa-spinner fa-spin" /> Sending...</> : "Send Message"}</button>
               </form>
               {status && <div className={`status ${status.type}`}><i className={`fas ${status.type === "success" ? "fa-check-circle" : "fa-exclamation-circle"}`} />{status.text}</div>}
@@ -96,6 +103,7 @@ export default function ContactPage() {
         .status { margin-top: 20px; padding: 14px 18px; border-radius: var(--radius); display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 0.95rem; }
         .status.success { background: #ecfdf5; color: var(--success); border: 1px solid #a7f3d0; }
         .status.error { background: #fef2f2; color: var(--error); border: 1px solid #fecaca; }
+        .field-error { color: red; font-size: 0.8rem; display: block; margin-top: 4px; }
         `}</style>
     </>
   );
